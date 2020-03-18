@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_download"
+        android:icon="@drawable/cloud_download_outline"
+        android:title="@string/download_file"
+        app:iconTint="@color/md_orange_500" />
+
+    <item
+        android:id="@+id/action_move"
+        android:icon="@drawable/cut"
+        android:title="@string/move_file"
+        app:iconTint="@color/md_blue_500" />
+
+    <item
+        android:id="@+id/action_rename"
+        android:icon="@drawable/edit_outline"
+        android:title="@string/rename_file"
+        app:iconTint="@color/md_indigo_500" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/x_mark"
+        android:title="@string/delete_file"
+        app:iconTint="@color/colorError" />
+
+</menu>

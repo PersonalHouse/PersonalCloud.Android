@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">个人云</string>
+
+    <string name="personal_cloud">个人云</string>
+    <string name="new_cloud">添加个人云</string>
+    <string name="new_cloud_create">创建新个人云</string>
+    <string name="new_cloud_join">加入个人云</string>
+    <string name="no_active_device">个人云内没有在线设备</string>
+    <string name="no_personal_cloud">"您的设备尚未加入个人云
+点击右上角菜单即可新建或加入"</string>
+    <string name="device_name">设备名称</string>
+    <string name="cloud_name">云名称</string>
+    <string name="invite_code">邀请码</string>
+    <string name="invite_others">邀请其它设备加入</string>
+    <string name="void_invites">停止邀请其它设备</string>
+    <string name="leave_cloud">切换 / 离开个人云</string>
+
+    <string name="file_sharing">文件共享</string>
+    <string name="enable_file_sharing">允许此设备分享文件</string>
+    <string name="manage_shared_files">选择共享文件夹</string>
+
+    <string name="browser_back">返回上层</string>
+    <string name="browser_back_to">后退至“%s”</string>
+
+    <string name="settings">设置</string>
+
+    <string name="device_name_hint">加入个人云后，其它设备上将显示上述名称，用以识别这台设备。为保证其它设备可以正常显示和访问这台设备，请使用简短、尽量不包含特殊字符、尽量不与其它设备重复的名称。</string>
+    <string name="cloud_name_hint">所有加入此个人云的设备将通过上述名称识别此个人云。个人云名称在创建后无法修改，请谨慎命名。</string>
+    <string name="invite_hint">请查看其它设备屏幕上显示的邀请码，并核对您的输入。</string>
+    <string name="invalid_device_name">设备名称无效</string>
+    <string name="invalid_invite_code">邀请码错误</string>
+
+    <string name="empty_list_placeholder">列表目前为空</string>
+
+    <string name="new_folder">新建文件夹</string>
+    <string name="upload_file">上传文件</string>
+    <string name="download_file">下载</string>
+    <string name="move_file">剪切</string>
+    <string name="rename_file">重命名</string>
+    <string name="delete_file">彻底删除</string>
+    <string name="paste_here">移动至此处</string>
+
+    <string name="confirm">"确定"</string>
+</resources>
