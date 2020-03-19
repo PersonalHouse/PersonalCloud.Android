@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Views;
 
 using Binding;
 
@@ -15,7 +14,7 @@ using Unishare.Apps.Common;
 
 namespace Unishare.Apps.DevolMobile
 {
-    [Activity(Name = "com.daoyehuo.UnishareLollipop.JoinCloudActivity", Label = "@string/app_name", Theme = "@style/AppTheme",  ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Name = "com.daoyehuo.UnishareLollipop.JoinCloudActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class JoinCloudActivity : NavigableActivity
     {
         internal join_cloud_dialog R { get; private set; }
@@ -57,14 +56,21 @@ namespace Unishare.Apps.DevolMobile
                 return;
             }
 
-            R.join_cloud_progress.Visibility = ViewStates.Visible;
-            R.join_cloud_button.Enabled = false;
+
+#pragma warning disable 0618
+            var progress = new ProgressDialog(this);
+            progress.SetCancelable(false);
+            progress.SetMessage("正在加入……");
+            progress.Show();
+#pragma warning restore 0618
+
             Task.Run(async () => {
                 try
                 {
                     var result = await Globals.CloudManager.JoinPersonalCloud(int.Parse(inviteCode), deviceName).ConfigureAwait(false);
                     Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                     RunOnUiThread(() => {
+                        progress.Dismiss();
                         this.ShowAlert("已加入", string.Format("您已加入个人云“{0}”。", result.DisplayName), () => {
                             Finish();
                         });
@@ -73,8 +79,7 @@ namespace Unishare.Apps.DevolMobile
                 catch (NoDeviceResponseException)
                 {
                     RunOnUiThread(() => {
-                        R.join_cloud_progress.Visibility = ViewStates.Gone;
-                        R.join_cloud_button.Enabled = true;
+                        progress.Dismiss();
                         this.ShowAlert("无法查询云信息", "当前网络中没有已加入个人云的设备。");
 
                     });
@@ -82,16 +87,14 @@ namespace Unishare.Apps.DevolMobile
                 catch (InviteNotAcceptedException)
                 {
                     RunOnUiThread(() => {
-                        R.join_cloud_progress.Visibility = ViewStates.Gone;
-                        R.join_cloud_button.Enabled = true;
+                        progress.Dismiss();
                         this.ShowAlert("邀请码错误", "请查看其它设备屏幕上显示的邀请码，并核对您的输入。");
                     });
                 }
                 catch
                 {
                     RunOnUiThread(() => {
-                        R.join_cloud_progress.Visibility = ViewStates.Gone;
-                        R.join_cloud_button.Enabled = true;
+                        progress.Dismiss();
                         this.ShowAlert("无法查询云信息", "出现 App 内部错误。");
                     });
                 }

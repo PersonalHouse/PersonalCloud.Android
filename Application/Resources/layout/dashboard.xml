@@ -27,14 +27,6 @@
         android:layout_height="40dp"
         android:layout_marginTop="@dimen/medium_margin" />
 
-    <include
-        android:id="@+id/invite_cell"
-        layout="@layout/key_value_cell"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:visibility="gone" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/toggle_invite"
         style="@style/Widget.MaterialComponents.Button"

@@ -13,7 +13,7 @@ using Unishare.Apps.Common;
 
 namespace Unishare.Apps.DevolMobile
 {
-    [Activity(Name = "com.daoyehuo.UnishareLollipop.CreateCloudActivity", Label = "@string/app_name", Theme = "@style/AppTheme",  ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Name = "com.daoyehuo.UnishareLollipop.CreateCloudActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class CreateCloudActivity : NavigableActivity
     {
         internal new_cloud_dialog R { get; private set; }
@@ -55,8 +55,12 @@ namespace Unishare.Apps.DevolMobile
                 return;
             }
 
-            R.new_cloud_progress.Visibility = ViewStates.Visible;
-            R.new_cloud_button.Enabled = false;
+#pragma warning disable 0618
+            var progress = new ProgressDialog(this);
+            progress.SetCancelable(false);
+            progress.SetMessage("正在创建……");
+            progress.Show();
+#pragma warning restore 0618
 
             Task.Run(async () => {
                 try
@@ -64,7 +68,7 @@ namespace Unishare.Apps.DevolMobile
                     await Globals.CloudManager.CreatePersonalCloud(cloudName, deviceName).ConfigureAwait(false);
                     Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                     RunOnUiThread(() => {
-                        R.new_cloud_progress.Visibility = ViewStates.Gone;
+                        progress.Dismiss();
                         this.ShowAlert("已创建", $"您已创建并加入个人云“{cloudName}”。", () => {
                             Finish();
                         });
@@ -73,8 +77,7 @@ namespace Unishare.Apps.DevolMobile
                 catch
                 {
                     RunOnUiThread(() => {
-                        R.new_cloud_progress.Visibility = ViewStates.Gone;
-                        R.new_cloud_button.Enabled = true;
+                        progress.Dismiss();
                         this.ShowAlert("无法创建个人云", "出现 App 内部错误。");
                     });
                 }

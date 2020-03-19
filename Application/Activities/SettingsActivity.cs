@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Views;
 
 using Binding;
 
@@ -26,8 +25,6 @@ namespace Unishare.Apps.DevolMobile
         internal key_value_cell InviteCell { get; private set; }
         internal switch_cell FileSharingCell { get; private set; }
 
-        private string inviteCode;
-
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -39,16 +36,13 @@ namespace Unishare.Apps.DevolMobile
             CloudCell = new key_value_cell(R.cloud_cell);
             CloudCell.title_label.Text = "云名称";
             CloudCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].DisplayName;
-            InviteCell = new key_value_cell(R.invite_cell);
-            InviteCell.title_label.Text = "邀请码";
-            InviteCell.detail_label.Text = "正在生成";
             FileSharingCell = new switch_cell(R.file_sharing_cell);
             FileSharingCell.title_label.Text = "允许此设备分享文件";
             FileSharingCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.EnableSharing, "1");
             R.file_sharing_root.Enabled = FileSharingCell.switch_button.Checked;
 
             R.device_cell.Click += ChangeDeviceName;
-            R.toggle_invite.Click += ToggleInvitation;
+            R.toggle_invite.Click += InviteDevices;
             FileSharingCell.switch_button.CheckedChange += ToggleFileSharing;
             R.file_sharing_root.Click += ChangeSharingRoot;
             R.leave_cloud.Click += LeaveCloud;
@@ -106,48 +100,48 @@ namespace Unishare.Apps.DevolMobile
             }, "取消", null);
         }
 
-        private void ToggleInvitation(object sender, EventArgs e)
+        private void InviteDevices(object sender, EventArgs e)
         {
-            if (inviteCode == null)
-            {
-                R.toggle_invite.SetText(Resource.String.void_invites);
-                R.invite_cell.Visibility = ViewStates.Visible;
-                InviteCell.detail_label.Text = "请稍侯";
-                Task.Run(async () => {
-                    try
-                    {
-                        inviteCode = await Globals.CloudManager.SharePersonalCloud(Globals.CloudManager.PersonalClouds[0]).ConfigureAwait(false);
-                        RunOnUiThread(() => {
-                            InviteCell.detail_label.Text = inviteCode;
-                        });
-                    }
-                    catch
-                    {
-                        inviteCode = "生成失败";
-                        RunOnUiThread(() => {
-                            InviteCell.detail_label.Text = inviteCode;
-                        });
-                    }
-                });
-            }
-            else
-            {
-                R.toggle_invite.SetText(Resource.String.invite_others);
-                R.invite_cell.Visibility = ViewStates.Gone;
-                inviteCode = null;
-                Task.Run(async () => {
-                    await Globals.CloudManager.StopSharePersonalCloud(Globals.CloudManager.PersonalClouds[0]).ConfigureAwait(false);
-                });
-            }
+#pragma warning disable 0618
+            var progress = new ProgressDialog(this);
+            progress.SetCancelable(false);
+            progress.SetMessage("正在生成……");
+            progress.Show();
+#pragma warning restore 0618
+
+            Task.Run(async () => {
+                try
+                {
+                    var inviteCode = await Globals.CloudManager.SharePersonalCloud(Globals.CloudManager.PersonalClouds[0]).ConfigureAwait(false);
+                    RunOnUiThread(() => {
+                        progress.Dismiss();
+                        var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(this, Resource.Style.AlertDialogTheme)
+                        .SetIcon(Resource.Mipmap.ic_launcher_round).SetCancelable(false)
+                        .SetTitle("已生成邀请码")
+                        .SetMessage("请在其它设备输入邀请码：" + Environment.NewLine + Environment.NewLine +
+                        inviteCode + Environment.NewLine + Environment.NewLine +
+                        "离开此界面邀请码将失效。")
+                        .SetPositiveButton("停止邀请", (o, e) => {
+                            try { _ = Globals.CloudManager.StopSharePersonalCloud(Globals.CloudManager.PersonalClouds[0]); }
+                            catch { }
+                        }).Show();
+                    });
+                }
+                catch
+                {
+                    RunOnUiThread(() => {
+                        progress.Dismiss();
+                        this.ShowAlert("无法邀请其它设备", "邀请码生成失败，请稍后重试。");
+                    });
+                }
+            });
         }
 
         private void ToggleFileSharing(object sender, Android.Widget.CompoundButton.CheckedChangeEventArgs e)
         {
             if (e.IsChecked)
             {
-#pragma warning disable CS0618 // Type or member is obsolete
                 var storageRoot = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-#pragma warning restore CS0618 // Type or member is obsolete
                 var sharingRoot = Globals.Database.LoadSetting(UserSettings.SharingRoot);
                 if (string.IsNullOrEmpty(sharingRoot) || !Directory.Exists(sharingRoot))
                 {
@@ -174,12 +168,17 @@ namespace Unishare.Apps.DevolMobile
 
         private void LeaveCloud(object sender, EventArgs e)
         {
-            this.ShowAlert("从个人云中移除此设备？", "当前设备将离开个人云，本地保存的相关信息也将删除。", "取消", null, "确认", () => {
-                Globals.CloudManager.ExitFromCloud(Globals.CloudManager.PersonalClouds[0]);
-                Globals.Database.DeleteAll<CloudModel>();
-                Globals.DiscoverySubscribed = false;
-                Finish();
-            }, true);
+            new AndroidX.AppCompat.App.AlertDialog.Builder(this, Resource.Style.AlertDialogTheme)
+                .SetIcon(Resource.Mipmap.ic_launcher_round)
+                .SetTitle("从个人云中移除此设备？")
+                .SetMessage("当前设备将离开个人云，本地保存的相关信息也将删除。")
+                .SetPositiveButton("离开", (o, e) => {
+                    Globals.CloudManager.ExitFromCloud(Globals.CloudManager.PersonalClouds[0]);
+                    Globals.Database.DeleteAll<CloudModel>();
+                    Globals.DiscoverySubscribed = false;
+                    Finish();
+                })
+                .SetNeutralButton("返回", (EventHandler<DialogClickEventArgs>) null).Show();
         }
     }
 }

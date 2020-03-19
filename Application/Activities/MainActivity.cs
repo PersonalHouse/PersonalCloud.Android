@@ -33,7 +33,7 @@ using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 
 namespace Unishare.Apps.DevolMobile
 {
-    [Activity(Name = "com.daoyehuo.UnishareLollipop.MainActivity", Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,  ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Name = "com.daoyehuo.UnishareLollipop.MainActivity", Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, IOnItemClickListener
     {
         private const int RequestAccess = 10000;
@@ -71,10 +71,8 @@ namespace Unishare.Apps.DevolMobile
             base.OnResume();
             InvalidateOptionsMenu();
 
-            if (fileSystem == null)
-            {
-                RefreshDevices(this, EventArgs.Empty);
-            }
+            if (Globals.CloudManager?.PersonalClouds?.FirstOrDefault() == null) fileSystem = null;
+            if (fileSystem == null) RefreshDevices(this, EventArgs.Empty);
 
             if (!Globals.DiscoverySubscribed)
             {
@@ -163,6 +161,7 @@ namespace Unishare.Apps.DevolMobile
             if (fileSystem == null)
             {
                 R.empty_text.Text = GetString(Resource.String.no_personal_cloud);
+                adapter.UpdateDataSet(null);
                 if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
                 return;
             }

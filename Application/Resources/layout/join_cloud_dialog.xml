@@ -20,6 +20,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             xamarin:managedType="Google.Android.Material.TextField.TextInputEditText" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -43,6 +44,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             xamarin:managedType="Google.Android.Material.TextField.TextInputEditText" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -60,15 +62,5 @@
         android:layout_marginTop="@dimen/default_material"
         android:text="@string/new_cloud_join"
         xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
-
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/join_cloud_progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_material"
-        android:indeterminate="true"
-        android:visibility="gone"
-        xamarin:managedType="AndroidX.Core.Widget.ContentLoadingProgressBar" />
 
 </LinearLayout>

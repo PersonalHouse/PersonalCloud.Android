@@ -17,7 +17,7 @@
 
     <string name="file_sharing">文件共享</string>
     <string name="enable_file_sharing">允许此设备分享文件</string>
-    <string name="manage_shared_files">选择共享文件夹</string>
+    <string name="manage_shared_files">选择分享文件夹</string>
 
     <string name="browser_back">返回上层</string>
     <string name="browser_back_to">后退至“%s”</string>

@@ -16,28 +16,12 @@
         <item name="colorAccent">@color/colorError</item>
     </style>
 
-    <!--
     <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
-        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Destructive</item>
     </style>
 
-    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="backgroundTint">@color/transparent</item>
-        <item name="rippleColor">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textAllCaps">false</item>
+    <style name="Alert.Button.Destructive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorError</item>
     </style>
-
-    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="backgroundTint">@color/transparent</item>
-        <item name="rippleColor">@color/colorAccent</item>
-        <item name="android:textColor">@color/md_grey_500</item>
-        <item name="android:textSize">14sp</item>
-        <item name="textAllCaps">false</item>
-    </style>
-    -->
 
 </resources>
