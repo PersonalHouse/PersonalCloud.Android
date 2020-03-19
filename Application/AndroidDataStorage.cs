@@ -8,7 +8,7 @@ using NSPersonalCloud;
 using NSPersonalCloud.Config;
 
 using Unishare.Apps.Common;
-using Unishare.Apps.Common.Data;
+using Unishare.Apps.Common.Models;
 
 namespace Unishare.Apps.DevolMobile
 {

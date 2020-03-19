@@ -3,15 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Personal Cloud", "Personal Cloud", "{5EBDAF64-A244-419F-8AC4-CF0921D0D955}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "..\..\src\Interface\Interface.csproj", "{953243C1-BA67-4D7F-BA97-DC1E7DD853E1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalCloud", "..\..\src\PersonalCloud\PersonalCloud.csproj", "{2D073CD9-F467-4557-9892-5730AD7E6F6C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apps.Common", "..\Shared\Apps.Common\Apps.Common.csproj", "{71F88EF2-0C82-448B-9D4C-53757AE219AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{5EBDAF64-A244-419F-8AC4-CF0921D0D955}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apps.DevolMobile", "Application\Apps.DevolMobile.csproj", "{A7C6303F-641B-4050-88ED-4F24DAD20D72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "PersonalCloud.Core\src\Interface\Interface.csproj", "{A9CDFBD4-108F-4479-924A-356076F78221}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalCloud", "PersonalCloud.Core\src\PersonalCloud\PersonalCloud.csproj", "{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apps.Common", "PersonalCloud.Apps.Common\Apps.Common.csproj", "{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{48A8BEC5-76F7-40D5-AB2E-EFA1136F80D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavideSteduto.FlexibleAdapter", "DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter.csproj", "{094F70E1-0938-43AB-9C47-FA5DB888D478}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavideSteduto.FlexibleAdapter.UI", "DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter.UI\DavideSteduto.FlexibleAdapter.UI.csproj", "{37F93BCA-6927-49DF-8974-C94552825B1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,31 +25,41 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{953243C1-BA67-4D7F-BA97-DC1E7DD853E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{953243C1-BA67-4D7F-BA97-DC1E7DD853E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{953243C1-BA67-4D7F-BA97-DC1E7DD853E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{953243C1-BA67-4D7F-BA97-DC1E7DD853E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D073CD9-F467-4557-9892-5730AD7E6F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D073CD9-F467-4557-9892-5730AD7E6F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D073CD9-F467-4557-9892-5730AD7E6F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D073CD9-F467-4557-9892-5730AD7E6F6C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71F88EF2-0C82-448B-9D4C-53757AE219AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71F88EF2-0C82-448B-9D4C-53757AE219AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71F88EF2-0C82-448B-9D4C-53757AE219AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71F88EF2-0C82-448B-9D4C-53757AE219AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7C6303F-641B-4050-88ED-4F24DAD20D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7C6303F-641B-4050-88ED-4F24DAD20D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7C6303F-641B-4050-88ED-4F24DAD20D72}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A7C6303F-641B-4050-88ED-4F24DAD20D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7C6303F-641B-4050-88ED-4F24DAD20D72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7C6303F-641B-4050-88ED-4F24DAD20D72}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A9CDFBD4-108F-4479-924A-356076F78221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9CDFBD4-108F-4479-924A-356076F78221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9CDFBD4-108F-4479-924A-356076F78221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9CDFBD4-108F-4479-924A-356076F78221}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F93BCA-6927-49DF-8974-C94552825B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F93BCA-6927-49DF-8974-C94552825B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F93BCA-6927-49DF-8974-C94552825B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F93BCA-6927-49DF-8974-C94552825B1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{953243C1-BA67-4D7F-BA97-DC1E7DD853E1} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
-		{2D073CD9-F467-4557-9892-5730AD7E6F6C} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
+		{A9CDFBD4-108F-4479-924A-356076F78221} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
+		{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
+		{094F70E1-0938-43AB-9C47-FA5DB888D478} = {48A8BEC5-76F7-40D5-AB2E-EFA1136F80D9}
+		{37F93BCA-6927-49DF-8974-C94552825B1B} = {48A8BEC5-76F7-40D5-AB2E-EFA1136F80D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2307F7E5-2BF0-45EE-85BA-98D14CEF5137}

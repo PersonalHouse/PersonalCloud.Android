@@ -10,7 +10,7 @@ using Android.Views;
 using Binding;
 
 using Unishare.Apps.Common;
-using Unishare.Apps.Common.Data;
+using Unishare.Apps.Common.Models;
 using Unishare.Apps.DevolMobile.Activities;
 
 namespace Unishare.Apps.DevolMobile
@@ -34,16 +34,16 @@ namespace Unishare.Apps.DevolMobile
             SetContentView(Resource.Layout.dashboard);
             R = new dashboard(this);
             DeviceCell = new key_value_cell(R.device_cell);
-            DeviceCell.title_label.Text = Texts.DeviceName;
+            DeviceCell.title_label.Text = "设备名称";
             DeviceCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].NodeDisplayName;
             CloudCell = new key_value_cell(R.cloud_cell);
-            CloudCell.title_label.Text = Texts.CloudName;
+            CloudCell.title_label.Text = "云名称";
             CloudCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].DisplayName;
             InviteCell = new key_value_cell(R.invite_cell);
-            InviteCell.title_label.Text = Texts.Invitation;
-            InviteCell.detail_label.Text = Texts.InvitationPending;
+            InviteCell.title_label.Text = "邀请码";
+            InviteCell.detail_label.Text = "正在生成";
             FileSharingCell = new switch_cell(R.file_sharing_cell);
-            FileSharingCell.title_label.Text = Texts.EnableFileSharing;
+            FileSharingCell.title_label.Text = "允许此设备分享文件";
             FileSharingCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.EnableSharing, "1");
             R.file_sharing_root.Enabled = FileSharingCell.switch_button.Checked;
 
@@ -94,13 +94,13 @@ namespace Unishare.Apps.DevolMobile
                 }
                 if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
                 {
-                    this.ShowAlert(Texts.InvalidDeviceName, Texts.InvalidDeviceNameMessage);
+                    this.ShowAlert("设备名称无效", "请使用简短、尽量不包含特殊字符、尽量不与其它设备重复的名称。");
                     return;
                 }
 
                 var cloud = Globals.CloudManager.PersonalClouds[0];
                 cloud.NodeDisplayName = deviceName;
-                try { Globals.CloudManager.StartNetwork(); } catch { }
+                try { Globals.CloudManager.StartNetwork(false); } catch { }
                 Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                 DeviceCell.detail_label.Text = deviceName;
             }, "取消", null);
@@ -174,7 +174,7 @@ namespace Unishare.Apps.DevolMobile
 
         private void LeaveCloud(object sender, EventArgs e)
         {
-            this.ShowAlert(Texts.LeaveCloudTitle, Texts.LeaveCloudMessage, "取消", null, "确认", () => {
+            this.ShowAlert("从个人云中移除此设备？", "当前设备将离开个人云，本地保存的相关信息也将删除。", "取消", null, "确认", () => {
                 Globals.CloudManager.ExitFromCloud(Globals.CloudManager.PersonalClouds[0]);
                 Globals.Database.DeleteAll<CloudModel>();
                 Globals.DiscoverySubscribed = false;

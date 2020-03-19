@@ -10,7 +10,6 @@ using Android.Views;
 using Binding;
 
 using Unishare.Apps.Common;
-using Unishare.Apps.Common.Data;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -46,13 +45,13 @@ namespace Unishare.Apps.DevolMobile
             }
             if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
             {
-                R.new_cloud_device_name.Error = Texts.InvalidDeviceName;
+                R.new_cloud_device_name.Error = "设备名称无效";
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(cloudName))
             {
-                R.new_cloud_name.Error = Texts.InvalidCloudName;
+                R.new_cloud_name.Error = "云名称无效";
                 return;
             }
 

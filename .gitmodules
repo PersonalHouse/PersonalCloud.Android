@@ -1,0 +1,6 @@
+[submodule "PersonalCloud.Core"]
+	path = PersonalCloud.Core
+	url = https://github.com/Personal-Cloud/PersonalCloud.git
+[submodule "PersonalCloud.Apps.Common"]
+	path = PersonalCloud.Apps.Common
+	url = https://github.com/Personal-Cloud/Apps.Common.git

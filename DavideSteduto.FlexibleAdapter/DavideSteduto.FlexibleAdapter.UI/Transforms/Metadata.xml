@@ -1,0 +1,22 @@
+﻿<metadata>
+    <attr
+        path="/api/package[@name='eu.davidea.flexibleadapter.common']"
+        name="managedName">
+        DavideSteduto.FlexibleAdapter.Common
+    </attr>
+    <attr
+        path="/api/package[@name='eu.davidea.flexibleadapter.helpers']"
+        name="managedName">
+        DavideSteduto.FlexibleAdapter.Helpers
+    </attr>
+    <attr
+        path="/api/package[@name='eu.davidea.flexibleadapter.utils']"
+        name="managedName">
+        DavideSteduto.FlexibleAdapter.Utilities
+    </attr>
+    <attr
+        path="/api/package[@name='eu.davidea.flexibleadapter.common']/class[@name='FlexibleItemAnimator.VpaListenerAdapter']"
+        name="visibility">
+        protected
+    </attr>
+</metadata>

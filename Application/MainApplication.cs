@@ -12,7 +12,7 @@ using Microsoft.AppCenter.Crashes;
 using SQLite;
 
 using Unishare.Apps.Common;
-using Unishare.Apps.Common.Data;
+using Unishare.Apps.Common.Models;
 
 namespace Unishare.Apps.DevolMobile
 {

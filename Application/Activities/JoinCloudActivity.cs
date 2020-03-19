@@ -12,7 +12,6 @@ using Binding;
 using NSPersonalCloud.Interfaces.Errors;
 
 using Unishare.Apps.Common;
-using Unishare.Apps.Common.Data;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -48,13 +47,13 @@ namespace Unishare.Apps.DevolMobile
             }
             if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
             {
-                R.join_cloud_device_name.Error = Texts.InvalidDeviceName;
+                R.join_cloud_device_name.Error = "设备名称无效";
                 return;
             }
 
             if (inviteCode?.Length != 4)
             {
-                R.join_cloud_invite.Error = Texts.InvalidInvitation;
+                R.join_cloud_invite.Error = "邀请码错误";
                 return;
             }
 
@@ -66,7 +65,7 @@ namespace Unishare.Apps.DevolMobile
                     var result = await Globals.CloudManager.JoinPersonalCloud(int.Parse(inviteCode), deviceName).ConfigureAwait(false);
                     Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                     RunOnUiThread(() => {
-                        this.ShowAlert(Texts.AcceptedByCloud, string.Format(Texts.AcceptedByCloudMessage, result.DisplayName), () => {
+                        this.ShowAlert("已加入", string.Format("您已加入个人云“{0}”。", result.DisplayName), () => {
                             Finish();
                         });
                     });
@@ -85,7 +84,7 @@ namespace Unishare.Apps.DevolMobile
                     RunOnUiThread(() => {
                         R.join_cloud_progress.Visibility = ViewStates.Gone;
                         R.join_cloud_button.Enabled = true;
-                        this.ShowAlert(Texts.InvalidInvitation, Texts.InvalidInvitationMessage);
+                        this.ShowAlert("邀请码错误", "请查看其它设备屏幕上显示的邀请码，并核对您的输入。");
                     });
                 }
                 catch
