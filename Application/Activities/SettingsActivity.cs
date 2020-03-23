@@ -175,7 +175,6 @@ namespace Unishare.Apps.DevolMobile
                 .SetPositiveButton("离开", (o, e) => {
                     Globals.CloudManager.ExitFromCloud(Globals.CloudManager.PersonalClouds[0]);
                     Globals.Database.DeleteAll<CloudModel>();
-                    Globals.DiscoverySubscribed = false;
                     Finish();
                 })
                 .SetNeutralButton("返回", (EventHandler<DialogClickEventArgs>) null).Show();

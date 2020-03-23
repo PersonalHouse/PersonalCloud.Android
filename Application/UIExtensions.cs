@@ -48,15 +48,12 @@ namespace Unishare.Apps.DevolMobile
 
         public static void ShowFatalAlert(this Android.App.Activity activity, string title, string message)
         {
-            var spannable = new Android.Text.SpannableStringBuilder("退出");
-            spannable.SetSpan(new Android.Text.Style.ForegroundColorSpan(ColorFromResource(activity, Resource.Color.colorError)), 0, spannable.Length(), Android.Text.SpanTypes.ExclusiveExclusive);
-
-            new AndroidX.AppCompat.App.AlertDialog.Builder(activity)
+            new AndroidX.AppCompat.App.AlertDialog.Builder(activity, Resource.Style.AlertDialogTheme)
                 .SetIcon(Resource.Mipmap.ic_launcher_round)
                 .SetCancelable(false)
                 .SetTitle(title)
                 .SetMessage(message)
-                .SetPositiveButton(spannable, (o, e) => activity.FinishAndRemoveTask())
+                .SetPositiveButton("退出", (o, e) => activity.FinishAndRemoveTask())
                 .Show();
         }
 

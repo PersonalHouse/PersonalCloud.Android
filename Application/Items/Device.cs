@@ -27,7 +27,7 @@ namespace Unishare.Apps.DevolMobile.Items
         {
             if (!(viewHolder is FileEntryViewHolder holder)) return;
 
-            holder.R.file_cell_icon.SetImageDrawable(holder.R.file_cell_icon.Context.GetTintedDrawable(Resource.Drawable.devices_outline, Resource.Color.colorAccent));
+            holder.R.file_cell_icon.SetImageResource(Resource.Drawable.device_phone);
             holder.R.file_cell_title.Text = device.Name;
             holder.R.file_cell_detail.Text = null;
             holder.R.file_cell_detail.Visibility = ViewStates.Gone;

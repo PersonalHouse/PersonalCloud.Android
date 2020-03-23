@@ -34,6 +34,7 @@ namespace Unishare.Apps.DevolMobile.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.welcome);
+            R = new welcome(this);
 
             R.welcome_create_button.Click += (o, e) => {
                 StartActivityForResult(typeof(CreateCloudActivity), CloudManagement);
@@ -54,11 +55,6 @@ namespace Unishare.Apps.DevolMobile.Activities
             }
             if (grantResults.All(x => x == Permission.Granted))
             {
-                R.welcome_create_hint.Visibility = ViewStates.Visible;
-                R.welcome_create_button.Visibility = ViewStates.Visible;
-                R.welcome_join_hint.Visibility = ViewStates.Visible;
-                R.welcome_join_button.Visibility = ViewStates.Visible;
-
 #pragma warning disable CS0618 // Type or member is obsolete
                 var storageRoot = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -84,6 +80,13 @@ namespace Unishare.Apps.DevolMobile.Activities
                 {
                     StartActivity(typeof(MainActivity));
                     Finish();
+                }
+                else
+                {
+                    R.welcome_create_hint.Visibility = ViewStates.Visible;
+                    R.welcome_create_button.Visibility = ViewStates.Visible;
+                    R.welcome_join_hint.Visibility = ViewStates.Visible;
+                    R.welcome_join_button.Visibility = ViewStates.Visible;
                 }
             }
             else

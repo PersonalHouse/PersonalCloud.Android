@@ -72,19 +72,10 @@ namespace Unishare.Apps.DevolMobile
             {
                 StartActivity(typeof(OnboardingActivity));
                 Finish();
+                return;
             }
 
-            /*
-            if (Globals.CloudManager?.PersonalClouds?.FirstOrDefault() == null) fileSystem = null;
-            if (fileSystem == null) RefreshDevices(this, EventArgs.Empty);
-
-            if (!Globals.DiscoverySubscribed)
-            {
-                var cloud = Globals.CloudManager?.PersonalClouds?.FirstOrDefault();
-                if (cloud == null) return;
-                cloud.
-            }
-            */
+            RefreshDevices(this, EventArgs.Empty);
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -112,9 +103,7 @@ namespace Unishare.Apps.DevolMobile
             fileSystem = Globals.CloudManager.PersonalClouds.FirstOrDefault()?.RootFS;
             if (fileSystem == null)
             {
-                R.empty_text.Text = GetString(Resource.String.no_personal_cloud);
-                adapter.UpdateDataSet(null);
-                if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
+                StartActivity(typeof(OnboardingActivity));
                 return;
             }
 
