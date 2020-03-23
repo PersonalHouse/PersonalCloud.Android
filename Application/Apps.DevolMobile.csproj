@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\ChooseFolderActivity.cs" />
+    <Compile Include="Activities\OnboardingActivity.cs" />
     <Compile Include="Activities\UploadFilesActivity.cs" />
     <Compile Include="Activities\DeviceDirectoryActivity.cs" />
     <Compile Include="Activities\NavigableActivity.cs" />
@@ -403,6 +404,9 @@
       <Project>{fa3dba37-7f59-4f2f-8a0f-d65f18ab7710}</Project>
       <Name>PersonalCloud</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\welcome.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

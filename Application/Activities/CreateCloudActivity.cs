@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Views;
 
 using Binding;
 
@@ -70,6 +69,7 @@ namespace Unishare.Apps.DevolMobile
                     RunOnUiThread(() => {
                         progress.Dismiss();
                         this.ShowAlert("已创建", $"您已创建并加入个人云“{cloudName}”。", () => {
+                            SetResult(Result.Ok);
                             Finish();
                         });
                     });

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -18,25 +16,23 @@ using Binding;
 using DavideSteduto.FlexibleAdapter;
 using DavideSteduto.FlexibleAdapter.Common;
 using DavideSteduto.FlexibleAdapter.Helpers;
+using DavideSteduto.FlexibleAdapter.Items;
 
-using Microsoft.Extensions.Logging;
-
-using NSPersonalCloud;
 using NSPersonalCloud.Interfaces.FileSystem;
 using NSPersonalCloud.RootFS;
 
-using Unishare.Apps.Common;
 using Unishare.Apps.Common.Models;
+using Unishare.Apps.DevolMobile.Activities;
 using Unishare.Apps.DevolMobile.Items;
 
 using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 
 namespace Unishare.Apps.DevolMobile
 {
-    [Activity(Name = "com.daoyehuo.UnishareLollipop.MainActivity", Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Name = "com.daoyehuo.UnishareLollipop.MainActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, IOnItemClickListener
     {
-        private const int RequestAccess = 10000;
+        
 
         internal cloud_browser R { get; private set; }
 
@@ -63,14 +59,22 @@ namespace Unishare.Apps.DevolMobile
             R.list_reloader.Refresh += RefreshDevices;
             EmptyViewHelper.Create(adapter, R.list_empty);
 
-            RequestPermissions(new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, RequestAccess);
+            Globals.CloudManager.PersonalClouds.FirstOrDefault().OnNodeChangedEvent += (o, e) => {
+                RunOnUiThread(() => RefreshDevices(this, EventArgs.Empty));
+            };
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            InvalidateOptionsMenu();
 
+            if (Globals.Database.Table<CloudModel>().Count() == 0)
+            {
+                StartActivity(typeof(OnboardingActivity));
+                Finish();
+            }
+
+            /*
             if (Globals.CloudManager?.PersonalClouds?.FirstOrDefault() == null) fileSystem = null;
             if (fileSystem == null) RefreshDevices(this, EventArgs.Empty);
 
@@ -78,14 +82,14 @@ namespace Unishare.Apps.DevolMobile
             {
                 var cloud = Globals.CloudManager?.PersonalClouds?.FirstOrDefault();
                 if (cloud == null) return;
-                cloud.OnNodeChangedEvent += (o, e) => RunOnUiThread(() => RefreshDevices(this, EventArgs.Empty));
+                cloud.
             }
+            */
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            if (Globals.Database.Table<CloudModel>().Count() == 0) MenuInflater.Inflate(Resource.Menu.join_cloud, menu);
-            else MenuInflater.Inflate(Resource.Menu.settings, menu);
+            MenuInflater.Inflate(Resource.Menu.settings, menu);
             return true;
         }
 
@@ -93,18 +97,6 @@ namespace Unishare.Apps.DevolMobile
         {
             switch (item.ItemId)
             {
-                case Resource.Id.create_new_cloud:
-                {
-                    StartActivity(typeof(CreateCloudActivity));
-                    break;
-                }
-
-                case Resource.Id.join_new_cloud:
-                {
-                    StartActivity(typeof(JoinCloudActivity));
-                    break;
-                }
-
                 case Resource.Id.app_settings:
                 {
                     StartActivity(typeof(SettingsActivity));
@@ -114,50 +106,10 @@ namespace Unishare.Apps.DevolMobile
             return true;
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            if (requestCode == RequestAccess)
-            {
-                if (grantResults.All(x => x == Permission.Granted))
-                {
-#pragma warning disable CS0618 // Type or member is obsolete
-                    var storageRoot = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-#pragma warning restore CS0618 // Type or member is obsolete
-
-                    Directory.CreateDirectory(Path.Combine(storageRoot, "Personal Cloud"));
-
-                    var sharingRoot = Globals.Database.LoadSetting(UserSettings.SharingRoot);
-                    if (string.IsNullOrEmpty(sharingRoot) || !Directory.Exists(sharingRoot))
-                    {
-                        sharingRoot = storageRoot;
-                        Globals.Database.Delete<KeyValueModel>(UserSettings.SharingRoot);
-                    }
-                    if (Globals.Database.LoadSetting(UserSettings.EnableSharing) == "0")
-                    {
-                        sharingRoot = null;
-                    }
-
-                    Globals.FileSystem = new VirtualFileSystem(sharingRoot);
-                    Globals.CloudManager = new PCLocalService(Globals.Storage, new LoggerFactory(), Globals.FileSystem);
-                    Task.Run(() => Globals.CloudManager.StartService());
-                }
-                else
-                {
-                    this.ShowAlert("个人云需要访问存储空间", "个人云是一款文件管理 App，用于在同一网络多设备间共享文件。"
-                                   + Environment.NewLine + Environment.NewLine
-                                   + "您必须授权访问存储空间才能使用个人云。"
-                                   + Environment.NewLine + Environment.NewLine
-                                   + "请在系统设置中调整个人云权限后重新打开 App。");
-                    return;
-                }
-            }
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
+        
         private void RefreshDevices(object sender, EventArgs e)
         {
-            fileSystem = Globals.CloudManager?.PersonalClouds?.FirstOrDefault()?.RootFS;
+            fileSystem = Globals.CloudManager.PersonalClouds.FirstOrDefault()?.RootFS;
             if (fileSystem == null)
             {
                 R.empty_text.Text = GetString(Resource.String.no_personal_cloud);

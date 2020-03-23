@@ -5109,13 +5109,28 @@ namespace Unishare.Apps.DevolMobile
 			public const int visible_removing_fragment_view_tag = 2131231007;
 			
 			// aapt resource value: 0x7F080120
-			public const int withText = 2131231008;
+			public const int welcome_create_button = 2131231008;
 			
 			// aapt resource value: 0x7F080121
-			public const int wrap = 2131231009;
+			public const int welcome_create_hint = 2131231009;
 			
 			// aapt resource value: 0x7F080122
-			public const int wrap_content = 2131231010;
+			public const int welcome_heading = 2131231010;
+			
+			// aapt resource value: 0x7F080123
+			public const int welcome_join_button = 2131231011;
+			
+			// aapt resource value: 0x7F080124
+			public const int welcome_join_hint = 2131231012;
+			
+			// aapt resource value: 0x7F080125
+			public const int withText = 2131231013;
+			
+			// aapt resource value: 0x7F080126
+			public const int wrap = 2131231014;
+			
+			// aapt resource value: 0x7F080127
+			public const int wrap_content = 2131231015;
 			
 			static Id()
 			{
@@ -5456,6 +5471,9 @@ namespace Unishare.Apps.DevolMobile
 			// aapt resource value: 0x7F0B0049
 			public const int switch_cell = 2131427401;
 			
+			// aapt resource value: 0x7F0B004A
+			public const int welcome = 2131427402;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -5743,6 +5761,15 @@ namespace Unishare.Apps.DevolMobile
 			
 			// aapt resource value: 0x7F0E004A
 			public const int void_invites = 2131624010;
+			
+			// aapt resource value: 0x7F0E004B
+			public const int welcome = 2131624011;
+			
+			// aapt resource value: 0x7F0E004C
+			public const int welcome_create = 2131624012;
+			
+			// aapt resource value: 0x7F0E004D
+			public const int welcome_join = 2131624013;
 			
 			static String()
 			{

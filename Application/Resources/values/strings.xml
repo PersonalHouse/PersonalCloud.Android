@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">个人云</string>
 
+    <string name="welcome">欢迎使用个人云</string>
+    <string name="welcome_create">这是您首次使用个人云吗？您可以……</string>
+    <string name="welcome_join">已在其它设备上创建个人云？您可以……</string>
+
     <string name="personal_cloud">个人云</string>
     <string name="new_cloud">添加个人云</string>
     <string name="new_cloud_create">创建新个人云</string>

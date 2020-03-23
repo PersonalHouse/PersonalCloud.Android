@@ -72,6 +72,7 @@ namespace Unishare.Apps.DevolMobile
                     RunOnUiThread(() => {
                         progress.Dismiss();
                         this.ShowAlert("已加入", string.Format("您已加入个人云“{0}”。", result.DisplayName), () => {
+                            SetResult(Result.Ok);
                             Finish();
                         });
                     });
