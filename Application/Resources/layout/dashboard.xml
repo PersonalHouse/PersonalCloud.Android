@@ -8,9 +8,30 @@
     android:padding="@dimen/default_material">
 
     <TextView
+        android:id="@+id/about_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/about" />
+
+    <include
+        android:id="@+id/about_privacy_cell"
+        layout="@layout/basic_cell"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/medium_margin" />
+
+    <include
+        android:id="@+id/about_contact_cell"
+        layout="@layout/basic_cell"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/medium_margin" />
+
+    <TextView
         android:id="@+id/cloud_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/personal_cloud" />
 
     <include

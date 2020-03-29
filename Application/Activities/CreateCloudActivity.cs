@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 
 using Android.App;
@@ -7,6 +6,8 @@ using Android.Content.PM;
 using Android.OS;
 
 using Binding;
+
+using NSPersonalCloud;
 
 using Unishare.Apps.Common;
 
@@ -22,6 +23,7 @@ namespace Unishare.Apps.DevolMobile
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.new_cloud_dialog);
             R = new new_cloud_dialog(this);
+            R.new_cloud_device_name.EditText.Text = Build.Manufacturer + " " + Build.Model;
 
             R.new_cloud_device_name.EditText.TextChanged += (o, e) => {
                 R.new_cloud_device_name.Error = null;
@@ -38,7 +40,7 @@ namespace Unishare.Apps.DevolMobile
             var cloudName = R.new_cloud_name.EditText.Text;
 
             var invalidCharHit = false;
-            foreach (var character in Path.GetInvalidFileNameChars())
+            foreach (var character in VirtualFileSystem.InvalidCharacters)
             {
                 if (deviceName?.Contains(character) == true) invalidCharHit = true;
             }

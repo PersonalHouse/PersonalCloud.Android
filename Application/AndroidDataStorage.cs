@@ -18,7 +18,7 @@ namespace Unishare.Apps.DevolMobile
 
         public IEnumerable<PersonalCloudInfo> LoadCloud()
         {
-            var deviceName = Globals.Database.LoadSetting(UserSettings.DeviceName) ?? "Android 设备";
+            var deviceName = Globals.Database.LoadSetting(UserSettings.DeviceName) ?? "Android";
             return Globals.Database.Table<CloudModel>().Select(x => new PersonalCloudInfo {
                 Id = x.Id.ToString("N"),
                 DisplayName = x.Name,

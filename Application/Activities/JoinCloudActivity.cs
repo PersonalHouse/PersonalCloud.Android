@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 
 using Android.App;
@@ -8,6 +7,7 @@ using Android.OS;
 
 using Binding;
 
+using NSPersonalCloud;
 using NSPersonalCloud.Interfaces.Errors;
 
 using Unishare.Apps.Common;
@@ -24,6 +24,7 @@ namespace Unishare.Apps.DevolMobile
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.join_cloud_dialog);
             R = new join_cloud_dialog(this);
+            R.join_cloud_device_name.EditText.Text = Build.Manufacturer + " " + Build.Model;
 
             R.join_cloud_device_name.EditText.TextChanged += (o, e) => {
                 R.join_cloud_device_name.Error = null;
@@ -40,7 +41,7 @@ namespace Unishare.Apps.DevolMobile
             var inviteCode = R.join_cloud_invite.EditText.Text;
 
             var invalidCharHit = false;
-            foreach (var character in Path.GetInvalidFileNameChars())
+            foreach (var character in VirtualFileSystem.InvalidCharacters)
             {
                 if (deviceName?.Contains(character) == true) invalidCharHit = true;
             }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Widget;
 
 using Binding;
 
@@ -30,14 +31,32 @@ namespace Unishare.Apps.DevolMobile
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.dashboard);
             R = new dashboard(this);
+
+            var privacyCell = new basic_cell(R.about_privacy_cell);
+            privacyCell.title_label.Text = GetString(Resource.String.about_privacy);
+            R.about_privacy_cell.Click += (o, e) => {
+                var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(@"https://daoyehuo.com/privacy.txt"));
+                if (intent.ResolveActivity(PackageManager) != null) StartActivity(intent);
+                else Toast.MakeText(this, "无法打开浏览器", ToastLength.Long).Show();
+            };
+            var contactCell = new basic_cell(R.about_contact_cell);
+            contactCell.title_label.Text = GetString(Resource.String.about_contact_us);
+            R.about_contact_cell.Click += (o, e) => {
+                var intent = new Intent(Intent.ActionSendto).SetType(@"text/plain")
+                                                            .PutExtra(Intent.ExtraEmail, @"appstore@daoyehuo.com")
+                                                            .PutExtra(Intent.ExtraSubject, @"个人云 (2.0.2) 反馈");
+                if (intent.ResolveActivity(PackageManager) != null) StartActivity(intent);
+                else Toast.MakeText(this, "无法发送电子邮件", ToastLength.Long).Show();
+            };
+
             DeviceCell = new key_value_cell(R.device_cell);
-            DeviceCell.title_label.Text = "设备名称";
+            DeviceCell.title_label.Text = GetString(Resource.String.device_name);
             DeviceCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].NodeDisplayName;
             CloudCell = new key_value_cell(R.cloud_cell);
-            CloudCell.title_label.Text = "云名称";
+            CloudCell.title_label.Text = GetString(Resource.String.cloud_name);
             CloudCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].DisplayName;
             FileSharingCell = new switch_cell(R.file_sharing_cell);
-            FileSharingCell.title_label.Text = "允许此设备分享文件";
+            FileSharingCell.title_label.Text = GetString(Resource.String.enable_file_sharing);
             FileSharingCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.EnableSharing, "1");
             R.file_sharing_root.Enabled = FileSharingCell.switch_button.Checked;
 

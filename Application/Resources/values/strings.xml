@@ -44,5 +44,9 @@
     <string name="delete_file">彻底删除</string>
     <string name="paste_here">移动至此处</string>
 
-    <string name="confirm">"确定"</string>
+    <string name="confirm">确定</string>
+
+    <string name="about">关于</string>
+    <string name="about_privacy">查看隐私条款</string>
+    <string name="about_contact_us">反馈意见和问题</string>
 </resources>

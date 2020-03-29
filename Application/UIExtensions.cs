@@ -1,9 +1,31 @@
 ﻿using System;
+using System.Globalization;
+
+using Android.App;
+using Android.Content.PM;
 
 namespace Unishare.Apps.DevolMobile
 {
     internal static class UIExtensions
     {
+        #region Application
+
+        public static string GetPackageVersion(this Application application)
+        {
+            try
+            {
+                var package = application.PackageManager.GetPackageInfo(application.PackageName, 0);
+                if (!string.IsNullOrEmpty(package.VersionName)) return $"{package.VersionName} ({package.VersionCode.ToString(CultureInfo.InvariantCulture)})";
+                return package.VersionCode.ToString(CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Activity
 
         public static void EnableNavigation(this AndroidX.AppCompat.App.ActionBar actionBar)
