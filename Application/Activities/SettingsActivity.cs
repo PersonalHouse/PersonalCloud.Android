@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Widget;
 
 using Binding;
 
@@ -35,18 +34,42 @@ namespace Unishare.Apps.DevolMobile
             var privacyCell = new basic_cell(R.about_privacy_cell);
             privacyCell.title_label.Text = GetString(Resource.String.about_privacy);
             R.about_privacy_cell.Click += (o, e) => {
-                var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(@"https://daoyehuo.com/privacy.txt"));
+                var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://daoyehuo.com/privacy.txt"));
                 if (intent.ResolveActivity(PackageManager) != null) StartActivity(intent);
-                else Toast.MakeText(this, "无法打开浏览器", ToastLength.Long).Show();
+                else
+                {
+                    this.ShowAlert("无法打开浏览器", "您的设备未安装浏览器 App 或不支持打开指定网址。" +
+                        Environment.NewLine + Environment.NewLine +
+                        "请确认浏览器配置正确后重试，或访问以下网址查看隐私条款：" +
+                        Environment.NewLine + Environment.NewLine +
+                        "https://daoyehuo.com/privacy.txt");
+                }
             };
             var contactCell = new basic_cell(R.about_contact_cell);
             contactCell.title_label.Text = GetString(Resource.String.about_contact_us);
             R.about_contact_cell.Click += (o, e) => {
-                var intent = new Intent(Intent.ActionSendto).SetType(@"text/plain")
-                                                            .PutExtra(Intent.ExtraEmail, @"appstore@daoyehuo.com")
-                                                            .PutExtra(Intent.ExtraSubject, @"个人云 (2.0.2) 反馈");
+                var intent = new Intent(Intent.ActionSendto)
+                             .SetData(Android.Net.Uri.Parse("mailto:appstore@daoyehuo.com"))
+                             .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
+                             .PutExtra(Intent.ExtraSubject, "个人云 (2.0.3) 反馈");
+                if (intent.ResolveActivity(PackageManager) != null)
+                {
+                    StartActivity(intent);
+                    return;
+                }
+
+                intent = new Intent(Intent.ActionSend).SetType("text/plain")
+                             .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
+                             .PutExtra(Intent.ExtraSubject, "个人云 (2.0.3) 反馈");
                 if (intent.ResolveActivity(PackageManager) != null) StartActivity(intent);
-                else Toast.MakeText(this, "无法发送电子邮件", ToastLength.Long).Show();
+                else
+                {
+                    this.ShowAlert("无法发送电子邮件", "您的设备未安装电子邮件 App 或未配置发信邮箱，因此无法编写和发送反馈邮件。" +
+                        Environment.NewLine + Environment.NewLine +
+                        "请确认邮箱配置正确后重试，或发送您的反馈至以下邮箱：" +
+                        Environment.NewLine + Environment.NewLine +
+                        "appstore@daoyehuo.com");
+                }
             };
 
             DeviceCell = new key_value_cell(R.device_cell);
