@@ -23,6 +23,13 @@
     <string name="enable_file_sharing">允许此设备分享文件</string>
     <string name="manage_shared_files">选择分享文件夹</string>
 
+    <string name="photos_backup">相册备份</string>
+    <string name="photos_backup_hint">打开“定时备份相册”以定期自动将本地存储的 DCIM 和 Pictures 文件夹备份到已指定的存储位置。</string>
+    <string name="photos_backup_location">备份存储位置</string>
+    <string name="choose_photos_backup_location">选择备份存储位置</string>
+    <string name="photos_backup_location_set">已设置</string>
+    <string name="enable_photos_backup">定时备份相册</string>
+
     <string name="browser_back">返回上层</string>
     <string name="browser_back_to">后退至“%s”</string>
 

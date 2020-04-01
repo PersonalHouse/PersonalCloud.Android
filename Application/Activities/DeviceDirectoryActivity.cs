@@ -132,7 +132,6 @@ namespace Unishare.Apps.DevolMobile
                                     progress.Dismiss();
                                     this.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
                                 });
-
                             }
                             catch (Exception exception)
                             {
@@ -181,7 +180,6 @@ namespace Unishare.Apps.DevolMobile
                                 progress.Dismiss();
                                 this.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
                             });
-
                         }
                         catch (Exception exception)
                         {
@@ -233,7 +231,6 @@ namespace Unishare.Apps.DevolMobile
                                 progress.Dismiss();
                                 this.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
                             });
-
                         }
                         catch (Exception exception)
                         {
@@ -402,7 +399,6 @@ namespace Unishare.Apps.DevolMobile
                                         progress.Dismiss();
                                         this.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
                                     });
-
                                 }
                                 catch (Exception exception)
                                 {
@@ -444,7 +440,6 @@ namespace Unishare.Apps.DevolMobile
                                         progress.Dismiss();
                                         this.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
                                     });
-
                                 }
                                 catch (Exception exception)
                                 {
@@ -468,52 +463,40 @@ namespace Unishare.Apps.DevolMobile
             }
         }
 
-
         private void RefreshDirectory(object sender, EventArgs e)
         {
             if (!R.list_reloader.Refreshing) R.list_reloader.Refreshing = true;
 
             Task.Run(async () => {
+                var models = new List<IFlexible>();
+                if (depth != 0)
+                {
+                    var parentPath = Path.GetFileName(Path.GetDirectoryName(WorkingPath.TrimEnd(Path.AltDirectorySeparatorChar)).TrimEnd(Path.AltDirectorySeparatorChar));
+                    models.Add(new FolderGoBack(parentPath));
+                }
+
                 try
                 {
                     var files = await FileSystem.EnumerateChildrenAsync(WorkingPath).ConfigureAwait(false);
                     items = files.Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
                                  .ToList();
-
-                    var models = new List<IFlexible>();
-                    if (depth != 0)
-                    {
-                        var parentPath = Path.GetFileName(Path.GetDirectoryName(WorkingPath.TrimEnd(Path.AltDirectorySeparatorChar)).TrimEnd(Path.AltDirectorySeparatorChar));
-                        models.Add(new FolderGoBack(parentPath));
-                    }
                     models.AddRange(items.Select(x => new FileFolder(x)));
-                    RunOnUiThread(() => {
-                        adapter.UpdateDataSet(models, true);
-                        if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
-                    });
                 }
                 catch (HttpRequestException exception)
                 {
-                    RunOnUiThread(() => {
-                        this.ShowAlert("与远程设备通讯时遇到问题", exception.Message, () => {
-                            adapter.UpdateDataSet(null);
-                            if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
-                        });
-                    });
+                    RunOnUiThread(() => this.ShowAlert("与远程设备通讯时遇到问题", exception.Message));
                 }
                 catch (Exception exception)
                 {
-                    RunOnUiThread(() => {
-                        this.ShowAlert("无法打开文件夹", exception.GetType().Name, () => {
-                            adapter.UpdateDataSet(null);
-                            if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
-                        });
-                    });
+                    RunOnUiThread(() => this.ShowAlert("无法打开文件夹", exception.GetType().Name));
                 }
+
+                RunOnUiThread(() => {
+                    adapter.UpdateDataSet(models, true);
+                    if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
+                });
             });
         }
-
-
 
         #region Download
 
@@ -585,9 +568,8 @@ namespace Unishare.Apps.DevolMobile
                     });
                 }
             });
-
         }
 
-        #endregion
+        #endregion Download
     }
 }

@@ -73,7 +73,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                 }
 
                 Globals.FileSystem = new VirtualFileSystem(sharingRoot);
-                Globals.CloudManager = new PCLocalService(Globals.Storage, new LoggerFactory(), Globals.FileSystem);
+                Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem);
                 Task.Run(() => Globals.CloudManager.StartService());
 
                 if (Globals.Database.Table<CloudModel>().Count() != 0)

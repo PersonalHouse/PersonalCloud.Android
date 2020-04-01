@@ -1,94 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xamarin="http://schemas.xamarin.com/android/xamarin/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/default_material">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/about_header"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/about" />
+        android:orientation="vertical"
+        android:padding="@dimen/default_material">
 
-    <include
-        android:id="@+id/about_privacy_cell"
-        layout="@layout/basic_cell"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/medium_margin" />
+        <TextView
+            android:id="@+id/about_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about" />
 
-    <include
-        android:id="@+id/about_contact_cell"
-        layout="@layout/basic_cell"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/medium_margin" />
+        <include
+            android:id="@+id/about_privacy_cell"
+            layout="@layout/basic_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
 
-    <TextView
-        android:id="@+id/cloud_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/personal_cloud" />
+        <include
+            android:id="@+id/about_contact_cell"
+            layout="@layout/basic_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
 
-    <include
-        android:id="@+id/device_cell"
-        layout="@layout/key_value_cell"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/medium_margin" />
+        <TextView
+            android:id="@+id/cloud_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/personal_cloud" />
 
-    <include
-        android:id="@+id/cloud_cell"
-        layout="@layout/key_value_cell"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/medium_margin" />
+        <include
+            android:id="@+id/device_cell"
+            layout="@layout/key_value_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/toggle_invite"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:text="@string/invite_others"
-        xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
+        <include
+            android:id="@+id/cloud_cell"
+            layout="@layout/key_value_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
 
-    <TextView
-        android:id="@+id/share_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_material"
-        android:text="@string/file_sharing" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/toggle_invite"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:text="@string/invite_others"
+            xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
 
-    <include
-        android:id="@+id/file_sharing_cell"
-        layout="@layout/switch_cell"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/medium_margin" />
+        <TextView
+            android:id="@+id/share_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:text="@string/file_sharing" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/file_sharing_root"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:text="@string/manage_shared_files"
-        xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
+        <include
+            android:id="@+id/file_sharing_cell"
+            layout="@layout/switch_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/leave_cloud"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_material"
-        android:color="@color/colorError"
-        android:text="@string/leave_cloud"
-        android:theme="@style/ErrorButton"
-        xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/file_sharing_root"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:text="@string/manage_shared_files"
+            xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/backup_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:text="@string/photos_backup" />
+
+        <include
+            android:id="@+id/backup_location_cell"
+            layout="@layout/key_value_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
+
+        <include
+            android:id="@+id/backup_cell"
+            layout="@layout/switch_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
+
+        <TextView
+            android:id="@+id/backup_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:text="@string/photos_backup_hint"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/leave_cloud"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:color="@color/colorError"
+            android:text="@string/leave_cloud"
+            android:theme="@style/ErrorButton"
+            xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
+
+    </LinearLayout>
+    
+</ScrollView>

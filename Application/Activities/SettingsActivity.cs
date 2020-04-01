@@ -6,11 +6,16 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 
+using AndroidX.Work;
+
 using Binding;
+
+using NSPersonalCloud;
 
 using Unishare.Apps.Common;
 using Unishare.Apps.Common.Models;
 using Unishare.Apps.DevolMobile.Activities;
+using Unishare.Apps.DevolMobile.Workers;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -22,8 +27,9 @@ namespace Unishare.Apps.DevolMobile
         internal dashboard R { get; private set; }
         internal key_value_cell DeviceCell { get; private set; }
         internal key_value_cell CloudCell { get; private set; }
-        internal key_value_cell InviteCell { get; private set; }
         internal switch_cell FileSharingCell { get; private set; }
+        internal key_value_cell BackupLocationCell { get; private set; }
+        internal switch_cell AutoBackupCell { get; private set; }
 
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {
@@ -82,11 +88,19 @@ namespace Unishare.Apps.DevolMobile
             FileSharingCell.title_label.Text = GetString(Resource.String.enable_file_sharing);
             FileSharingCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.EnableSharing, "1");
             R.file_sharing_root.Enabled = FileSharingCell.switch_button.Checked;
+            BackupLocationCell = new key_value_cell(R.backup_location_cell);
+            BackupLocationCell.title_label.Text = GetString(Resource.String.photos_backup_location);
+            BackupLocationCell.detail_label.Text = string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)) ? null : GetString(Resource.String.photos_backup_location_set);
+            AutoBackupCell = new switch_cell(R.backup_cell);
+            AutoBackupCell.title_label.Text = GetString(Resource.String.enable_photos_backup);
+            AutoBackupCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.AutoBackupPhotos, "1");
 
             R.device_cell.Click += ChangeDeviceName;
             R.toggle_invite.Click += InviteDevices;
             FileSharingCell.switch_button.CheckedChange += ToggleFileSharing;
             R.file_sharing_root.Click += ChangeSharingRoot;
+            R.backup_location_cell.Click += ChangeBackupDevice;
+            AutoBackupCell.switch_button.CheckedChange += ToggleAutoBackup;
             R.leave_cloud.Click += LeaveCloud;
         }
 
@@ -95,6 +109,14 @@ namespace Unishare.Apps.DevolMobile
             base.OnResume();
             DeviceCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].NodeDisplayName;
             CloudCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].DisplayName;
+            if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
+            {
+                BackupLocationCell.detail_label.Text = null;
+            }
+            else
+            {
+                BackupLocationCell.detail_label.Text = GetString(Resource.String.photos_backup_location_set);
+            }
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -124,7 +146,7 @@ namespace Unishare.Apps.DevolMobile
         {
             this.ShowEditorAlert("输入设备新名称", DeviceCell.detail_label.Text, null, "保存", deviceName => {
                 var invalidCharHit = false;
-                foreach (var character in Path.GetInvalidFileNameChars())
+                foreach (var character in VirtualFileSystem.InvalidCharacters)
                 {
                     if (deviceName?.Contains(character) == true) invalidCharHit = true;
                 }
@@ -206,6 +228,49 @@ namespace Unishare.Apps.DevolMobile
         private void ChangeSharingRoot(object sender, EventArgs e)
         {
             StartActivityForResult(typeof(ChooseFolderActivity), CallbackSharingRoot);
+        }
+
+        private void ChangeBackupDevice(object sender, EventArgs e)
+        {
+            StartActivity(typeof(ChooseBackupDeviceActivity));
+        }
+
+        private void ToggleAutoBackup(object sender, Android.Widget.CompoundButton.CheckedChangeEventArgs e)
+        {
+            if (e.IsChecked)
+            {
+                if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
+                {
+                    AutoBackupCell.switch_button.Checked = false;
+                    this.ShowAlert("无法设置定时备份", "尚未选择备份存储位置，请点击“备份存储位置”。");
+                    return;
+                }
+
+                if (!int.TryParse(Globals.Database.LoadSetting(UserSettings.PhotoBackupInterval), out var workInterval))
+                {
+                    AutoBackupCell.switch_button.Checked = false;
+                    this.ShowAlert("无法设置定时备份", "尚未选择备份间隔时间，请点击“备份间隔时间”。");
+                    return;
+                }
+
+                var workConstraints = new Constraints.Builder()
+                    .SetRequiredNetworkType(NetworkType.NotRequired).SetRequiresBatteryNotLow(true)
+                    .SetRequiresCharging(false).Build();
+                var workRequest = new PeriodicWorkRequest.Builder(typeof(PhotosBackupWorker), TimeSpan.FromHours(workInterval))
+                    .SetConstraints(workConstraints).Build();
+                WorkManager.GetInstance(this).Enqueue(workRequest);
+                Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "1");
+                Globals.Database.SaveSetting(AndroidUserSettings.BackupScheduleId, workRequest.Id.ToString());
+            }
+            else
+            {
+                Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "0");
+                var workRequest = Globals.Database.LoadSetting(AndroidUserSettings.BackupScheduleId);
+                if (!string.IsNullOrEmpty(workRequest))
+                {
+                    WorkManager.GetInstance(this).CancelWorkById(Java.Util.UUID.FromString(workRequest));
+                }
+            }
         }
 
         private void LeaveCloud(object sender, EventArgs e)

@@ -9,12 +9,12 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.Logging;
 
 using Sentry;
-using Sentry.Protocol;
 
 using SQLite;
 
 using Unishare.Apps.Common;
 using Unishare.Apps.Common.Models;
+using Unishare.Apps.DevolMobile.Data;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -40,16 +40,11 @@ namespace Unishare.Apps.DevolMobile
                 options.Environment = "Android";
                 options.Release = this.GetPackageVersion();
             });
-            SentrySdk.ConfigureScope(scope => {
-                scope.SetTag("manufacturer", Android.OS.Build.Manufacturer);
-                scope.SetTag("model", Android.OS.Build.Model);
 
-                var deviceId = Globals.Database.LoadSetting(UserSettings.DeviceId);
-                if (string.IsNullOrEmpty(deviceId)) return;
-                scope.User = new User {
-                    Id = deviceId
-                };
-            });
+#if DEBUG
+            Crashes.SetEnabledAsync(false);
+#endif
+
             Globals.Loggers = new LoggerFactory().AddSentry();
 
             var databasePath = Path.Combine(Context.FilesDir.AbsolutePath, "Preferences.sqlite3");
@@ -57,6 +52,9 @@ namespace Unishare.Apps.DevolMobile
             Globals.Database.CreateTable<KeyValueModel>();
             Globals.Database.CreateTable<CloudModel>();
             Globals.Database.CreateTable<NodeModel>();
+            Globals.Database.CreateTable<BackupRecord>();
+
+            Globals.Database.SaveSetting(UserSettings.PhotoBackupInterval, "1");
 
             if (Globals.Database.Find<KeyValueModel>(UserSettings.EnableSharing) is null)
             {
