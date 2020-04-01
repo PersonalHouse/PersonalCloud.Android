@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-
+using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content;
@@ -77,6 +77,7 @@ namespace Unishare.Apps.DevolMobile.Workers
             if (Globals.CloudManager == null) Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem);
             if (Globals.CloudManager.PersonalClouds.Count < 1) return Result.InvokeFailure();
             Globals.CloudManager.NetworkRefeshNodes();
+            Task.Delay(TimeSpan.FromSeconds(5)).Wait();
 
             var fileSystem = Globals.CloudManager.PersonalClouds[0].RootFS;
             var dcimPath = Path.Combine(path, Globals.Database.LoadSetting(UserSettings.DeviceName), "DCIM/");
@@ -93,16 +94,19 @@ namespace Unishare.Apps.DevolMobile.Workers
             {
                 fileSystem.EnumerateChildrenAsync(dcimPath).AsTask().Wait();
             }
-            catch
+            catch (Exception exception)
             {
                 SentrySdk.AddBreadcrumb("Remote directory is inaccessible. Backup failed.", level: BreadcrumbLevel.Error);
+                SentrySdk.CaptureException(exception);
                 return Result.InvokeFailure();
             }
 
+#if !DEBUG
             SetForegroundAsync(PrepareForForeground());
+#endif
 
             var failures = 0;
-            var directory = new DirectoryInfo(Android.OS.Environment.DirectoryDcim);
+            var directory = new DirectoryInfo(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).Path);
             if (directory.Exists)
             {
                 foreach (var file in directory.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
@@ -148,13 +152,14 @@ namespace Unishare.Apps.DevolMobile.Workers
             {
                 fileSystem.EnumerateChildrenAsync(picsPath).AsTask().Wait();
             }
-            catch
+            catch (Exception exception)
             {
                 SentrySdk.AddBreadcrumb("Remote directory is inaccessible. Backup failed.", level: BreadcrumbLevel.Error);
+                SentrySdk.CaptureException(exception);
                 return Result.InvokeFailure();
             }
 
-            directory = new DirectoryInfo(Android.OS.Environment.DirectoryPictures);
+            directory = new DirectoryInfo(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures).Path);
             if (directory.Exists)
             {
                 foreach (var file in directory.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))

@@ -10,7 +10,7 @@ using Android.Views;
 
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
-
+using AndroidX.Work;
 using Binding;
 
 using DavideSteduto.FlexibleAdapter;
@@ -24,7 +24,7 @@ using NSPersonalCloud.RootFS;
 using Unishare.Apps.Common.Models;
 using Unishare.Apps.DevolMobile.Activities;
 using Unishare.Apps.DevolMobile.Items;
-
+using Unishare.Apps.DevolMobile.Workers;
 using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 
 namespace Unishare.Apps.DevolMobile
@@ -59,9 +59,16 @@ namespace Unishare.Apps.DevolMobile
             R.list_reloader.Refresh += RefreshDevices;
             EmptyViewHelper.Create(adapter, R.list_empty);
 
-            Globals.CloudManager.PersonalClouds.FirstOrDefault().OnNodeChangedEvent += (o, e) => {
+            Globals.CloudManager.PersonalClouds[0].OnNodeChangedEvent += (o, e) => {
                 RunOnUiThread(() => RefreshDevices(this, EventArgs.Empty));
             };
+
+            /*
+            var worker = new PhotosBackupWorker(this, new WorkerParameters(Java.Util.UUID.FromString(Guid.NewGuid().ToString()), null, new List<string>(), null, 0, null, null, null, null, null));
+            Task.Run(() => {
+                worker.DoWork();
+            });
+            */
         }
 
         protected override void OnResume()
