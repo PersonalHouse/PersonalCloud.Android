@@ -23,7 +23,7 @@ namespace Unishare.Apps.DevolMobile
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.new_cloud_dialog);
             R = new new_cloud_dialog(this);
-            R.new_cloud_device_name.EditText.Text = Build.Manufacturer + " " + Build.Model;
+            R.new_cloud_device_name.EditText.Text = Build.Model;
 
             R.new_cloud_device_name.EditText.TextChanged += (o, e) => {
                 R.new_cloud_device_name.Error = null;

@@ -32,8 +32,6 @@ namespace Unishare.Apps.DevolMobile
     [Activity(Name = "com.daoyehuo.UnishareLollipop.MainActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, IOnItemClickListener
     {
-        
-
         internal cloud_browser R { get; private set; }
 
         private FlexibleAdapter adapter;

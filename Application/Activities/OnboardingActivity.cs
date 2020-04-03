@@ -10,7 +10,8 @@ using Android.Content.PM;
 using Android.Views;
 
 using AndroidX.AppCompat.App;
-
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
 using Binding;
 
 using Microsoft.Extensions.Logging;
@@ -43,7 +44,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                 StartActivityForResult(typeof(JoinCloudActivity), CloudManagement);
             };
 
-            RequestPermissions(new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, RequestAccess);
+            ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, RequestAccess);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

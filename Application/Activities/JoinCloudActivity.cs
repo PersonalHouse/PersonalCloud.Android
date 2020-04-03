@@ -24,7 +24,7 @@ namespace Unishare.Apps.DevolMobile
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.join_cloud_dialog);
             R = new join_cloud_dialog(this);
-            R.join_cloud_device_name.EditText.Text = Build.Manufacturer + " " + Build.Model;
+            R.join_cloud_device_name.EditText.Text = Build.Model;
 
             R.join_cloud_device_name.EditText.TextChanged += (o, e) => {
                 R.join_cloud_device_name.Error = null;
