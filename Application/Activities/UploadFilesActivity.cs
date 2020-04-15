@@ -86,6 +86,18 @@ namespace Unishare.Apps.DevolMobile.Activities
             return false;
         }
 
+        public override void OnBackPressed()
+        {
+            if (depth != 0)
+            {
+                directory = directory.Parent;
+                depth -= 1;
+                RefreshDirectory(this, EventArgs.Empty);
+                return;
+            }
+            base.OnBackPressed();
+        }
+
         private void RefreshDirectory(object sender, EventArgs e)
         {
             Task.Run(() => {

@@ -47,6 +47,8 @@ namespace Unishare.Apps.DevolMobile.Activities
         private string workingPath;
         private List<FileSystemEntry> items;
 
+        private bool willCancel;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -92,6 +94,25 @@ namespace Unishare.Apps.DevolMobile.Activities
             return base.OnOptionsItemSelected(item);
         }
 
+        public override void OnBackPressed()
+        {
+            if (workingPath.Length != 1 && !willCancel)
+            {
+                var parent = Path.GetDirectoryName(workingPath.TrimEnd(Path.AltDirectorySeparatorChar));
+                if (string.IsNullOrEmpty(parent)) parent = "/";
+                if (!parent.StartsWith(RootPath))
+                {
+                    this.ShowAlert("无法返回上一层", "您要执行的操作必须在此文件夹或更下层级文件夹完成，因此不允许您后退至上一层级。");
+                    willCancel = true;
+                    return;
+                }
+                workingPath = parent;
+                RefreshDirectory(this, EventArgs.Empty);
+                return;
+            }
+            base.OnBackPressed();
+        }
+
         private void RefreshDirectory(object sender, EventArgs e)
         {
             if (!R.list_reloader.Refreshing) R.list_reloader.Refreshing = true;
@@ -107,8 +128,8 @@ namespace Unishare.Apps.DevolMobile.Activities
                 try
                 {
                     var files = await fileSystem.EnumerateChildrenAsync(workingPath).ConfigureAwait(false);
-                    items = files.Where(x => x.Attributes.HasFlag(FileAttributes.Directory) && !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
-                                 .ToList();
+                    items = files.Where(x => x.IsDirectory && !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
+                                 .OrderBy(x => x.Name).ToList();
 
                     models.AddRange(items.Select(x => new FileFolder(x)));
                 }
@@ -149,6 +170,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             var item = items[workingPath.Length == 1 ? position : (position - 1)];
             workingPath = Path.Combine(workingPath, item.Name);
             RefreshDirectory(this, EventArgs.Empty);
+            willCancel = false;
             return false;
         }
 

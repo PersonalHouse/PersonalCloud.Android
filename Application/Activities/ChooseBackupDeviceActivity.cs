@@ -82,6 +82,17 @@ namespace Unishare.Apps.DevolMobile.Activities
             return base.OnOptionsItemSelected(item);
         }
 
+        public override void OnBackPressed()
+        {
+            if (WorkingPath.Length != 1)
+            {
+                WorkingPath = Path.GetDirectoryName(WorkingPath.TrimEnd(Path.AltDirectorySeparatorChar));
+                RefreshDirectory(this, EventArgs.Empty);
+                return;
+            }
+            base.OnBackPressed();
+        }
+
         private void RefreshDirectory(object sender, EventArgs e)
         {
             if (!R.list_reloader.Refreshing) R.list_reloader.Refreshing = true;
@@ -97,8 +108,8 @@ namespace Unishare.Apps.DevolMobile.Activities
                 try
                 {
                     var files = await FileSystem.EnumerateChildrenAsync(WorkingPath).ConfigureAwait(false);
-                    items = files.Where(x => x.Attributes.HasFlag(FileAttributes.Directory) && !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
-                                 .ToList();
+                    items = files.Where(x => x.IsDirectory && !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
+                                 .OrderBy(x => x.Name).ToList();
 
                     models.AddRange(items.Select(x => new FileFolder(x)));
                 }

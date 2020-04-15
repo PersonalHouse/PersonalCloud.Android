@@ -1,18 +1,13 @@
-﻿
-using System;
-using System.Linq;
-
+﻿using System.Linq;
 using Android.App;
 using Android.Content.PM;
-using Android.Views;
+
 using AndroidX.AppCompat.App;
 using AndroidX.Navigation;
 using AndroidX.Navigation.Fragment;
 using AndroidX.Navigation.UI;
 
 using Google.Android.Material.BottomNavigation;
-
-using Unishare.Apps.DevolMobile.Fragments;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -34,9 +29,22 @@ namespace Unishare.Apps.DevolMobile
             Controller.DestinationChanged += OnDestinationChange;
         }
 
+        public override void OnBackPressed()
+        {
+            if (HostFragment.ChildFragmentManager?.Fragments?.FirstOrDefault() is IBackButtonHandler handler && handler.OnBack()) return;
+            base.OnBackPressed();
+        }
+
         private void OnDestinationChange(object sender, NavController.DestinationChangedEventArgs e)
         {
             InvalidateOptionsMenu();
+            if (e.P1.Id != Resource.Id.finderFragment) SupportActionBar.Title = GetString(Resource.String.app_name);
+        }
+
+        public void SetTitle(string title)
+        {
+            if (SupportActionBar is null) return;
+            SupportActionBar.Title = title;
         }
     }
 }

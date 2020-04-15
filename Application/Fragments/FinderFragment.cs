@@ -34,7 +34,7 @@ using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 namespace Unishare.Apps.DevolMobile.Fragments
 {
     [Register("com.daoyehuo.UnishareLollipop.FinderFragment")]
-    public class FinderFragment : Fragment, IOnItemClickListener, IOnItemLongClickListener
+    public class FinderFragment : Fragment, IOnItemClickListener, IOnItemLongClickListener, IBackButtonHandler
     {
         private const int CallbackUpload = 10000;
         private const int CallbackDownload = 10001;
@@ -396,9 +396,9 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         opSource = item;
                         var intent = new Intent(Context, typeof(ChooseDestinationActivity));
                         var deviceRoot = workingPath.Substring(1);
-                    var nextSeparator = deviceRoot.IndexOf(Path.AltDirectorySeparatorChar);
-                    if (nextSeparator == -1) deviceRoot = "/" + deviceRoot;
-                    else deviceRoot = "/" + deviceRoot.Substring(0, nextSeparator);
+                        var nextSeparator = deviceRoot.IndexOf(Path.AltDirectorySeparatorChar);
+                        if (nextSeparator == -1) deviceRoot = "/" + deviceRoot;
+                        else deviceRoot = "/" + deviceRoot.Substring(0, nextSeparator);
                         intent.PutExtra(ChooseDestinationActivity.ExtraRootPath, deviceRoot);
                         StartActivityForResult(intent, CallbackMove);
                         return;
@@ -518,13 +518,20 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
             if (!workingPath.EndsWith(Path.AltDirectorySeparatorChar)) workingPath += Path.AltDirectorySeparatorChar;
 
-            if (workingPath.Length == 1) Activity.Title = "个人云";
+            var activity = (MainActivity) Activity;
+            if (workingPath.Length == 1)
+            {
+                activity.SetTitle("个人云");
+                try { Globals.CloudManager.StartNetwork(false); }
+                catch { } // Ignored.
+            }
 
             Task.Run(async () => {
                 string title = null;
-                if (workingPath.Length != 1 && !string.IsNullOrEmpty(Path.GetDirectoryName(workingPath.TrimEnd(Path.AltDirectorySeparatorChar))))
+                if (workingPath.Length != 1)
                 {
-                    title = workingPath.Substring(1, workingPath.IndexOf(Path.AltDirectorySeparatorChar));
+                    var deviceNameEnd = workingPath.IndexOf(Path.AltDirectorySeparatorChar, 1);
+                    if (deviceNameEnd != -1) title = workingPath.Substring(1, deviceNameEnd).Trim(Path.AltDirectorySeparatorChar);
                 }
 
                 var models = new List<IFlexible>();
@@ -537,7 +544,8 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 try
                 {
                     var files = await fileSystem.EnumerateChildrenAsync(workingPath).ConfigureAwait(false);
-                    items = files.Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System)).ToList();
+                    items = files.Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
+                                 .OrderByDescending(x => x.IsDirectory).ThenBy(x => x.Name).ToList();
                     models.AddRange(items.Select(x => new FileFolder(x)));
                 }
                 catch (HttpRequestException exception)
@@ -556,7 +564,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                 Activity.RunOnUiThread(() => {
                     adapter.UpdateDataSet(models, true);
-                    if (!string.IsNullOrEmpty(title)) Activity.Title = title;
+                    if (!string.IsNullOrEmpty(title)) activity.SetTitle(title);
                     if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
                     Activity.InvalidateOptionsMenu();
                 });
@@ -638,5 +646,16 @@ namespace Unishare.Apps.DevolMobile.Fragments
         }
 
         #endregion Utility: Download
+
+        public bool OnBack()
+        {
+            if (workingPath.Length != 1)
+            {
+                workingPath = Path.GetDirectoryName(workingPath.TrimEnd(Path.AltDirectorySeparatorChar));
+                RefreshDirectory(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
     }
 }

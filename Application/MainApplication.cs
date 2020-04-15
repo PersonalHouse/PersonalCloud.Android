@@ -2,7 +2,9 @@
 using System.IO;
 
 using Android.App;
-
+using Android.Content;
+using Android.Net.Wifi;
+using AndroidX.Lifecycle;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -14,19 +16,21 @@ using SQLite;
 
 using Unishare.Apps.Common;
 using Unishare.Apps.Common.Models;
+using Unishare.Apps.DevolMobile.BroadcastReceivers;
 using Unishare.Apps.DevolMobile.Data;
 
 namespace Unishare.Apps.DevolMobile
 {
     [Application(Name = "com.daoyehuo.UnishareLollipop.MainApplication", Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round", Label = "@string/app_name",
         SupportsRtl = false, Theme = "@style/AppTheme", AllowBackup = true)]
-    public class MainApplication : Application
+    public class MainApplication : Application, ILifecycleEventObserver
     {
         public MainApplication(IntPtr reference, Android.Runtime.JniHandleOwnership transfer) : base(reference, transfer)
         {
         }
 
-        private IDisposable sentry;
+        private bool fromBackground;
+        private BroadcastReceiver wifiMonitor;
 
         public override void OnCreate()
         {
@@ -35,17 +39,15 @@ namespace Unishare.Apps.DevolMobile
             SQLitePCL.Batteries_V2.Init();
 
             AppCenter.Start("2069a171-32ec-4432-b8d5-31d5ce74fb82", typeof(Analytics), typeof(Crashes));
-            sentry = SentrySdk.Init(options => {
-                options.Dsn = new Dsn("https://d0a8d714e2984642a530aa7deaca3498@sentry.io/5174354");
-                options.Environment = "Android";
-                options.Release = this.GetPackageVersion();
+            Globals.Loggers = new LoggerFactory().AddSentry(config => {
+                config.Dsn = "https://d0a8d714e2984642a530aa7deaca3498@o209874.ingest.sentry.io/5174354";
+                config.Environment = "Android";
+                config.Release = this.GetPackageVersion();
             });
 
 #if DEBUG
             Crashes.SetEnabledAsync(false);
 #endif
-
-            Globals.Loggers = new LoggerFactory().AddSentry();
 
             var databasePath = Path.Combine(Context.FilesDir.AbsolutePath, "Preferences.sqlite3");
             Globals.Database = new SQLiteConnection(databasePath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex);
@@ -62,13 +64,41 @@ namespace Unishare.Apps.DevolMobile
             }
 
             Globals.Storage = new AndroidDataStorage();
+
+            wifiMonitor = new WiFiStateReceiver();
+            var filter = new IntentFilter();
+            filter.AddAction(WifiManager.NetworkStateChangedAction);
+            RegisterReceiver(wifiMonitor, filter);
+            ProcessLifecycleOwner.Get().Lifecycle.AddObserver(this);
         }
 
-        // This method may not be called.
-        public override void OnTerminate()
+        public void OnStateChanged(ILifecycleOwner sender, Lifecycle.Event args)
         {
-            base.OnTerminate();
-            sentry?.Dispose();
+            if (args == Lifecycle.Event.OnStart)
+            {
+                if (wifiMonitor is null)
+                {
+                    wifiMonitor = new WiFiStateReceiver();
+                    var filter = new IntentFilter();
+                    filter.AddAction(WifiManager.NetworkStateChangedAction);
+                    RegisterReceiver(wifiMonitor, filter);
+                }
+                if (!fromBackground) return;
+                fromBackground = false;
+                Globals.CloudManager?.StartNetwork(false);
+                return;
+            }
+
+            if (args == Lifecycle.Event.OnStop)
+            {
+                if (wifiMonitor != null)
+                {
+                    UnregisterReceiver(wifiMonitor);
+                    wifiMonitor = null;
+                }
+                fromBackground = true;
+                return;
+            }
         }
     }
 }
