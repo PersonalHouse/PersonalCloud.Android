@@ -5,6 +5,6 @@
     <item
         android:id="@+id/action_confirm"
         android:icon="@drawable/checkmark"
-        android:title="@string/confirm"
+        android:title="@string/action_confirm"
         app:showAsAction="always" />
 </menu>

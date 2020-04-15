@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:xamarin="http://schemas.xamarin.com/android/xamarin/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/finderFragment">
+    <fragment
+        android:id="@+id/finderFragment"
+        android:name="com.daoyehuo.UnishareLollipop.FinderFragment"
+        android:label="fragment_finder"
+        tools:layout="@layout/fragment_finder"
+        xamarin:managedType="Unishare.Apps.DevolMobile.Fragments.FinderFragment" />
+    <fragment
+        android:id="@+id/functionsFragment"
+        android:name="com.daoyehuo.UnishareLollipop.FunctionsFragment"
+        android:label="fragment_functions"
+        tools:layout="@layout/fragment_functions"
+        xamarin:managedType="Unishare.Apps.DevolMobile.Fragments.FunctionsFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.daoyehuo.UnishareLollipop.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings"
+        xamarin:managedType="Unishare.Apps.DevolMobile.Fragments.SettingsFragment" />
+</navigation>

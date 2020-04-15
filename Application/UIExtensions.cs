@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
 
-using Android.App;
-using Android.Content.PM;
+using Android.Content;
+
+using AndroidX.Fragment.App;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -10,7 +11,7 @@ namespace Unishare.Apps.DevolMobile
     {
         #region Application
 
-        public static string GetPackageVersion(this Application application)
+        public static string GetPackageVersion(this Android.App.Application application)
         {
             try
             {
@@ -22,6 +23,22 @@ namespace Unishare.Apps.DevolMobile
             {
                 return null;
             }
+        }
+
+        #endregion
+
+        #region Fragment
+
+         public static void StartActivity(this Fragment fragment, Type activity)
+        {
+            var intent = new Intent(fragment.Context, activity);
+            fragment.StartActivity(intent);
+        }
+
+        public static void StartActivityForResult(this Fragment fragment, Type activity, int requestCode)
+        {
+            var intent = new Intent(fragment.Context, activity);
+            fragment.StartActivityForResult(intent, requestCode);
         }
 
         #endregion

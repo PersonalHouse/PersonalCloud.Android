@@ -13,11 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalCloud", "PersonalCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apps.Common", "PersonalCloud.Apps.Common\Apps.Common.csproj", "{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{48A8BEC5-76F7-40D5-AB2E-EFA1136F80D9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavideSteduto.FlexibleAdapter", "DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter.csproj", "{094F70E1-0938-43AB-9C47-FA5DB888D478}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavideSteduto.FlexibleAdapter.UI", "DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter.UI\DavideSteduto.FlexibleAdapter.UI.csproj", "{37F93BCA-6927-49DF-8974-C94552825B1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlbumComon", "PersonalCloud.Core\src\Apps\Album\AlbumComon\AlbumComon.csproj", "{28FDE910-EBC8-4F39-8993-B5C42DC8B645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +39,10 @@ Global
 		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC7E380B-7CD7-46A7-8003-B31BE224BC3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{094F70E1-0938-43AB-9C47-FA5DB888D478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37F93BCA-6927-49DF-8974-C94552825B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37F93BCA-6927-49DF-8974-C94552825B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37F93BCA-6927-49DF-8974-C94552825B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37F93BCA-6927-49DF-8974-C94552825B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28FDE910-EBC8-4F39-8993-B5C42DC8B645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FDE910-EBC8-4F39-8993-B5C42DC8B645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28FDE910-EBC8-4F39-8993-B5C42DC8B645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28FDE910-EBC8-4F39-8993-B5C42DC8B645}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,8 +50,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A9CDFBD4-108F-4479-924A-356076F78221} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
 		{FA3DBA37-7F59-4F2F-8A0F-D65F18AB7710} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
-		{094F70E1-0938-43AB-9C47-FA5DB888D478} = {48A8BEC5-76F7-40D5-AB2E-EFA1136F80D9}
-		{37F93BCA-6927-49DF-8974-C94552825B1B} = {48A8BEC5-76F7-40D5-AB2E-EFA1136F80D9}
+		{28FDE910-EBC8-4F39-8993-B5C42DC8B645} = {5EBDAF64-A244-419F-8AC4-CF0921D0D955}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2307F7E5-2BF0-45EE-85BA-98D14CEF5137}

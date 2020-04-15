@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/finder_home"
+        android:icon="@drawable/home"
+        android:title="@string/devices_home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/finder_upload"
+        android:icon="@drawable/add"
+        android:title="@string/action_add"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_new_folder"
+                android:icon="@drawable/new_folder"
+                android:title="@string/new_folder"
+                app:iconTint="@color/colorPrimary" />
+
+            <item
+                android:id="@+id/action_upload_file"
+                android:icon="@drawable/cloud_upload"
+                android:title="@string/upload_file"
+                app:iconTint="@color/colorPrimary" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/finder_connect"
+        android:icon="@drawable/add"
+        android:title="@string/connect_to"
+        app:showAsAction="ifRoom" />
+</menu>

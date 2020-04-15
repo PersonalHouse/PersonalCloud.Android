@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/finderFragment"
+        android:icon="@drawable/cloud"
+        android:title="@string/personal_cloud" />
+    <item
+        android:id="@id/functionsFragment"
+        android:icon="@drawable/function"
+        android:title="@string/apps" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/settings"
+        android:title="@string/settings" />
+</menu>

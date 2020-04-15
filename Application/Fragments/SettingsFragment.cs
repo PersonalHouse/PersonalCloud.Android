@@ -2,12 +2,12 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using Android.App;
 using Android.Content;
-using Android.Content.PM;
+using Android.Runtime;
+using Android.Views;
 
+using AndroidX.Fragment.App;
 using AndroidX.Work;
-
 using Binding;
 
 using NSPersonalCloud;
@@ -17,34 +17,34 @@ using Unishare.Apps.Common.Models;
 using Unishare.Apps.DevolMobile.Activities;
 using Unishare.Apps.DevolMobile.Workers;
 
-namespace Unishare.Apps.DevolMobile
+namespace Unishare.Apps.DevolMobile.Fragments
 {
-    [Activity(Name = "com.daoyehuo.UnishareLollipop.SettingsActivity", Label = "@string/settings", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class SettingsActivity : NavigableActivity
+    [Register("com.daoyehuo.UnishareLollipop.SettingsFragment")]
+    public class SettingsFragment : Fragment
     {
         private const int CallbackSharingRoot = 10000;
 
-        internal dashboard R { get; private set; }
+        internal fragment_settings R { get; private set; }
+
         internal key_value_cell DeviceCell { get; private set; }
         internal key_value_cell CloudCell { get; private set; }
         internal switch_cell FileSharingCell { get; private set; }
         internal key_value_cell BackupLocationCell { get; private set; }
         internal switch_cell AutoBackupCell { get; private set; }
 
-        protected override void OnCreate(Android.OS.Bundle savedInstanceState)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.dashboard);
-            R = new dashboard(this);
+            var view = inflater.Inflate(Resource.Layout.fragment_settings, container, false);
+            R = new fragment_settings(view);
 
             var privacyCell = new basic_cell(R.about_privacy_cell);
             privacyCell.title_label.Text = GetString(Resource.String.about_privacy);
             R.about_privacy_cell.Click += (o, e) => {
                 var intent = new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://daoyehuo.com/privacy.txt"));
-                if (intent.ResolveActivity(PackageManager) != null) StartActivity(intent);
+                if (intent.ResolveActivity(Context.PackageManager) != null) StartActivity(intent);
                 else
                 {
-                    this.ShowAlert("无法打开浏览器", "您的设备未安装浏览器 App 或不支持打开指定网址。" +
+                    Activity.ShowAlert("无法打开浏览器", "您的设备未安装浏览器 App 或不支持打开指定网址。" +
                         Environment.NewLine + Environment.NewLine +
                         "请确认浏览器配置正确后重试，或访问以下网址查看隐私条款：" +
                         Environment.NewLine + Environment.NewLine +
@@ -52,13 +52,13 @@ namespace Unishare.Apps.DevolMobile
                 }
             };
             var contactCell = new basic_cell(R.about_contact_cell);
-            contactCell.title_label.Text = GetString(Resource.String.about_contact_us);
+            contactCell.title_label.Text = GetString(Resource.String.about_contact);
             R.about_contact_cell.Click += (o, e) => {
                 var intent = new Intent(Intent.ActionSendto)
                              .SetData(Android.Net.Uri.Parse("mailto:appstore@daoyehuo.com"))
                              .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
                              .PutExtra(Intent.ExtraSubject, "个人云 (2.0.3) 反馈");
-                if (intent.ResolveActivity(PackageManager) != null)
+                if (intent.ResolveActivity(Context.PackageManager) != null)
                 {
                     StartActivity(intent);
                     return;
@@ -67,10 +67,10 @@ namespace Unishare.Apps.DevolMobile
                 intent = new Intent(Intent.ActionSend).SetType("text/plain")
                              .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
                              .PutExtra(Intent.ExtraSubject, "个人云 (2.0.3) 反馈");
-                if (intent.ResolveActivity(PackageManager) != null) StartActivity(intent);
+                if (intent.ResolveActivity(Context.PackageManager) != null) StartActivity(intent);
                 else
                 {
-                    this.ShowAlert("无法发送电子邮件", "您的设备未安装电子邮件 App 或未配置发信邮箱，因此无法编写和发送反馈邮件。" +
+                    Activity.ShowAlert("无法发送电子邮件", "您的设备未安装电子邮件 App 或未配置发信邮箱，因此无法编写和发送反馈邮件。" +
                         Environment.NewLine + Environment.NewLine +
                         "请确认邮箱配置正确后重试，或发送您的反馈至以下邮箱：" +
                         Environment.NewLine + Environment.NewLine +
@@ -102,9 +102,11 @@ namespace Unishare.Apps.DevolMobile
             R.backup_location_cell.Click += ChangeBackupDevice;
             AutoBackupCell.switch_button.CheckedChange += ToggleAutoBackup;
             R.leave_cloud.Click += LeaveCloud;
+
+            return view;
         }
 
-        protected override void OnResume()
+        public override void OnResume()
         {
             base.OnResume();
             DeviceCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].NodeDisplayName;
@@ -119,18 +121,18 @@ namespace Unishare.Apps.DevolMobile
             }
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
             switch (requestCode)
             {
                 case CallbackSharingRoot:
                 {
-                    if (resultCode != Result.Ok) return;
+                    if ((Android.App.Result) resultCode != Android.App.Result.Ok) return;
                     var path = data.GetStringExtra(ChooseFolderActivity.ResultPath);
                     if (string.IsNullOrEmpty(path)) throw new InvalidOperationException();
                     Globals.FileSystem.RootPath = path;
                     Globals.Database.SaveSetting(UserSettings.SharingRoot, path);
-                    this.ShowAlert("已设置分享文件夹", path);
+                    Activity.ShowAlert("已设置分享文件夹", path);
                     return;
                 }
 
@@ -144,7 +146,7 @@ namespace Unishare.Apps.DevolMobile
 
         private void ChangeDeviceName(object sender, EventArgs e)
         {
-            this.ShowEditorAlert("输入设备新名称", DeviceCell.detail_label.Text, null, "保存", deviceName => {
+            Activity.ShowEditorAlert("输入设备新名称", DeviceCell.detail_label.Text, null, "保存", deviceName => {
                 var invalidCharHit = false;
                 foreach (var character in VirtualFileSystem.InvalidCharacters)
                 {
@@ -152,7 +154,7 @@ namespace Unishare.Apps.DevolMobile
                 }
                 if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
                 {
-                    this.ShowAlert("设备名称无效", "请使用简短、尽量不包含特殊字符、尽量不与其它设备重复的名称。");
+                    Activity.ShowAlert("设备名称无效", "请使用简短、尽量不包含特殊字符、尽量不与其它设备重复的名称。");
                     return;
                 }
 
@@ -167,7 +169,7 @@ namespace Unishare.Apps.DevolMobile
         private void InviteDevices(object sender, EventArgs e)
         {
 #pragma warning disable 0618
-            var progress = new ProgressDialog(this);
+            var progress = new Android.App.ProgressDialog(Context);
             progress.SetCancelable(false);
             progress.SetMessage("正在生成……");
             progress.Show();
@@ -177,9 +179,9 @@ namespace Unishare.Apps.DevolMobile
                 try
                 {
                     var inviteCode = await Globals.CloudManager.SharePersonalCloud(Globals.CloudManager.PersonalClouds[0]).ConfigureAwait(false);
-                    RunOnUiThread(() => {
+                    Activity?.RunOnUiThread(() => {
                         progress.Dismiss();
-                        var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(this, Resource.Style.AlertDialogTheme)
+                        var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(Context, Resource.Style.AlertDialogTheme)
                         .SetIcon(Resource.Mipmap.ic_launcher_round).SetCancelable(false)
                         .SetTitle("已生成邀请码")
                         .SetMessage("请在其它设备输入邀请码：" + Environment.NewLine + Environment.NewLine +
@@ -193,9 +195,9 @@ namespace Unishare.Apps.DevolMobile
                 }
                 catch
                 {
-                    RunOnUiThread(() => {
+                    Activity.RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("无法邀请其它设备", "邀请码生成失败，请稍后重试。");
+                        Activity.ShowAlert("无法邀请其它设备", "邀请码生成失败，请稍后重试。");
                     });
                 }
             });
@@ -227,12 +229,12 @@ namespace Unishare.Apps.DevolMobile
 
         private void ChangeSharingRoot(object sender, EventArgs e)
         {
-            StartActivityForResult(typeof(ChooseFolderActivity), CallbackSharingRoot);
+            this.StartActivityForResult(typeof(ChooseFolderActivity), CallbackSharingRoot);
         }
 
         private void ChangeBackupDevice(object sender, EventArgs e)
         {
-            StartActivity(typeof(ChooseBackupDeviceActivity));
+            this.StartActivity(typeof(ChooseBackupDeviceActivity));
         }
 
         private void ToggleAutoBackup(object sender, Android.Widget.CompoundButton.CheckedChangeEventArgs e)
@@ -242,14 +244,14 @@ namespace Unishare.Apps.DevolMobile
                 if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
                 {
                     AutoBackupCell.switch_button.Checked = false;
-                    this.ShowAlert("无法设置定时备份", "尚未选择备份存储位置，请点击“备份存储位置”。");
+                    Activity.ShowAlert("无法设置定时备份", "尚未选择备份存储位置，请点击“备份存储位置”。");
                     return;
                 }
 
                 if (!int.TryParse(Globals.Database.LoadSetting(UserSettings.PhotoBackupInterval), out var workInterval))
                 {
                     AutoBackupCell.switch_button.Checked = false;
-                    this.ShowAlert("无法设置定时备份", "尚未选择备份间隔时间，请点击“备份间隔时间”。");
+                    Activity.ShowAlert("无法设置定时备份", "尚未选择备份间隔时间，请点击“备份间隔时间”。");
                     return;
                 }
 
@@ -258,7 +260,7 @@ namespace Unishare.Apps.DevolMobile
                     .SetRequiresCharging(false).Build();
                 var workRequest = new PeriodicWorkRequest.Builder(typeof(PhotosBackupWorker), TimeSpan.FromHours(workInterval))
                     .SetConstraints(workConstraints).Build();
-                WorkManager.GetInstance(this).Enqueue(workRequest);
+                WorkManager.GetInstance(Context).Enqueue(workRequest);
                 Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "1");
                 Globals.Database.SaveSetting(AndroidUserSettings.BackupScheduleId, workRequest.Id.ToString());
             }
@@ -268,21 +270,21 @@ namespace Unishare.Apps.DevolMobile
                 var workRequest = Globals.Database.LoadSetting(AndroidUserSettings.BackupScheduleId);
                 if (!string.IsNullOrEmpty(workRequest))
                 {
-                    WorkManager.GetInstance(this).CancelWorkById(Java.Util.UUID.FromString(workRequest));
+                    WorkManager.GetInstance(Context).CancelWorkById(Java.Util.UUID.FromString(workRequest));
                 }
             }
         }
 
         private void LeaveCloud(object sender, EventArgs e)
         {
-            new AndroidX.AppCompat.App.AlertDialog.Builder(this, Resource.Style.AlertDialogTheme)
+            new AndroidX.AppCompat.App.AlertDialog.Builder(Context, Resource.Style.AlertDialogTheme)
                 .SetIcon(Resource.Mipmap.ic_launcher_round)
                 .SetTitle("从个人云中移除此设备？")
                 .SetMessage("当前设备将离开个人云，本地保存的相关信息也将删除。")
                 .SetPositiveButton("离开", (o, e) => {
                     Globals.CloudManager.ExitFromCloud(Globals.CloudManager.PersonalClouds[0]);
                     Globals.Database.DeleteAll<CloudModel>();
-                    Finish();
+                    Activity.Finish();
                 })
                 .SetNeutralButton("返回", (EventHandler<DialogClickEventArgs>) null).Show();
         }

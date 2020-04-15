@@ -51,7 +51,7 @@ namespace Unishare.Apps.DevolMobile
             Globals.Database = new SQLiteConnection(databasePath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex);
             Globals.Database.CreateTable<KeyValueModel>();
             Globals.Database.CreateTable<CloudModel>();
-            Globals.Database.CreateTable<NodeModel>();
+            Globals.Database.CreateTable<AliYunOSS>();
             Globals.Database.CreateTable<BackupRecord>();
 
             Globals.Database.SaveSetting(UserSettings.PhotoBackupInterval, "1");

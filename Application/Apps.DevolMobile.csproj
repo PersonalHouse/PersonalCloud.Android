@@ -26,7 +26,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <AndroidSdkBuildToolsVersion>29.0.3</AndroidSdkBuildToolsVersion>
-    <AndroidGenerateLayoutBindings>true</AndroidGenerateLayoutBindings>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidFragmentType>AndroidX.Fragment.App.Fragment</AndroidFragmentType>
@@ -60,6 +59,12 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DavideSteduto.FlexibleAdapter">
+      <HintPath>..\Bindings\DavideSteduto.FlexibleAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="DavideSteduto.FlexibleAdapter.UI">
+      <HintPath>..\Bindings\DavideSteduto.FlexibleAdapter.UI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
@@ -71,17 +76,20 @@
   <ItemGroup>
     <Compile Include="Activities\ChooseBackupDeviceActivity.cs" />
     <Compile Include="Activities\ChooseFolderActivity.cs" />
+    <Compile Include="Activities\ManageConnectionsActivity.cs" />
     <Compile Include="Activities\OnboardingActivity.cs" />
     <Compile Include="Activities\UploadFilesActivity.cs" />
-    <Compile Include="Activities\DeviceDirectoryActivity.cs" />
+    <None Include="Activities\DeviceDirectoryActivity.cs" />
     <Compile Include="Activities\NavigableActivity.cs" />
     <Compile Include="AndroidDataStorage.cs" />
     <Compile Include="AndroidUserSettings.cs" />
     <Compile Include="Data\BackupRecord.cs" />
+    <Compile Include="Fragments\SettingsFragment.cs" />
+    <Compile Include="Fragments\FunctionsFragment.cs" />
+    <Compile Include="Fragments\FinderFragment.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Activities\JoinCloudActivity.cs" />
     <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="Items\Device.cs" />
     <Compile Include="Items\FileFolder.cs" />
     <Compile Include="Items\FileEntryViewHolder.cs" />
     <Compile Include="Items\FolderGoBack.cs" />
@@ -89,7 +97,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Activities\CreateCloudActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-    <Compile Include="Activities\SettingsActivity.cs" />
     <Compile Include="UIExtensions.cs" />
     <Compile Include="Workers\PhotosBackupWorker.cs" />
   </ItemGroup>
@@ -150,39 +157,33 @@
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4">
       <Version>1.0.0</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Service">
-      <Version>2.2.0</Version>
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment">
+      <Version>2.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI">
+      <Version>2.2.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.RecyclerView">
       <Version>1.1.0</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Room.Runtime">
-      <Version>2.2.5</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Work.Runtime">
-      <Version>2.3.4</Version>
+      <Version>2.3.4.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material">
-      <Version>1.0.0</Version>
+      <Version>1.1.0-rc3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\basic_cell.xml" />
+    <AndroidBoundLayout Include="Resources\layout\basic_cell.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\dashboard.xml" />
+    <AndroidBoundLayout Include="Resources\layout\key_value_cell.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\key_value_cell.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\switch_cell.xml" />
+    <AndroidBoundLayout Include="Resources\layout\switch_cell.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\cloud_browser.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
@@ -323,22 +324,19 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\settings.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\add.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\settings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\join_cloud_dialog.xml" />
+    <AndroidBoundLayout Include="Resources\layout\join_cloud_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\new_cloud_dialog.xml" />
+    <AndroidBoundLayout Include="Resources\layout\new_cloud_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\file_cell.xml" />
+    <AndroidBoundLayout Include="Resources\layout\file_cell.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\cloud_download_outline.xml" />
@@ -360,9 +358,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\file_actions.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\directory_actions.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\folder_back.png" />
@@ -389,7 +384,7 @@
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\alert_editor.xml" />
+    <AndroidBoundLayout Include="Resources\layout\alert_editor.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\checkmark.xml" />
@@ -398,14 +393,6 @@
     <AndroidResource Include="Resources\menu\confirm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter.UI\DavideSteduto.FlexibleAdapter.UI.csproj">
-      <Project>{37f93bca-6927-49df-8974-c94552825b1b}</Project>
-      <Name>DavideSteduto.FlexibleAdapter.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter\DavideSteduto.FlexibleAdapter.csproj">
-      <Project>{094f70e1-0938-43ab-9c47-fa5db888d478}</Project>
-      <Name>DavideSteduto.FlexibleAdapter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PersonalCloud.Apps.Common\Apps.Common.csproj">
       <Project>{dc7e380b-7cd7-46a7-8003-b31be224bc3f}</Project>
       <Name>Apps.Common</Name>
@@ -420,7 +407,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\welcome.xml" />
+    <AndroidBoundLayout Include="Resources\layout\welcome.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\device_phone.png" />
@@ -451,6 +438,45 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\device_computer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\third_party_services.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\add_a_connection.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\main.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\nav_main.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\fragment_finder.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\fragment_functions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\fragment_settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\navigation\main.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\cloud.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\function.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\home.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\cloud_browser.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\finder_options.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
