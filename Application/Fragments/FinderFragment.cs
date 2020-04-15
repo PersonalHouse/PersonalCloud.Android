@@ -190,11 +190,12 @@ namespace Unishare.Apps.DevolMobile.Fragments
                     progress.Show();
 #pragma warning restore 0618
                     Task.Run(async () => {
+                        var shouldDelete = false;
+                        var fileName = Path.GetFileName(path);
+                        var remotePath = Path.Combine(workingPath, fileName);
                         try
-                        {
-                            var fileName = Path.GetFileName(path);
+                        {                            
                             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-                            var remotePath = Path.Combine(workingPath, fileName);
                             await fileSystem.WriteFileAsync(remotePath, stream).ConfigureAwait(false);
 
                             Activity.RunOnUiThread(() => {
@@ -204,6 +205,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         }
                         catch (HttpRequestException exception)
                         {
+                            shouldDelete = true;
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
                                 Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
@@ -211,10 +213,17 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         }
                         catch (Exception exception)
                         {
+                            shouldDelete = true;
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
                                 Activity.ShowAlert("无法上传此文件", exception.GetType().Name);
                             });
+                        }
+
+                        if (shouldDelete)
+                        {
+                            try { await fileSystem.DeleteAsync(remotePath).ConfigureAwait(false); }
+                            catch { } // Ignored.
                         }
                     });
                     return;
