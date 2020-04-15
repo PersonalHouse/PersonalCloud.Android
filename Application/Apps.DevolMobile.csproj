@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Activities\ChooseBackupDeviceActivity.cs" />
     <Compile Include="Activities\ChooseFolderActivity.cs" />
+    <Compile Include="Activities\ChooseDestinationActivity.cs" />
     <Compile Include="Activities\ManageConnectionsActivity.cs" />
     <Compile Include="Activities\OnboardingActivity.cs" />
     <Compile Include="Activities\UploadFilesActivity.cs" />

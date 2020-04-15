@@ -26,11 +26,6 @@ namespace Unishare.Apps.DevolMobile.Activities
             SupportActionBar.Title = GetString(Resource.String.connections);
             R = new add_a_connection(this);
             R.connection_save.Click += SaveCredentials;
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
             R.aliyun_endpoint.EditText.RequestFocus();
         }
 

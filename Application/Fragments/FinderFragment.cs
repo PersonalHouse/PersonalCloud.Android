@@ -49,7 +49,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
         private string workingPath;
         private List<FileSystemEntry> items;
 
-        private FileSystemEntry downloadSource;
+        private FileSystemEntry opSource;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
         {
@@ -102,6 +102,13 @@ namespace Unishare.Apps.DevolMobile.Fragments
         {
             switch (item.ItemId)
             {
+                case Resource.Id.finder_home:
+                {
+                    workingPath = "/";
+                    RefreshDirectory(this, EventArgs.Empty);
+                    return true;
+                }
+
                 case Resource.Id.finder_connect:
                 {
                     this.StartActivity(typeof(ManageConnectionsActivity));
@@ -163,49 +170,6 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 {
                     return base.OnOptionsItemSelected(item);
                 }
-
-                /*
-                case Resource.Id.action_paste:
-                {
-#pragma warning disable 0618
-                    var progress = new ProgressDialog(this);
-                    progress.SetCancelable(false);
-                    progress.SetMessage("正在移动……");
-                    progress.Show();
-#pragma warning restore 0618
-
-                    Task.Run(async () => {
-                        try
-                        {
-                            var fileName = Path.GetFileName(moveSource);
-                            var path = Path.Combine(WorkingPath, fileName);
-                            await FileSystem.RenameAsync(moveSource, path).ConfigureAwait(false);
-                            moveSource = null;
-
-                            RunOnUiThread(() => {
-                                progress.Dismiss();
-                                InvalidateOptionsMenu();
-                                RefreshDirectory(this, EventArgs.Empty);
-                            });
-                        }
-                        catch (HttpRequestException exception)
-                        {
-                            RunOnUiThread(() => {
-                                progress.Dismiss();
-                                this.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
-                            });
-                        }
-                        catch (Exception exception)
-                        {
-                            RunOnUiThread(() => {
-                                progress.Dismiss();
-                                this.ShowAlert("无法移动至当前文件夹", exception.GetType().Name);
-                            });
-                        }
-                    });
-                    return true;
-                }
-                */
             }
         }
 
@@ -258,17 +222,62 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                 case CallbackDownload:
                 {
-                    if ((Android.App.Result) resultCode != Android.App.Result.Ok || downloadSource is null) return;
+                    if ((Android.App.Result) resultCode != Android.App.Result.Ok || opSource is null) return;
                     var path = data.GetStringExtra(ChooseFolderActivity.ResultPath);
-                    if (string.IsNullOrEmpty(path)) throw new InvalidOperationException();
-                    path = Path.Combine(path, downloadSource.Name);
-                    PreparePlaceholder(downloadSource, path, () => {
-                        Activity.ShowAlert("文件已下载", $"“{downloadSource.Name}”已下载为 {path}");
-                        downloadSource = null;
+                    if (string.IsNullOrEmpty(path)) return;
+
+                    path = Path.Combine(path, opSource.Name);
+                    PreparePlaceholder(opSource, path, () => {
+                        Activity.ShowAlert("文件已下载", $"“{opSource.Name}”已下载为 {path}");
+                        opSource = null;
                     }, exception => {
                         if (exception is HttpRequestException http) Activity.ShowAlert("与远程设备通讯时遇到问题", http.Message);
                         else Activity.ShowAlert("无法下载文件", exception.GetType().Name);
-                        downloadSource = null;
+                        opSource = null;
+                    });
+                    return;
+                }
+
+                case CallbackMove:
+                {
+                    if ((Android.App.Result) resultCode != Android.App.Result.Ok || opSource is null) return;
+                    var path = data.GetStringExtra(ChooseDestinationActivity.ResultPath);
+                    if (string.IsNullOrEmpty(path)) return;
+
+#pragma warning disable 0618
+                    var progress = new Android.App.ProgressDialog(Context);
+                    progress.SetCancelable(false);
+                    progress.SetMessage("正在移动……");
+                    progress.Show();
+#pragma warning restore 0618
+
+                    Task.Run(async () => {
+                        try
+                        {
+                            var sourcePath = Path.Combine(workingPath, opSource.Name);
+                            path = Path.Combine(path, opSource.Name);
+                            await fileSystem.RenameAsync(sourcePath, path).ConfigureAwait(false);
+                            opSource = null;
+
+                            Activity.RunOnUiThread(() => {
+                                progress.Dismiss();
+                                RefreshDirectory(this, EventArgs.Empty);
+                            });
+                        }
+                        catch (HttpRequestException exception)
+                        {
+                            Activity.RunOnUiThread(() => {
+                                progress.Dismiss();
+                                Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
+                            });
+                        }
+                        catch (Exception exception)
+                        {
+                            Activity.RunOnUiThread(() => {
+                                progress.Dismiss();
+                                Activity.ShowAlert("无法移动至指定文件夹", exception.GetType().Name);
+                            });
+                        }
                     });
                     return;
                 }
@@ -377,19 +386,21 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 {
                     case Resource.Id.action_download:
                     {
-                        downloadSource = item;
+                        opSource = item;
                         this.StartActivityForResult(typeof(ChooseFolderActivity), CallbackDownload);
                         return;
                     }
 
                     case Resource.Id.action_move:
                     {
-                        /*
-                        moveSource = Path.Combine(WorkingPath, item.Name);
-                        InvalidateOptionsMenu();
-                        */
-
-                        // Move
+                        opSource = item;
+                        var intent = new Intent(Context, typeof(ChooseDestinationActivity));
+                        var deviceRoot = workingPath.Substring(1);
+                    var nextSeparator = deviceRoot.IndexOf(Path.AltDirectorySeparatorChar);
+                    if (nextSeparator == -1) deviceRoot = "/" + deviceRoot;
+                    else deviceRoot = "/" + deviceRoot.Substring(0, nextSeparator);
+                        intent.PutExtra(ChooseDestinationActivity.ExtraRootPath, deviceRoot);
+                        StartActivityForResult(intent, CallbackMove);
                         return;
                     }
 
@@ -533,7 +544,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 {
                     items = null;
                     Activity.RunOnUiThread(() => {
-                        // PresentViewController(CloudExceptions.Explain(exception), true, null);
+                        Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
                     });
                 }
                 catch (Exception exception)
@@ -549,23 +560,6 @@ namespace Unishare.Apps.DevolMobile.Fragments
                     if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
                     Activity.InvalidateOptionsMenu();
                 });
-
-                /*
-                devices = await fileSystem.EnumerateChildrenAsync("/").ConfigureAwait(false);
-                var models = devices.Select(x => new Device(x)).ToList();
-
-                Activity?.RunOnUiThread(() => {
-                    if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
-
-                    if (devices.Count == 0)
-                    {
-                        R.empty_text.Text = GetString(Resource.String.no_active_device);
-                        return;
-                    }
-
-                    adapter.UpdateDataSet(models, true);
-                });
-                */
             });
         }
 
