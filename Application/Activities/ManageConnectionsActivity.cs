@@ -39,7 +39,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             }
             if (string.IsNullOrEmpty(name) || invalidCharHit)
             {
-                this.ShowAlert("服务无名称", "您必须填写“服务名称”才能将此服务添加到个人云。", () => {
+                this.ShowAlert(GetString(Resource.String.connection_bad_name), GetString(Resource.String.connection_name_cannot_be_empty), () => {
                     R.aliyun_name.EditText.RequestFocus();
                 });
                 return;
@@ -48,7 +48,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             var endpoint = R.aliyun_endpoint.EditText.Text;
             if (string.IsNullOrEmpty(endpoint))
             {
-                this.ShowAlert("帐户信息不完整", "您必须填写“域名”（也称“访问域名”、Endpoint 或 Extranet Endpoint）才能连接到阿里云。", () => {
+                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_endpoint), () => {
                     R.aliyun_endpoint.EditText.RequestFocus();
                 });
                 return;
@@ -57,7 +57,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             var bucket = R.aliyun_bucket.EditText.Text;
             if (string.IsNullOrEmpty(bucket))
             {
-                this.ShowAlert("帐户信息不完整", "您必须填写“存储空间”（也称 Bucket）才能连接到阿里云。", () => {
+                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_bucket), () => {
                     R.aliyun_bucket.EditText.RequestFocus();
                 });
                 return;
@@ -66,7 +66,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             var accessId = R.aliyun_access_id.EditText.Text;
             if (string.IsNullOrEmpty(accessId))
             {
-                this.ShowAlert("帐户信息不完整", "您必须填写“用户 ID”（也称 Access Key ID）才能连接到阿里云。", () => {
+                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_user_id), () => {
                     R.aliyun_access_id.EditText.RequestFocus();
                 });
                 return;
@@ -75,7 +75,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             var accessSecret = R.aliyun_access_secret.EditText.Text;
             if (string.IsNullOrEmpty(accessSecret))
             {
-                this.ShowAlert("帐户信息不完整", "您必须填写“访问密钥”（也称 Access Key Secret）才能连接到阿里云。", () => {
+                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_secret), () => {
                     R.aliyun_access_id.EditText.RequestFocus();
                 });
                 return;
@@ -83,7 +83,7 @@ namespace Unishare.Apps.DevolMobile.Activities
 
             if (Globals.Database.Find<AliYunOSS>(x => x.Name == name) != null)
             {
-                this.ShowAlert("同名服务已存在", "为避免数据冲突，请为此服务指定不同的名称。", () => {
+                this.ShowAlert(GetString(Resource.String.connection_name_exists), GetString(Resource.String.connection_use_different_name), () => {
                     R.aliyun_name.EditText.RequestFocus();
                 });
                 return;
@@ -92,7 +92,7 @@ namespace Unishare.Apps.DevolMobile.Activities
 #pragma warning disable 0618
             var progress = new ProgressDialog(this);
             progress.SetCancelable(false);
-            progress.SetMessage("正在验证……");
+            progress.SetMessage(GetString(Resource.String.connection_verifying));
             progress.Show();
 #pragma warning restore 0618
 
@@ -116,7 +116,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                 {
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("认证失败", "您提供的帐户信息无法用来访问阿里云对象存储服务。请检查后重试。");
+                        this.ShowAlert(GetString(Resource.String.connection_bad_account), GetString(Resource.String.connection_bad_aliyun_account));
                     });
                 }
             });

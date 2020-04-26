@@ -47,13 +47,13 @@ namespace Unishare.Apps.DevolMobile
             }
             if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
             {
-                R.join_cloud_device_name.Error = "设备名称无效";
+                R.join_cloud_device_name.Error = GetString(Resource.String.invalid_device_name);
                 return;
             }
 
             if (inviteCode?.Length != 4)
             {
-                R.join_cloud_invite.Error = "邀请码错误";
+                R.join_cloud_invite.Error = GetString(Resource.String.invalid_invite_code);
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace Unishare.Apps.DevolMobile
 #pragma warning disable 0618
             var progress = new ProgressDialog(this);
             progress.SetCancelable(false);
-            progress.SetMessage("正在加入……");
+            progress.SetMessage(GetString(Resource.String.joining_cloud));
             progress.Show();
 #pragma warning restore 0618
 
@@ -72,7 +72,7 @@ namespace Unishare.Apps.DevolMobile
                     Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("已加入", string.Format("您已加入个人云“{0}”。", result.DisplayName), () => {
+                        this.ShowAlert(GetString(Resource.String.cloud_joined_title), GetString(Resource.String.cloud_joined_message, result.DisplayName), () => {
                             SetResult(Result.Ok);
                             Finish();
                         });
@@ -82,7 +82,7 @@ namespace Unishare.Apps.DevolMobile
                 {
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("无法查询云信息", "当前网络中没有已加入个人云的设备。");
+                        this.ShowAlert(GetString(Resource.String.error_join_cloud), GetString(Resource.String.error_no_cloud_message));
 
                     });
                 }
@@ -90,14 +90,14 @@ namespace Unishare.Apps.DevolMobile
                 {
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("邀请码错误", "请查看其它设备屏幕上显示的邀请码，并核对您的输入。");
+                        this.ShowAlert(GetString(Resource.String.invalid_invite_code), GetString(Resource.String.error_incorrect_invitation_message));
                     });
                 }
                 catch
                 {
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("无法查询云信息", "出现 App 内部错误。");
+                        this.ShowAlert(GetString(Resource.String.error_join_cloud), GetString(Resource.String.error_internal_message));
                     });
                 }
             });

@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +10,8 @@ using Android.Views;
 
 using AndroidX.AppCompat.App;
 using AndroidX.Core.App;
-using AndroidX.Core.Content;
-using Binding;
 
-using Microsoft.Extensions.Logging;
+using Binding;
 
 using NSPersonalCloud;
 
@@ -92,9 +89,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             }
             else
             {
-                this.ShowFatalAlert("个人云需要访问存储空间", "个人云是一款文件管理 App，用于在同一网络多设备间共享文件。"
-                                    + Environment.NewLine + Environment.NewLine
-                                    + "您必须授权访问存储空间才能使用个人云。请在系统设置中调整个人云权限后重新打开 App。");
+                this.ShowFatalAlert(GetString(Resource.String.error_storage_permission_title), GetString(Resource.String.error_storage_permission_message));
                 return;
             }
         }

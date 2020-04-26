@@ -44,7 +44,7 @@ namespace Unishare.Apps.DevolMobile.Activities
             SetContentView(Resource.Layout.cloud_browser);
             R = new cloud_browser(this);
 
-            SupportActionBar.Title = "选择文件";
+            SupportActionBar.SetTitle(Resource.String.select_file_to_upload);
 
             adapter = new FlexibleAdapter(null, this);
             adapter.SetAnimationOnForwardScrolling(true);
@@ -108,7 +108,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                 catch (IOException)
                 {
                     items = null;
-                    this.ShowAlert("无法查看此文件夹", "此文件夹已被删除或内容异常。");
+                    this.ShowAlert(GetString(Resource.String.error_folder_title), GetString(Resource.String.error_folder_message));
                 }
 
                 var models = new List<IFlexible>();

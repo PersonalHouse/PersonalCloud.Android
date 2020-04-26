@@ -11,7 +11,6 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 
-using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
 
 using Binding;
@@ -53,7 +52,7 @@ namespace Unishare.Apps.DevolMobile.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.cloud_browser);
-            SupportActionBar.Title = "移动到……";
+            SupportActionBar.SetTitle(Resource.String.move_to);
             R = new cloud_browser(this);
 
             fileSystem = Globals.CloudManager.PersonalClouds[0].RootFS;
@@ -102,7 +101,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                 if (string.IsNullOrEmpty(parent)) parent = "/";
                 if (!parent.StartsWith(RootPath))
                 {
-                    this.ShowAlert("无法返回上一层", "您要执行的操作必须在此文件夹或更下层级文件夹完成，因此不允许您后退至上一层级。");
+                    this.ShowAlert(GetString(Resource.String.destination_restricted), GetString(Resource.String.cannot_go_back));
                     willCancel = true;
                     return;
                 }
@@ -135,11 +134,11 @@ namespace Unishare.Apps.DevolMobile.Activities
                 }
                 catch (HttpRequestException exception)
                 {
-                    RunOnUiThread(() => this.ShowAlert("与远程设备通讯时遇到问题", exception.Message));
+                    RunOnUiThread(() => this.ShowAlert(GetString(Resource.String.error_remote), exception.Message));
                 }
                 catch (Exception exception)
                 {
-                    RunOnUiThread(() => this.ShowAlert("无法打开文件夹", exception.GetType().Name));
+                    RunOnUiThread(() => this.ShowAlert(GetString(Resource.String.error_folder_title), exception.GetType().Name));
                 }
 
                 RunOnUiThread(() => {
@@ -159,7 +158,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                 if (string.IsNullOrEmpty(parent)) parent = "/";
                 if (!parent.StartsWith(RootPath))
                 {
-                    this.ShowAlert("无法返回上一层", "您要执行的操作必须在此文件夹或更下层级文件夹完成，因此不允许您后退至上一层级。");
+                    this.ShowAlert(GetString(Resource.String.destination_restricted), GetString(Resource.String.cannot_go_back));
                     return false;
                 }
                 workingPath = parent;

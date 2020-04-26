@@ -26,9 +26,9 @@ namespace Unishare.Apps.DevolMobile.Items
             if (!(viewHolder is FileEntryViewHolder holder)) return;
 
             holder.R.file_cell_icon.SetImageResource(Resource.Drawable.folder_back);
-            holder.R.file_cell_title.Text = holder.R.file_cell_title.Context.GetString(Resource.String.browser_back);
-            if (string.IsNullOrEmpty(upperLevelName)) holder.R.file_cell_detail.Text = holder.R.file_cell_detail.Context.GetString(Resource.String.browser_back_to, holder.R.file_cell_detail.Context.GetString(Resource.String.devices_home));
-            else holder.R.file_cell_detail.Text = holder.R.file_cell_detail.Context.GetString(Resource.String.browser_back_to, upperLevelName);
+            holder.R.file_cell_title.SetText(Resource.String.browser_back);
+            if (string.IsNullOrEmpty(upperLevelName)) holder.R.file_cell_detail.Text = holder.Context.GetString(Resource.String.browser_back_to, holder.Context.GetString(Resource.String.devices_home));
+            else holder.R.file_cell_detail.Text = holder.Context.GetString(Resource.String.browser_back_to, upperLevelName);
             holder.R.file_cell_size.Text = null;
             holder.R.file_cell_size.Visibility = ViewStates.Gone;
         }

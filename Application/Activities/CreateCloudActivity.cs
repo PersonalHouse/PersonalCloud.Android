@@ -46,20 +46,20 @@ namespace Unishare.Apps.DevolMobile
             }
             if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
             {
-                R.new_cloud_device_name.Error = "设备名称无效";
+                R.new_cloud_device_name.Error = GetString(Resource.String.invalid_device_name);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(cloudName))
             {
-                R.new_cloud_name.Error = "云名称无效";
+                R.new_cloud_name.Error = GetString(Resource.String.invalid_cloud_name);
                 return;
             }
 
 #pragma warning disable 0618
             var progress = new ProgressDialog(this);
             progress.SetCancelable(false);
-            progress.SetMessage("正在创建……");
+            progress.SetMessage(GetString(Resource.String.creating_cloud));
             progress.Show();
 #pragma warning restore 0618
 
@@ -70,7 +70,7 @@ namespace Unishare.Apps.DevolMobile
                     Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("已创建", $"您已创建并加入个人云“{cloudName}”。", () => {
+                        this.ShowAlert(GetString(Resource.String.cloud_created_title), GetString(Resource.String.cloud_created_message, cloudName), () => {
                             SetResult(Result.Ok);
                             Finish();
                         });
@@ -80,7 +80,7 @@ namespace Unishare.Apps.DevolMobile
                 {
                     RunOnUiThread(() => {
                         progress.Dismiss();
-                        this.ShowAlert("无法创建个人云", "出现 App 内部错误。");
+                        this.ShowAlert(GetString(Resource.String.error_create_cloud), GetString(Resource.String.error_internal_message));
                     });
                 }
             });

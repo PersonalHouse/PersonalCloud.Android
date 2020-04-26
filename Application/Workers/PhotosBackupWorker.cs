@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
 using Android.Content;
@@ -198,8 +199,8 @@ namespace Unishare.Apps.DevolMobile.Workers
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.O) return;
 
-            var channel = new NotificationChannel(NotificationChannelId, "自动备份通知", NotificationImportance.High) {
-                Description = "在个人云开始自动备份计划时收到提醒并查看备份状态。"
+            var channel = new NotificationChannel(NotificationChannelId, Context.GetString(Resource.String.notification_channel_backup), NotificationImportance.High) {
+                Description = Context.GetString(Resource.String.notification_channel_backup_description)
             };
             manager.CreateNotificationChannel(channel);
         }
@@ -211,10 +212,11 @@ namespace Unishare.Apps.DevolMobile.Workers
 
             var cancelIntent = WorkManager.GetInstance(Context).CreateCancelPendingIntent(Id);
             var notification = new NotificationCompat.Builder(Context, NotificationChannelId)
-                .SetContentTitle("个人云正在备份相册").SetTicker("相册备份已启动")
-                .SetContentText("请保持与备份存储设备的连接。关闭设备或离开当前无线网络可能导致备份失败。")
+                .SetContentTitle(Context.GetString(Resource.String.notification_title))
+                .SetTicker(Context.GetString(Resource.String.notification_ticker))
+                .SetContentText(Context.GetString(Resource.String.notification_message))
                 .SetSmallIcon(Resource.Mipmap.ic_launcher)
-                .SetOngoing(true).AddAction(0, "停止", cancelIntent)
+                .SetOngoing(true).AddAction(0, Context.GetString(Resource.String.action_stop), cancelIntent)
                 .Build();
             var notificationId = (int) DateTime.Now.TimeOfDay.TotalSeconds;
             Globals.Database.SaveSetting(UserSettings.PhotoBackupNotification, notificationId.ToString(CultureInfo.InvariantCulture));

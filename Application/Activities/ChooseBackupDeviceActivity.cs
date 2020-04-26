@@ -115,11 +115,11 @@ namespace Unishare.Apps.DevolMobile.Activities
                 }
                 catch (HttpRequestException exception)
                 {
-                    RunOnUiThread(() => this.ShowAlert("与远程设备通讯时遇到问题", exception.Message));
+                    RunOnUiThread(() => this.ShowAlert(GetString(Resource.String.error_remote), exception.Message));
                 }
                 catch (Exception exception)
                 {
-                    RunOnUiThread(() => this.ShowAlert("无法打开文件夹", exception.GetType().Name));
+                    RunOnUiThread(() => this.ShowAlert(GetString(Resource.String.error_folder_title), exception.GetType().Name));
                 }
 
                 RunOnUiThread(() => {

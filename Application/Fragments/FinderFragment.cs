@@ -117,17 +117,17 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                 case Resource.Id.action_new_folder:
                 {
-                    Activity.ShowEditorAlert("输入文件夹名称", "新建文件夹", null, "创建", text => {
+                    Activity.ShowEditorAlert(GetString(Resource.String.new_folder_name), GetString(Resource.String.new_folder_placeholder), null, GetString(Resource.String.new_folder_create), text => {
                         if (string.IsNullOrWhiteSpace(text))
                         {
-                            Activity.ShowAlert("文件夹名称无效", null);
+                            Activity.ShowAlert(GetString(Resource.String.bad_folder_name), null);
                             return;
                         }
 
 #pragma warning disable 0618
                         var progress = new Android.App.ProgressDialog(Context);
                         progress.SetCancelable(false);
-                        progress.SetMessage("正在创建……");
+                        progress.SetMessage(GetString(Resource.String.creating_new_folder));
                         progress.Show();
 #pragma warning restore 0618
                         Task.Run(async () => {
@@ -145,18 +145,18 @@ namespace Unishare.Apps.DevolMobile.Fragments
                             {
                                 Activity.RunOnUiThread(() => {
                                     progress.Dismiss();
-                                    Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
+                                    Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
                                 });
                             }
                             catch (Exception exception)
                             {
                                 Activity.RunOnUiThread(() => {
                                     progress.Dismiss();
-                                    Activity.ShowAlert("无法创建文件夹", exception.GetType().Name);
+                                    Activity.ShowAlert(GetString(Resource.String.error_new_folder), exception.GetType().Name);
                                 });
                             }
                         });
-                    }, "取消", null);
+                    }, GetString(Resource.String.action_cancel), null);
                     return true;
                 }
 
@@ -186,7 +186,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 #pragma warning disable 0618
                     var progress = new Android.App.ProgressDialog(Context);
                     progress.SetCancelable(false);
-                    progress.SetMessage("正在上传……");
+                    progress.SetMessage(GetString(Resource.String.uploading_file));
                     progress.Show();
 #pragma warning restore 0618
                     Task.Run(async () => {
@@ -194,7 +194,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         var fileName = Path.GetFileName(path);
                         var remotePath = Path.Combine(workingPath, fileName);
                         try
-                        {                            
+                        {
                             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
                             await fileSystem.WriteFileAsync(remotePath, stream).ConfigureAwait(false);
 
@@ -208,7 +208,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                             shouldDelete = true;
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
-                                Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
+                                Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
                             });
                         }
                         catch (Exception exception)
@@ -216,7 +216,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                             shouldDelete = true;
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
-                                Activity.ShowAlert("无法上传此文件", exception.GetType().Name);
+                                Activity.ShowAlert(GetString(Resource.String.error_upload_file), exception.GetType().Name);
                             });
                         }
 
@@ -237,11 +237,11 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                     path = Path.Combine(path, opSource.Name);
                     PreparePlaceholder(opSource, path, () => {
-                        Activity.ShowAlert("文件已下载", $"“{opSource.Name}”已下载为 {path}");
+                        Activity.ShowAlert(GetString(Resource.String.downloaded), GetString(Resource.String.downloaded_as, opSource.Name, path));
                         opSource = null;
                     }, exception => {
-                        if (exception is HttpRequestException http) Activity.ShowAlert("与远程设备通讯时遇到问题", http.Message);
-                        else Activity.ShowAlert("无法下载文件", exception.GetType().Name);
+                        if (exception is HttpRequestException http) Activity.ShowAlert(GetString(Resource.String.error_remote), http.Message);
+                        else Activity.ShowAlert(GetString(Resource.String.error_download_file), exception.GetType().Name);
                         opSource = null;
                     });
                     return;
@@ -256,7 +256,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 #pragma warning disable 0618
                     var progress = new Android.App.ProgressDialog(Context);
                     progress.SetCancelable(false);
-                    progress.SetMessage("正在移动……");
+                    progress.SetMessage(GetString(Resource.String.moving_file));
                     progress.Show();
 #pragma warning restore 0618
 
@@ -277,14 +277,14 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         {
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
-                                Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
+                                Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
                             });
                         }
                         catch (Exception exception)
                         {
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
-                                Activity.ShowAlert("无法移动至指定文件夹", exception.GetType().Name);
+                                Activity.ShowAlert(GetString(Resource.String.error_move_file), exception.GetType().Name);
                             });
                         }
                     });
@@ -334,7 +334,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         intent.SetData(fileUri);
                         intent.SetType(mime);
                         intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
-                        var chooser = Intent.CreateChooser(intent, "打开方式…");
+                        var chooser = Intent.CreateChooser(intent, GetString(Resource.String.open_with));
                         chooser.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
                         StartActivity(chooser);
                         return false;
@@ -356,12 +356,12 @@ namespace Unishare.Apps.DevolMobile.Fragments
                     intent.SetData(fileUri);
                     intent.SetType(mime);
                     intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
-                    var chooser = Intent.CreateChooser(intent, "打开方式…");
+                    var chooser = Intent.CreateChooser(intent, GetString(Resource.String.open_with));
                     chooser.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
                     StartActivity(chooser);
                 }, exception => {
-                    if (exception is HttpRequestException http) Activity.ShowAlert("与远程设备通讯时遇到问题", http.Message);
-                    else Activity.ShowAlert("无法下载文件", exception.GetType().Name);
+                    if (exception is HttpRequestException http) Activity.ShowAlert(GetString(Resource.String.error_remote), http.Message);
+                    else Activity.ShowAlert(GetString(Resource.String.error_download_file), exception.GetType().Name);
                 });
             }
 
@@ -415,10 +415,10 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                     case Resource.Id.action_rename:
                     {
-                        Activity.ShowEditorAlert("输入新名称", item.Name, item.Name, "保存", text => {
+                        Activity.ShowEditorAlert(GetString(Resource.String.new_file_name), item.Name, item.Name, GetString(Resource.String.action_save), text => {
                             if (string.IsNullOrWhiteSpace(text))
                             {
-                                Activity.ShowAlert("新名称无效", null);
+                                Activity.ShowAlert(GetString(Resource.String.bad_file_name), null);
                                 return;
                             }
 
@@ -427,7 +427,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 #pragma warning disable 0618
                             var progress = new Android.App.ProgressDialog(Context);
                             progress.SetCancelable(false);
-                            progress.SetMessage("正在重命名……");
+                            progress.SetMessage(GetString(Resource.String.renaming));
                             progress.Show();
 #pragma warning restore 0618
                             Task.Run(async () => {
@@ -445,59 +445,61 @@ namespace Unishare.Apps.DevolMobile.Fragments
                                 {
                                     Activity.RunOnUiThread(() => {
                                         progress.Dismiss();
-                                        Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
+                                        Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
                                     });
                                 }
                                 catch (Exception exception)
                                 {
                                     Activity.RunOnUiThread(() => {
                                         progress.Dismiss();
-                                        Activity.ShowAlert("无法重命名此项目", exception.GetType().Name);
+                                        Activity.ShowAlert(GetString(Resource.String.error_rename_file), exception.GetType().Name);
                                     });
                                 }
                             });
-                        }, "取消", null);
+                        }, GetString(Resource.String.action_cancel), null);
                         return;
                     }
 
                     case Resource.Id.action_delete:
                     {
-                        Activity.ShowAlert("删除此项目？", $"将从远程设备上删除“{item.Name}”。" + Environment.NewLine + Environment.NewLine + "如果此项目是文件夹或包，其中的内容将被一同删除。", "取消", null, "删除", () => {
+                        Activity.ShowAlert(GetString(Resource.String.delete_permanently),
+                            GetString(Resource.String.delete_all_contents, item.Name),
+                            GetString(Resource.String.action_cancel), null, GetString(Resource.String.action_delete), () => {
 #pragma warning disable 0618
-                            var progress = new Android.App.ProgressDialog(Context);
-                            progress.SetCancelable(false);
-                            progress.SetMessage("正在删除……");
-                            progress.Show();
+                                var progress = new Android.App.ProgressDialog(Context);
+                                progress.SetCancelable(false);
+                                progress.SetMessage(GetString(Resource.String.deleting));
+                                progress.Show();
 #pragma warning restore 0618
 
-                            Task.Run(async () => {
-                                try
-                                {
-                                    var path = Path.Combine(workingPath, item.Name);
-                                    if (item.IsDirectory) path += Path.AltDirectorySeparatorChar;
-                                    await fileSystem.DeleteAsync(path).ConfigureAwait(false);
+                                Task.Run(async () => {
+                                    try
+                                    {
+                                        var path = Path.Combine(workingPath, item.Name);
+                                        if (item.IsDirectory) path += Path.AltDirectorySeparatorChar;
+                                        await fileSystem.DeleteAsync(path).ConfigureAwait(false);
 
-                                    Activity.RunOnUiThread(() => {
-                                        progress.Dismiss();
-                                        RefreshDirectory(this, EventArgs.Empty);
-                                    });
-                                }
-                                catch (HttpRequestException exception)
-                                {
-                                    Activity.RunOnUiThread(() => {
-                                        progress.Dismiss();
-                                        Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
-                                    });
-                                }
-                                catch (Exception exception)
-                                {
-                                    Activity.RunOnUiThread(() => {
-                                        progress.Dismiss();
-                                        Activity.ShowAlert("无法删除此项目", exception.GetType().Name);
-                                    });
-                                }
+                                        Activity.RunOnUiThread(() => {
+                                            progress.Dismiss();
+                                            RefreshDirectory(this, EventArgs.Empty);
+                                        });
+                                    }
+                                    catch (HttpRequestException exception)
+                                    {
+                                        Activity.RunOnUiThread(() => {
+                                            progress.Dismiss();
+                                            Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
+                                        });
+                                    }
+                                    catch (Exception exception)
+                                    {
+                                        Activity.RunOnUiThread(() => {
+                                            progress.Dismiss();
+                                            Activity.ShowAlert(GetString(Resource.String.error_delete_file), exception.GetType().Name);
+                                        });
+                                    }
+                                });
                             });
-                        });
                         return;
                     }
                 }
@@ -530,7 +532,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
             var activity = (MainActivity) Activity;
             if (workingPath.Length == 1)
             {
-                activity.SetTitle("个人云");
+                activity.SetTitle(Resource.String.personal_cloud);
                 try { Globals.CloudManager.StartNetwork(false); }
                 catch { } // Ignored.
             }
@@ -561,13 +563,13 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 {
                     items = null;
                     Activity.RunOnUiThread(() => {
-                        Activity.ShowAlert("与远程设备通讯时遇到问题", exception.Message);
+                        Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
                     });
                 }
                 catch (Exception exception)
                 {
                     Activity.RunOnUiThread(() => {
-                        Activity.ShowAlert("无法打开文件夹", exception.GetType().Name);
+                        Activity.ShowAlert(GetString(Resource.String.error_folder_title), exception.GetType().Name);
                     });
                 }
 
@@ -588,9 +590,9 @@ namespace Unishare.Apps.DevolMobile.Fragments
         {
             if (File.Exists(cachePath))
             {
-                Activity.ShowAlert("替换本地同名文件？", $"下载目录中已存在同名文件“{item.Name}”，收藏新文件将替换旧文件。" +
-                    Environment.NewLine + Environment.NewLine + "如果您想要同时保留新、旧文件，请在系统文件管理器中手动重命名冲突的文件。",
-                    "取消", null, "替换", () => {
+                Activity.ShowAlert(GetString(Resource.String.replace_local),
+                    GetString(Resource.String.replace_local_resolve_manually, item.Name),
+                    GetString(Resource.String.action_cancel), null, GetString(Resource.String.replace_file), () => {
                         try { File.Delete(cachePath); }
                         catch { }
                         PrepareConnection(item, cachePath, onCompletion, onError);
@@ -605,9 +607,9 @@ namespace Unishare.Apps.DevolMobile.Fragments
         {
             if (item.Size > 100000000)
             {
-                Activity.ShowAlert("立即下载此文件？", "此文件尚未下载并且大小可能超过 100 MB，下载将需要一段时间。", "开始下载", () => {
+                Activity.ShowAlert(GetString(Resource.String.download_oversized_file), GetString(Resource.String.size_over_100MB), GetString(Resource.String.start_downloading), () => {
                     DownloadFile(item, cachePath, onCompletion, onError);
-                }, "取消", null, true);
+                }, GetString(Resource.String.action_cancel), null, true);
                 return;
             }
 
@@ -618,14 +620,14 @@ namespace Unishare.Apps.DevolMobile.Fragments
         {
             if (File.Exists(cachePath))
             {
-                Activity.ShowAlert("无法下载文件", "文件访问冲突，请重试。");
+                Activity.ShowAlert(GetString(Resource.String.error_download_file), GetString(Resource.String.file_exists));
                 return;
             }
 
 #pragma warning disable 0618
             var progress = new Android.App.ProgressDialog(Context);
             progress.SetCancelable(false);
-            progress.SetMessage("正在下载……");
+            progress.SetMessage(GetString(Resource.String.downloading));
             progress.Show();
 #pragma warning restore 0618
             Task.Run(async () => {

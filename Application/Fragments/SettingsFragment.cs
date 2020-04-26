@@ -8,6 +8,7 @@ using Android.Views;
 
 using AndroidX.Fragment.App;
 using AndroidX.Work;
+
 using Binding;
 
 using NSPersonalCloud;
@@ -44,11 +45,8 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 if (intent.ResolveActivity(Context.PackageManager) != null) StartActivity(intent);
                 else
                 {
-                    Activity.ShowAlert("无法打开浏览器", "您的设备未安装浏览器 App 或不支持打开指定网址。" +
-                        Environment.NewLine + Environment.NewLine +
-                        "请确认浏览器配置正确后重试，或访问以下网址查看隐私条款：" +
-                        Environment.NewLine + Environment.NewLine +
-                        "https://daoyehuo.com/privacy.txt");
+                    Activity.ShowAlert(GetString(Resource.String.error_web_browser),
+                        GetString(Resource.String.cannot_open_browser, "https://daoyehuo.com/privacy.txt"));
                 }
             };
             var contactCell = new basic_cell(R.about_contact_cell);
@@ -57,7 +55,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 var intent = new Intent(Intent.ActionSendto)
                              .SetData(Android.Net.Uri.Parse("mailto:appstore@daoyehuo.com"))
                              .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
-                             .PutExtra(Intent.ExtraSubject, "个人云 (2.0.3) 反馈");
+                             .PutExtra(Intent.ExtraSubject, "Personal Cloud Feedback: " + Context.GetPackageVersion());
                 if (intent.ResolveActivity(Context.PackageManager) != null)
                 {
                     StartActivity(intent);
@@ -66,15 +64,12 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                 intent = new Intent(Intent.ActionSend).SetType("text/plain")
                              .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
-                             .PutExtra(Intent.ExtraSubject, "个人云 (2.0.3) 反馈");
+                             .PutExtra(Intent.ExtraSubject, "Personal Cloud Feedback: " + Context.GetPackageVersion());
                 if (intent.ResolveActivity(Context.PackageManager) != null) StartActivity(intent);
                 else
                 {
-                    Activity.ShowAlert("无法发送电子邮件", "您的设备未安装电子邮件 App 或未配置发信邮箱，因此无法编写和发送反馈邮件。" +
-                        Environment.NewLine + Environment.NewLine +
-                        "请确认邮箱配置正确后重试，或发送您的反馈至以下邮箱：" +
-                        Environment.NewLine + Environment.NewLine +
-                        "appstore@daoyehuo.com");
+                    Activity.ShowAlert(GetString(Resource.String.error_email),
+                        GetString(Resource.String.cannot_send_email, "appstore@daoyehuo.com"));
                 }
             };
 
@@ -132,7 +127,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                     if (string.IsNullOrEmpty(path)) throw new InvalidOperationException();
                     Globals.FileSystem.RootPath = path;
                     Globals.Database.SaveSetting(UserSettings.SharingRoot, path);
-                    Activity.ShowAlert("已设置分享文件夹", path);
+                    Activity.ShowAlert(GetString(Resource.String.shared_folder_set), path);
                     return;
                 }
 
@@ -146,7 +141,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
         private void ChangeDeviceName(object sender, EventArgs e)
         {
-            Activity.ShowEditorAlert("输入设备新名称", DeviceCell.detail_label.Text, null, "保存", deviceName => {
+            Activity.ShowEditorAlert(GetString(Resource.String.new_device_name), DeviceCell.detail_label.Text, null, GetString(Resource.String.action_save), deviceName => {
                 var invalidCharHit = false;
                 foreach (var character in VirtualFileSystem.InvalidCharacters)
                 {
@@ -154,7 +149,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 }
                 if (string.IsNullOrWhiteSpace(deviceName) || invalidCharHit)
                 {
-                    Activity.ShowAlert("设备名称无效", "请使用简短、尽量不包含特殊字符、尽量不与其它设备重复的名称。");
+                    Activity.ShowAlert(GetString(Resource.String.invalid_device_name), GetString(Resource.String.invalid_device_name_message));
                     return;
                 }
 
@@ -163,7 +158,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 try { Globals.CloudManager.StartNetwork(false); } catch { }
                 Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                 DeviceCell.detail_label.Text = deviceName;
-            }, "取消", null);
+            }, GetString(Resource.String.action_cancel), null);
         }
 
         private void InviteDevices(object sender, EventArgs e)
@@ -171,7 +166,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 #pragma warning disable 0618
             var progress = new Android.App.ProgressDialog(Context);
             progress.SetCancelable(false);
-            progress.SetMessage("正在生成……");
+            progress.SetMessage(GetString(Resource.String.sending_invites));
             progress.Show();
 #pragma warning restore 0618
 
@@ -183,11 +178,9 @@ namespace Unishare.Apps.DevolMobile.Fragments
                         progress.Dismiss();
                         var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(Context, Resource.Style.AlertDialogTheme)
                         .SetIcon(Resource.Mipmap.ic_launcher_round).SetCancelable(false)
-                        .SetTitle("已生成邀请码")
-                        .SetMessage("请在其它设备输入邀请码：" + Environment.NewLine + Environment.NewLine +
-                        inviteCode + Environment.NewLine + Environment.NewLine +
-                        "离开此界面邀请码将失效。")
-                        .SetPositiveButton("停止邀请", (o, e) => {
+                        .SetTitle(Resource.String.invited_title)
+                        .SetMessage(GetString(Resource.String.invited_message, inviteCode))
+                        .SetPositiveButton(Resource.String.void_invites, (o, e) => {
                             try { _ = Globals.CloudManager.StopSharePersonalCloud(Globals.CloudManager.PersonalClouds[0]); }
                             catch { }
                         }).Show();
@@ -197,7 +190,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 {
                     Activity.RunOnUiThread(() => {
                         progress.Dismiss();
-                        Activity.ShowAlert("无法邀请其它设备", "邀请码生成失败，请稍后重试。");
+                        Activity.ShowAlert(GetString(Resource.String.error_invite), GetString(Resource.String.cannot_send_invites));
                     });
                 }
             });
@@ -244,14 +237,14 @@ namespace Unishare.Apps.DevolMobile.Fragments
                 if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
                 {
                     AutoBackupCell.switch_button.Checked = false;
-                    Activity.ShowAlert("无法设置定时备份", "尚未选择备份存储位置，请点击“备份存储位置”。");
+                    Activity.ShowAlert(GetString(Resource.String.cannot_set_up_backup), GetString(Resource.String.cannot_set_up_backup_location));
                     return;
                 }
 
                 if (!int.TryParse(Globals.Database.LoadSetting(UserSettings.PhotoBackupInterval), out var workInterval))
                 {
                     AutoBackupCell.switch_button.Checked = false;
-                    Activity.ShowAlert("无法设置定时备份", "尚未选择备份间隔时间，请点击“备份间隔时间”。");
+                    Activity.ShowAlert(GetString(Resource.String.cannot_set_up_backup), GetString(Resource.String.cannot_set_up_backup_interval));
                     return;
                 }
 
@@ -279,14 +272,14 @@ namespace Unishare.Apps.DevolMobile.Fragments
         {
             new AndroidX.AppCompat.App.AlertDialog.Builder(Context, Resource.Style.AlertDialogTheme)
                 .SetIcon(Resource.Mipmap.ic_launcher_round)
-                .SetTitle("从个人云中移除此设备？")
-                .SetMessage("当前设备将离开个人云，本地保存的相关信息也将删除。")
-                .SetPositiveButton("离开", (o, e) => {
+                .SetTitle(Resource.String.remove_from_cloud)
+                .SetMessage(Resource.String.remove_deletes_local_config)
+                .SetPositiveButton(Resource.String.leave_cloud_now, (o, e) => {
                     Globals.CloudManager.ExitFromCloud(Globals.CloudManager.PersonalClouds[0]);
                     Globals.Database.DeleteAll<CloudModel>();
                     Activity.Finish();
                 })
-                .SetNeutralButton("返回", (EventHandler<DialogClickEventArgs>) null).Show();
+                .SetNeutralButton(Resource.String.action_cancel, (EventHandler<DialogClickEventArgs>) null).Show();
         }
     }
 }

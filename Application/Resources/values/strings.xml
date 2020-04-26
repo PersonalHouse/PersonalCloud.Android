@@ -1,87 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">个人云</string>
+    <string name="app_name">Personal Cloud</string>
+
+    <!-- Errors -->
+    <string name="error_internal_message">An internal error occurred.</string>
+    <string name="error_create_cloud">Unable to Create Personal Cloud</string>
+    <string name="error_join_cloud">Unable to Enroll This Device</string>
+    <string name="error_no_cloud_message">No Personal Cloud can be discovered in your local network.</string>
+    <string name="error_incorrect_invitation_message">Please enter the code shown on the device that sent the invitation.</string>
+    <string name="error_remote">A Error Has Occurred</string>
+    <string name="error_folder_title">Unable to Load This Folder</string>
+    <string name="error_folder_message">This folder has already been moved or deleted.</string>
+    <string name="error_storage_permission_title">Personal Cloud Requires Storage Access</string>
+    <string name="error_storage_permission_message">"Personal Cloud is a file sharing app for all your devices.
+
+You must allow Personal Cloud to read and write your device Storage before using features. The app is rendered useless if Storage access was not granted."</string>
+    <string name="error_new_folder">Unable to Create New Folder</string>
+    <string name="error_upload_file">Unable to Upload This Item</string>
+    <string name="error_download_file">Unable to Download This Item</string>
+    <string name="error_move_file">Unable to Move This Item</string>
+    <string name="error_rename_file">Unable to Rename This Item</string>
+    <string name="error_delete_file">Unable to Delete This Item</string>
+    <string name="error_web_browser">Cannot Open Web Browser</string>
+    <string name="error_email">Cannot Send E-Mails</string>
+    <string name="error_invite">Unable to Send Invitations</string>
+
+    <!-- Destination -->
+    <string name="move_to">Move To…</string>
+    <string name="destination_restricted">Cannot Go Back</string>
+    <string name="cannot_go_back">The current operation restricts target location to this folder and its subfolders.</string>
+    <string name="choose_folder">Choose A Location</string>
 
     <!-- Fragments -->
-    <string name="finder">个人云</string>
-    <string name="apps">扩展</string>
-    <string name="settings">设置</string>
+    <string name="finder">Cloud</string>
+    <string name="apps">Functions</string>
+    <string name="settings">Settings</string>
 
-    <string name="welcome">欢迎使用个人云</string>
-    <string name="welcome_create">这是您首次使用个人云吗？您可以……</string>
-    <string name="welcome_join">已在其它设备上创建个人云？您可以……</string>
+    <!-- Settings -->
+    <string name="file_sharing">File Sharing</string>
+    <string name="enable_file_sharing">Enable File Sharing</string>
+    <string name="manage_shared_files">Choose Shared Folder</string>
+    <string name="shared_folder_set">Shared Folder Set</string>
 
-    <string name="personal_cloud">个人云</string>
-    <string name="new_cloud">添加个人云</string>
-    <string name="new_cloud_create">创建新个人云</string>
-    <string name="new_cloud_join">加入个人云</string>
-    <string name="no_active_device">个人云内没有在线设备</string>
-    <string name="no_personal_cloud">"您的设备尚未加入个人云
-点击右上角菜单即可新建或加入"</string>
-    <string name="device_name">设备名称</string>
-    <string name="cloud_name">云名称</string>
-    <string name="invite_code">邀请码</string>
-    <string name="invite_others">邀请其它设备加入</string>
-    <string name="void_invites">停止邀请其它设备</string>
-    <string name="leave_cloud">切换 / 离开个人云</string>
-
-    <string name="file_sharing">文件共享</string>
-    <string name="enable_file_sharing">允许此设备分享文件</string>
-    <string name="manage_shared_files">选择分享文件夹</string>
-
-    <string name="photos_backup">相册备份</string>
-    <string name="photos_backup_hint">打开“定时备份相册”以定期自动将本地存储的 DCIM 和 Pictures 文件夹备份到已指定的存储位置。</string>
-    <string name="photos_backup_location">备份存储位置</string>
-    <string name="choose_photos_backup_location">选择备份存储位置</string>
-    <string name="photos_backup_location_set">已设置</string>
-    <string name="enable_photos_backup">定时备份相册</string>
+    <string name="photos_backup">Photos Backup</string>
+    <string name="enable_photos_backup">Enable Auto Backup</string>
+    <string name="photos_backup_hint">When Auto Backup is enabled, \"DCIM\" and \"Pictures\" in internal storage will be uploaded to backup device regularly.</string>
+    <string name="photos_backup_location">Backup Save Location</string>
+    <string name="choose_photos_backup_location">Choose Backup Save Location</string>
+    <string name="photos_backup_location_set">Already Set</string>
+    <string name="cannot_set_up_backup">Unable to Schedule Backup</string>
+    <string name="cannot_set_up_backup_location">Save location is not set.</string>
+    <string name="cannot_set_up_backup_interval">Repeat interval is not set.</string>
 
     <!-- File Explorer -->
-    <string name="empty_list_placeholder">列表目前为空</string>
-    <string name="browser_back">返回上层</string>
-    <string name="browser_back_to">后退至“%s”</string>
-    <string name="devices_home">设备列表</string>
-    <string name="connect_to">添加服务</string>
+    <string name="folder">folder</string>
+    <string name="file">file</string>
 
-    <string name="new_folder">新建文件夹</string>
-    <string name="upload_file">上传文件</string>
-    <string name="download_file">下载</string>
-    <string name="move_file">移动</string>
-    <string name="rename_file">重命名</string>
-    <string name="delete_file">彻底删除</string>
-    <string name="paste_here">移动至此处</string>
+    <string name="empty_list_placeholder">Nothing to see here.</string>
+    <string name="browser_back">Back</string>
+    <string name="browser_back_to">return to \"%s\"</string>
+    <string name="devices_home">Home</string>
+    <string name="connect_to">Connect to Online Storage</string>
+
+    <string name="new_folder">New Folder</string>
+    <string name="new_folder_name">Enter Folder Name</string>
+    <string name="new_folder_placeholder">new folder</string>
+    <string name="new_folder_create">Create</string>
+    <string name="bad_folder_name">Bad Folder Name</string>
+    <string name="creating_new_folder">Creating…</string>
+    <string name="upload_file">Upload File</string>
+    <string name="uploading_file">Uploading…</string>
+    <string name="select_file_to_upload">Choose File to Upload</string>
+    <string name="download_file">Download</string>
+    <string name="downloading">Downloading…</string>
+    <string name="file_exists">An I/O conflict occurred. Try again.</string>
+    <string name="download_oversized_file">Download Oversized Item?</string>
+    <string name="size_over_100MB">This item may be over 100 MB. It may take a long time to transfer this item.</string>
+    <string name="start_downloading">Download Now</string>
+    <string name="replace_local">Replace Local File?</string>
+    <string name="replace_local_resolve_manually">"A local file with the same name \"%s\" already exists. If you download this item, the old file will be overwritten.
+
+If you’d like to keep both copies, use file manager app to rename the old item."</string>
+    <string name="replace_file">Replace</string>
+    <string name="downloaded">Transfer Complete</string>
+    <string name="downloaded_as">\"%1$s\" has been saved as %2$s</string>
+    <string name="move_file">Move</string>
+    <string name="moving_file">Moving…</string>
+    <string name="rename_file">Rename</string>
+    <string name="new_file_name">Enter New Name</string>
+    <string name="bad_file_name">Invalid Name</string>
+    <string name="renaming">Renaming…</string>
+    <string name="delete_file">Delete</string>
+    <string name="delete_permanently">Delete This Item?</string>
+    <string name="delete_all_contents">"\"%s\" will be permanently deleted from remote.
+
+If this item is a folder or package, all of its contents are also deleted."</string>
+    <string name="deleting">Deleting…</string>
+    <string name="open_with">Open with…</string>
 
     <!-- Third-Party Connections -->
-    <string name="connections">连接第三方服务</string>
-    <string name="choose_service">连接到……</string>
-    <string name="connection_name">服务名称</string>
-    <string name="alibaba_cloud">阿里云</string>
-    <string name="aliyun_endpoint">域名</string>
-    <string name="aliyun_bucket">存储空间</string>
-    <string name="aliyun_user">用户 ID</string>
-    <string name="aliyun_secret">访问密钥</string>
+    <string name="connections">Connections</string>
+    <string name="choose_service">Connect to…</string>
+    <string name="connection_name">Name</string>
+    <string name="alibaba_cloud">Alibaba Cloud</string>
+    <string name="aliyun_endpoint">Endpoint</string>
+    <string name="aliyun_bucket">Bucket</string>
+    <string name="aliyun_user">Access Key ID</string>
+    <string name="aliyun_secret">Access Key Secret</string>
+
+    <string name="connection_verifying">Verifying…</string>
+    <string name="connection_bad_name">Missing Name</string>
+    <string name="connection_name_exists">Name In Use</string>
+    <string name="connection_use_different_name">An online storage with the same name already exists.</string>
+    <string name="connection_name_cannot_be_empty">Choose a unique name for this online storage.</string>
+    <string name="connection_invalid_account">Missing Credentials</string>
+    <string name="aliyun_bad_endpoint">Fill in Endpoint (Extranet Endpoint) as shown on your Alibaba Cloud account page.</string>
+    <string name="aliyun_bad_bucket">Fill in Bucket as shown on your Alibaba Cloud account page.</string>
+    <string name="aliyun_bad_user_id">Fill in User ID (Access Key ID) as shown on your Alibaba Cloud account page.</string>
+    <string name="aliyun_bad_secret">Fill in User Secret (Access Key Secret) as shown on your Alibaba Cloud account page.</string>
+    <string name="connection_bad_account">Unauthorized</string>
+    <string name="connection_bad_aliyun_account">Your credentials cannot authenticate any valid Alibaba Cloud storage container.</string>
 
     <!-- Functions -->
-    <string name="no_functions">在个人云 Windows 版上配置扩展</string>
+    <string name="no_functions">Configure Functions on a computer.</string>
 
+    <!-- Cloud Management -->
+    <string name="personal_cloud">Personal Cloud</string>
+    <string name="welcome">Welcome to Your Personal Cloud</string>
+    <string name="welcome_create">I’m new to Personal Cloud…</string>
+    <string name="welcome_join">I have already created Personal Cloud on other devices…</string>
+    <string name="new_cloud">Add Personal Cloud</string>
+    <string name="new_cloud_create">Create Personal Cloud</string>
+    <string name="creating_cloud">Creating…</string>
+    <string name="cloud_created_title">Personal Cloud Created</string>
+    <string name="cloud_created_message">You have created \"%s\". This device is automatically enrolled.</string>
+    <string name="new_cloud_join">Enroll This Device</string>
+    <string name="joining_cloud">Verifying…</string>
+    <string name="cloud_joined_title">Device Enrolled</string>
+    <string name="cloud_joined_message">You now have access to \"%s\".</string>
+    <string name="no_active_device">No active device or third-party connections.</string>
+    <string name="no_personal_cloud">"You have no Personal Cloud.
+Create or join one by tapping the + button."</string>
+    <string name="device_name">Device Name</string>
+    <string name="new_device_name">Enter Device Name</string>
+    <string name="invalid_device_name">Invalid Device Name</string>
+    <string name="invalid_device_name_message">Please use a short and unique name, and do not use special characters.</string>
+    <string name="cloud_name">Cloud Name</string>
+    <string name="invalid_cloud_name">Invalid Cloud Name</string>
+    <string name="invite_code">Invitation</string>
+    <string name="invalid_invite_code">Invalid Verification Code</string>
+    <string name="invite_others">Invite Other Devices</string>
+    <string name="sending_invites">Sending Invitations…</string>
+    <string name="invited_title">Invitations Sent</string>
+    <string name="invited_message">"Enter the following code on new device:
 
-    <string name="device_name_hint">加入个人云后，其它设备上将显示上述名称，用以识别这台设备。为保证其它设备可以正常显示和访问这台设备，请使用简短、尽量不包含特殊字符、尽量不与其它设备重复的名称。</string>
-    <string name="cloud_name_hint">所有加入此个人云的设备将通过上述名称识别此个人云。个人云名称在创建后无法修改，请谨慎命名。</string>
-    <string name="invite_hint">请查看其它设备屏幕上显示的邀请码，并核对您的输入。</string>
-    <string name="invalid_device_name">设备名称无效</string>
-    <string name="invalid_invite_code">邀请码错误</string>
+%s
+
+Leaving this page invalidates verification session."</string>
+    <string name="void_invites">Stop Verification</string>
+    <string name="cannot_send_invites">Unable to send invitations. Try again.</string>
+    <string name="leave_cloud">Switch / Leave Personal Cloud</string>
+    <string name="device_name_hint">The name identifies this device in a Personal Cloud. For best compatibility with other devices, use a short and unique name, and do not use special characters.</string>
+    <string name="cloud_name_hint">Enter a name for your Personal Cloud. This name shows on all devices, and cannot be changed later.</string>
+    <string name="invite_hint">Enter the code shown on other devices.</string>
+    <string name="remove_from_cloud">Remove This Device from Personal Cloud?</string>
+    <string name="remove_deletes_local_config">"This device will be unenrolled and all saved credentials will be deleted.
+
+You may enroll this device to this Personal Cloud if there are other devices in the cloud. When the last device leaves this cloud, no one will have access to this Personal Cloud."</string>
+    <string name="leave_cloud_now">Leave</string>
+
+    <!-- Backup -->
+    <string name="notification_channel_backup">Backup Status</string>
+    <string name="notification_channel_backup_description">Receive notifications when Auto Backup is running.</string>
+    <string name="notification_title">Photos Backup In Progress</string>
+    <string name="notification_ticker">Personal Cloud is backing up your photos…</string>
+    <string name="notification_message">Stay connected. If you switch networks or disconnect the backup device, data corruption may occur.</string>
 
     <!-- Common Action Phrases -->
-    <string name="action_ok">好</string>
-    <string name="action_cancel">取消</string>
-    <string name="action_confirm">确定</string>
-    <string name="action_discard">放弃</string>
-    <string name="action_save">保存</string>
-    <string name="action_quit">退出</string>
-    <string name="action_dismiss">忽略</string>
-    <string name="action_retry">重试</string>
-    <string name="action_add">添加</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_discard">Discard</string>
+    <string name="action_save">Save</string>
+    <string name="action_quit">Exit</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_add">Add</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_delete">Delete</string>
 
-    <string name="about">关于</string>
-    <string name="about_privacy">查看隐私条款</string>
-    <string name="about_contact">反馈意见和问题</string>
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="about_privacy">View Privacy Policies</string>
+    <string name="cannot_open_browser">"Cannot open web browser.
+
+Please go to the following website to view our Privacy Policies:
+
+%s"</string>
+    <string name="about_contact">Send Feedback</string>
+    <string name="cannot_send_email">"Cannot open email client.
+
+Please send feedback emails to the following address with title \"Personal Cloud\":
+
+%s"</string>
 </resources>

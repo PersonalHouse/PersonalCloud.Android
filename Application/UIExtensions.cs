@@ -11,7 +11,7 @@ namespace Unishare.Apps.DevolMobile
     {
         #region Application
 
-        public static string GetPackageVersion(this Android.App.Application application)
+        public static string GetPackageVersion(this Context application)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Unishare.Apps.DevolMobile
             }
             catch
             {
-                return null;
+                return "v0";
             }
         }
 

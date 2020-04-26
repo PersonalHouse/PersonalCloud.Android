@@ -40,12 +40,12 @@ namespace Unishare.Apps.DevolMobile.Items
             if (entry.IsDirectory)
             {
                 holder.R.file_cell_icon.SetImageResource(Resource.Drawable.folder);
-                holder.R.file_cell_detail.Text = "文件夹";
+                holder.R.file_cell_detail.SetText(Resource.String.folder);
             }
             else
             {
                 SetImage(holder.R.file_cell_icon, entry);
-                holder.R.file_cell_detail.Text = "文件";
+                holder.R.file_cell_detail.SetText(Resource.String.file);
             }
 
             if (entry.Size.HasValue)
