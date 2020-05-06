@@ -9,9 +9,12 @@ using Newtonsoft.Json;
 using NSPersonalCloud;
 using NSPersonalCloud.Config;
 using NSPersonalCloud.FileSharing.Aliyun;
+using NSPersonalCloud.Interfaces.Apps;
 
 using Unishare.Apps.Common;
 using Unishare.Apps.Common.Models;
+
+using VaslD.Utility.Cryptography;
 
 namespace Unishare.Apps.DevolMobile
 {
@@ -19,34 +22,142 @@ namespace Unishare.Apps.DevolMobile
     {
         public event EventHandler CloudSaved;
 
+        #region Cloud
+
         public IEnumerable<PersonalCloudInfo> LoadCloud()
         {
             var deviceName = Globals.Database.LoadSetting(UserSettings.DeviceName) ?? "Android";
             return Globals.Database.Table<CloudModel>().Select(x => {
-                var providers = Globals.Database.Table<AliYunOSS>().Where(y => y.CloudId == x.Id).Select(y => {
+                var alibaba = Globals.Database.Table<AlibabaOSS>().Where(y => y.Cloud == x.Id).Select(y => {
                     var config = new OssConfig {
                         OssEndpoint = y.Endpoint,
                         BucketName = y.Bucket,
-                        AccessKeyId = y.AccessID,
-                        AccessKeySecret = y.AccessSecret
                     };
+                    using var cipher = new PasswordCipher(y.Id.ToString("N", CultureInfo.InvariantCulture), x.Key);
+                    config.AccessKeyId = cipher.DecryptContinuousText(y.AccessID);
+                    config.AccessKeySecret = cipher.DecryptContinuousText(y.AccessSecret);
                     return new StorageProviderInfo {
                         Type = StorageProviderInstance.TypeAliYun,
                         Name = y.Name,
                         Visibility = (StorageProviderVisibility) y.Visibility,
                         Settings = JsonConvert.SerializeObject(config)
                     };
+                });
+                var azure = Globals.Database.Table<AzureBlob>().Where(y => y.Cloud == x.Id).Select(y => {
+                    var config = new AzureBlobConfig {
+                        BlobName = y.Container
+                    };
+                    using var cipher = new PasswordCipher(y.Id.ToString("N", CultureInfo.InvariantCulture), x.Key);
+                    config.ConnectionString = cipher.DecryptTextOnce(y.Parameters);
+                    return new StorageProviderInfo {
+                        Type = StorageProviderInstance.TypeAzure,
+                        Name = y.Name,
+                        Visibility = (StorageProviderVisibility) y.Visibility,
+                        Settings = JsonConvert.SerializeObject(config)
+                    };
+                });
+                var providers = new List<StorageProviderInfo>();
+                providers.AddRange(alibaba);
+                providers.AddRange(azure);
+                var launchers = Globals.Database.Table<Launcher>().Where(y => y.Cloud == x.Id).Select(y => {
+                    return new AppLauncher {
+                        Name = y.Name,
+                        AppType = (AppType) y.Type,
+                        NodeId = y.Node.ToString("N"),
+                        AppId = y.AppName,
+                        WebAddress = y.Address,
+                        AccessKey = y.Key
+                    };
                 }).ToList();
-                if (providers is null) providers = new List<StorageProviderInfo>();
                 return new PersonalCloudInfo(providers) {
-                    Id = x.Id.ToString("N"),
+                    Id = x.Id.ToString("N", CultureInfo.InvariantCulture),
                     DisplayName = x.Name,
                     NodeDisplayName = deviceName,
                     MasterKey = Convert.FromBase64String(x.Key),
-                    TimeStamp = x.Version
+                    TimeStamp = x.Version,
+                    Apps = launchers,
                 };
             });
         }
+
+        public void SaveCloud(IEnumerable<PersonalCloudInfo> cloud)
+        {
+            Globals.Database.DeleteAll<CloudModel>();
+            Globals.Database.DeleteAll<AlibabaOSS>();
+            Globals.Database.DeleteAll<AzureBlob>();
+            Globals.Database.DeleteAll<Launcher>();
+            foreach (var item in cloud)
+            {
+                var id = new Guid(item.Id);
+                Globals.Database.Insert(new CloudModel {
+                    Id = id,
+                    Name = item.DisplayName,
+                    Key = Convert.ToBase64String(item.MasterKey),
+                    Version = item.TimeStamp,
+                });
+
+                foreach (var provider in item.StorageProviders)
+                {
+                    switch (provider.Type)
+                    {
+                        case StorageProviderInstance.TypeAliYun:
+                        {
+                            var config = JsonConvert.DeserializeObject<OssConfig>(provider.Settings);
+                            var model = new AlibabaOSS {
+                                // Todo: GUID
+                                Cloud = id,
+                                Name = provider.Name,
+                                Visibility = (int) provider.Visibility,
+                                Endpoint = config.OssEndpoint,
+                                Bucket = config.BucketName,
+                            };
+                            if (model.Id == Guid.Empty) model.Id = Guid.NewGuid();
+                            using var cipher = new PasswordCipher(model.Id.ToString("N", CultureInfo.InvariantCulture), item.MasterKey);
+                            model.AccessID = cipher.EncryptContinuousText(config.AccessKeyId);
+                            model.AccessSecret = cipher.EncryptContinuousText(config.AccessKeySecret);
+                            Globals.Database.Insert(model);
+                            continue;
+                        }
+
+                        case StorageProviderInstance.TypeAzure:
+                        {
+                            var config = JsonConvert.DeserializeObject<AzureBlobConfig>(provider.Settings);
+                            var model = new AzureBlob {
+                                // Todo: GUID
+                                Cloud = id,
+                                Name = provider.Name,
+                                Visibility = (int) provider.Visibility,
+                                Container = config.BlobName
+                            };
+                            if (model.Id == Guid.Empty) model.Id = Guid.NewGuid();
+                            using var cipher = new PasswordCipher(model.Id.ToString("N", CultureInfo.InvariantCulture), item.MasterKey);
+                            model.Parameters = cipher.EncryptTextOnce(config.ConnectionString);
+                            Globals.Database.Insert(model);
+                            continue;
+                        }
+                    }
+                }
+
+                foreach (var app in item.Apps)
+                {
+                    Globals.Database.Insert(new Launcher {
+                        Name = app.Name,
+                        Type = (int) app.AppType,
+                        Cloud = id,
+                        Node = string.IsNullOrEmpty(app.NodeId) ? Guid.Empty : new Guid(app.NodeId),
+                        AppName = app.AppId,
+                        Address = app.WebAddress,
+                        Key = app.AccessKey
+                    });
+                }
+            }
+
+            CloudSaved?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion Cloud
+
+        #region Config
 
         public ServiceConfiguration LoadConfiguration()
         {
@@ -61,49 +172,35 @@ namespace Unishare.Apps.DevolMobile
             };
         }
 
-        public void SaveCloud(IEnumerable<PersonalCloudInfo> cloud)
-        {
-            Globals.Database.DeleteAll<CloudModel>();
-            Globals.Database.DeleteAll<AliYunOSS>();
-            foreach (var item in cloud)
-            {
-                var id = new Guid(item.Id);
-                Globals.Database.Insert(new CloudModel {
-                    Id = id,
-                    Name = item.DisplayName,
-                    Key = Convert.ToBase64String(item.MasterKey),
-                    Version = item.TimeStamp
-                });
-
-                foreach(var provider in item.StorageProviders)
-                {
-                    switch (provider.Type)
-                    {
-                        case StorageProviderInstance.TypeAliYun:
-                        {
-                            var config = JsonConvert.DeserializeObject<OssConfig>(provider.Settings);
-                            Globals.Database.Insert(new AliYunOSS {
-                                CloudId = id,
-                                Name = provider.Name,
-                                Visibility = (int) provider.Visibility,
-                                Endpoint = config.OssEndpoint,
-                                Bucket = config.BucketName,
-                                AccessID = config.AccessKeyId,
-                                AccessSecret = config.AccessKeySecret
-                            });
-                            continue;
-                        }
-                    }
-                }
-            }
-
-            CloudSaved?.Invoke(this, EventArgs.Empty);
-        }
-
         public void SaveConfiguration(ServiceConfiguration config)
         {
             Globals.Database.SaveSetting(UserSettings.DeviceId, config.Id.ToString("N"));
             Globals.Database.SaveSetting(UserSettings.DevicePort, config.Port.ToString(CultureInfo.InvariantCulture));
         }
+
+        #endregion Config
+
+        #region Apps
+
+        public List<(string, string)> GetApp(string appId)
+        {
+            return Globals.Database.Table<WebApp>().Where(x => x.Name == appId)
+                                   .Select(x => (x.Cloud.ToString("N", CultureInfo.InvariantCulture), x.Parameters))
+                                   .ToList();
+        }
+
+        public void SaveApp(string appId, string cloudId, string config)
+        {
+            var guid = new Guid(cloudId);
+            var old = Globals.Database.Find<WebApp>(x => x.Cloud == guid && x.Name == appId);
+            if (old != null) Globals.Database.Delete(old);
+            Globals.Database.Insert(new WebApp {
+                Cloud = new Guid(cloudId),
+                Name = appId,
+                Parameters = config
+            });
+        }
+
+        #endregion Apps
     }
 }

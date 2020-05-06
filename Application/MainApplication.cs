@@ -4,13 +4,13 @@ using System.IO;
 using Android.App;
 using Android.Content;
 using Android.Net.Wifi;
+
 using AndroidX.Lifecycle;
+
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.Logging;
-
-using Sentry;
 
 using SQLite;
 
@@ -25,9 +25,7 @@ namespace Unishare.Apps.DevolMobile
         SupportsRtl = false, Theme = "@style/AppTheme", AllowBackup = true)]
     public class MainApplication : Application, ILifecycleEventObserver
     {
-        public MainApplication(IntPtr reference, Android.Runtime.JniHandleOwnership transfer) : base(reference, transfer)
-        {
-        }
+        public MainApplication(IntPtr reference, Android.Runtime.JniHandleOwnership transfer) : base(reference, transfer) { }
 
         private bool fromBackground;
         private BroadcastReceiver wifiMonitor;
@@ -53,7 +51,10 @@ namespace Unishare.Apps.DevolMobile
             Globals.Database = new SQLiteConnection(databasePath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex);
             Globals.Database.CreateTable<KeyValueModel>();
             Globals.Database.CreateTable<CloudModel>();
-            Globals.Database.CreateTable<AliYunOSS>();
+            Globals.Database.CreateTable<AlibabaOSS>();
+            Globals.Database.CreateTable<AzureBlob>();
+            Globals.Database.CreateTable<Launcher>();
+            Globals.Database.CreateTable<WebApp>();
             Globals.Database.CreateTable<BackupRecord>();
 
             Globals.Database.SaveSetting(UserSettings.PhotoBackupInterval, "1");

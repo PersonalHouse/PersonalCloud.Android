@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="services">
-        <item>Alibaba Cloud</item>
-        <item>Azure Blob Storage</item>
+        <item>阿里云</item>
+        <item>Azure Blob 存储</item>
     </string-array>
 </resources>

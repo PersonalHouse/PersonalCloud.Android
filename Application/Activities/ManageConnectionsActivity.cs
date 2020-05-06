@@ -10,7 +10,9 @@ using Binding;
 using NSPersonalCloud;
 using NSPersonalCloud.FileSharing.Aliyun;
 
-using Unishare.Apps.Common.Models;
+using Unishare.Apps.Common;
+
+using static Android.Widget.AdapterView;
 
 namespace Unishare.Apps.DevolMobile.Activities
 {
@@ -19,6 +21,8 @@ namespace Unishare.Apps.DevolMobile.Activities
     {
         internal add_a_connection R { get; private set; }
 
+        private bool initialized;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -26,12 +30,40 @@ namespace Unishare.Apps.DevolMobile.Activities
             SupportActionBar.Title = GetString(Resource.String.connections);
             R = new add_a_connection(this);
             R.connection_save.Click += SaveCredentials;
-            R.aliyun_endpoint.EditText.RequestFocus();
+            R.connection_endpoint.EditText.RequestFocus();
+            R.connection_to_spinner.ItemSelected += SwitchConnections;
+
+            initialized = true;
+        }
+
+        private void SwitchConnections(object sender, ItemSelectedEventArgs e)
+        {
+            if (!initialized) return;
+
+            switch (R.connection_to_spinner.SelectedItemPosition)
+            {
+                case 0: // Alibaba Cloud OSS
+                {
+                    R.connection_endpoint.Hint = GetString(Resource.String.aliyun_endpoint);
+                    R.connection_container.Hint = GetString(Resource.String.aliyun_bucket);
+                    R.connection_account.Hint = GetString(Resource.String.aliyun_user);
+                    R.connection_secret.Hint = GetString(Resource.String.aliyun_secret);
+                    return;
+                }
+                case 1: // Azure Blob Storage
+                {
+                    R.connection_endpoint.Hint = GetString(Resource.String.azure_endpoint);
+                    R.connection_container.Hint = GetString(Resource.String.azure_container);
+                    R.connection_account.Hint = GetString(Resource.String.azure_account);
+                    R.connection_secret.Hint = GetString(Resource.String.azure_secret);
+                    return;
+                }
+            }
         }
 
         private void SaveCredentials(object sender, EventArgs e)
         {
-            var name = R.aliyun_name.EditText.Text;
+            var name = R.connection_name.EditText.Text;
             var invalidCharHit = false;
             foreach (var character in VirtualFileSystem.InvalidCharacters)
             {
@@ -40,51 +72,132 @@ namespace Unishare.Apps.DevolMobile.Activities
             if (string.IsNullOrEmpty(name) || invalidCharHit)
             {
                 this.ShowAlert(GetString(Resource.String.connection_bad_name), GetString(Resource.String.connection_name_cannot_be_empty), () => {
-                    R.aliyun_name.EditText.RequestFocus();
+                    R.connection_name.EditText.RequestFocus();
                 });
                 return;
             }
 
-            var endpoint = R.aliyun_endpoint.EditText.Text;
-            if (string.IsNullOrEmpty(endpoint))
+            var selection = R.connection_to_spinner.SelectedItemPosition;
+            OssConfig alibaba = null;
+            AzureBlobConfig azure = null;
+            switch (selection)
             {
-                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_endpoint), () => {
-                    R.aliyun_endpoint.EditText.RequestFocus();
-                });
-                return;
+                case 0: // Alibaba Cloud OSS
+                {
+                    var endpoint = R.connection_endpoint.EditText.Text;
+                    if (string.IsNullOrEmpty(endpoint))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_endpoint), () => {
+                            R.connection_endpoint.EditText.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    var bucket = R.connection_container.EditText.Text;
+                    if (string.IsNullOrEmpty(bucket))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_bucket), () => {
+                            R.connection_container.EditText.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    var accessId = R.connection_account.EditText.Text;
+                    if (string.IsNullOrEmpty(accessId))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_user_id), () => {
+                            R.connection_account.EditText.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    var accessSecret = R.connection_secret.EditText.Text;
+                    if (string.IsNullOrEmpty(accessSecret))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_secret), () => {
+                            R.connection_secret.EditText.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    alibaba = new OssConfig {
+                        OssEndpoint = endpoint,
+                        BucketName = bucket,
+                        AccessKeyId = accessId,
+                        AccessKeySecret = accessSecret
+                    };
+
+                    break;
+                }
+                case 1: // Azure Blob Storage
+                {
+                    var endpoint = R.connection_endpoint.EditText.Text;
+                    if (string.IsNullOrEmpty(endpoint))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.connection_bad_azure_endpoint), () => {
+                            R.connection_endpoint.EditText.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    var accountName = R.connection_account.EditText.Text;
+
+                    var accessKey = R.connection_secret.EditText.Text;
+                    if (string.IsNullOrEmpty(accessKey))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.connection_bad_azure_secret), () => {
+                            R.connection_secret.EditText.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    var container = R.connection_container.EditText.Text;
+                    if (string.IsNullOrEmpty(container))
+                    {
+                        this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.connection_bad_azure_container), () => {
+                            R.connection_container.RequestFocus();
+                        });
+                        return;
+                    }
+
+                    string connection;
+                    if (endpoint.Contains(accountName, StringComparison.Ordinal)) accountName = null;
+                    if (endpoint.StartsWith("http://", StringComparison.Ordinal)) endpoint.Replace("http://", "https://");
+                    if (endpoint.StartsWith("https://", StringComparison.Ordinal))
+                    {
+                        if (string.IsNullOrEmpty(accountName))
+                        {
+                            if (string.IsNullOrEmpty(accessKey)) connection = endpoint;
+                            else connection = $"BlobEndpoint={endpoint};SharedAccessSignature={accessKey}";
+                        }
+                        else
+                        {
+                            this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.connection_mismatch_azure_endpoint));
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(accountName))
+                        {
+                            this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.connection_bad_azure_id));
+                            return;
+                        }
+                        else connection = $"DefaultEndpointsProtocol=https;AccountName={accountName};AccountKey={accessKey};EndpointSuffix={endpoint}";
+                    }
+
+                    azure = new AzureBlobConfig {
+                        ConnectionString = connection,
+                        BlobName = container
+                    };
+                    break;
+                }
             }
 
-            var bucket = R.aliyun_bucket.EditText.Text;
-            if (string.IsNullOrEmpty(bucket))
-            {
-                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_bucket), () => {
-                    R.aliyun_bucket.EditText.RequestFocus();
-                });
-                return;
-            }
-
-            var accessId = R.aliyun_access_id.EditText.Text;
-            if (string.IsNullOrEmpty(accessId))
-            {
-                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_user_id), () => {
-                    R.aliyun_access_id.EditText.RequestFocus();
-                });
-                return;
-            }
-
-            var accessSecret = R.aliyun_access_secret.EditText.Text;
-            if (string.IsNullOrEmpty(accessSecret))
-            {
-                this.ShowAlert(GetString(Resource.String.connection_invalid_account), GetString(Resource.String.aliyun_bad_secret), () => {
-                    R.aliyun_access_id.EditText.RequestFocus();
-                });
-                return;
-            }
-
-            if (Globals.Database.Find<AliYunOSS>(x => x.Name == name) != null)
+            if (!Globals.Database.IsStorageNameUnique(name))
             {
                 this.ShowAlert(GetString(Resource.String.connection_name_exists), GetString(Resource.String.connection_use_different_name), () => {
-                    R.aliyun_name.EditText.RequestFocus();
+                    R.connection_name.EditText.RequestFocus();
                 });
                 return;
             }
@@ -97,27 +210,47 @@ namespace Unishare.Apps.DevolMobile.Activities
 #pragma warning restore 0618
 
             Task.Run(() => {
-                var config = new OssConfig {
-                    OssEndpoint = endpoint,
-                    BucketName = bucket,
-                    AccessKeyId = accessId,
-                    AccessKeySecret = accessSecret
-                };
+                switch (selection)
+                {
+                    case 0:
+                    {
+                        if (alibaba.Verify())
+                        {
+                            Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, name, alibaba, StorageProviderVisibility.Private);
+                            RunOnUiThread(() => {
+                                progress.Dismiss();
+                                Finish();
+                            });
+                        }
+                        else
+                        {
+                            RunOnUiThread(() => {
+                                progress.Dismiss();
+                                this.ShowAlert(GetString(Resource.String.connection_bad_account), GetString(Resource.String.connection_bad_aliyun_account));
+                            });
+                        }
+                        return;
+                    }
 
-                if (config.Verify())
-                {
-                    Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, name, config, StorageProviderVisibility.Private);
-                    RunOnUiThread(() => {
-                        progress.Dismiss();
-                        Finish();
-                    });
-                }
-                else
-                {
-                    RunOnUiThread(() => {
-                        progress.Dismiss();
-                        this.ShowAlert(GetString(Resource.String.connection_bad_account), GetString(Resource.String.connection_bad_aliyun_account));
-                    });
+                    case 1:
+                    {
+                        if (azure.Verify())
+                        {
+                            Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, name, azure, StorageProviderVisibility.Private);
+                            RunOnUiThread(() => {
+                                progress.Dismiss();
+                                Finish();
+                            });
+                        }
+                        else
+                        {
+                            RunOnUiThread(() => {
+                                progress.Dismiss();
+                                this.ShowAlert(GetString(Resource.String.connection_bad_account), GetString(Resource.String.connection_bad_azure_account));
+                            });
+                        }
+                        return;
+                    }
                 }
             });
         }

@@ -54,7 +54,10 @@ namespace Unishare.Apps.DevolMobile.Workers
                 Globals.Database = new SQLiteConnection(databasePath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex);
                 Globals.Database.CreateTable<KeyValueModel>();
                 Globals.Database.CreateTable<CloudModel>();
-                Globals.Database.CreateTable<AliYunOSS>();
+                Globals.Database.CreateTable<AlibabaOSS>();
+                Globals.Database.CreateTable<AzureBlob>();
+                Globals.Database.CreateTable<Launcher>();
+                Globals.Database.CreateTable<WebApp>();
                 Globals.Database.CreateTable<BackupRecord>();
             }
 
@@ -75,7 +78,9 @@ namespace Unishare.Apps.DevolMobile.Workers
             if (Globals.Storage == null) Globals.Storage = new AndroidDataStorage();
             if (Globals.FileSystem == null) Globals.FileSystem = new VirtualFileSystem(null);
 
-            if (Globals.CloudManager == null) Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem);
+            var appsPath = Path.Combine(Context.FilesDir.AbsolutePath, "Static");
+                Directory.CreateDirectory(appsPath);
+            if (Globals.CloudManager == null) Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem, appsPath);
             if (Globals.CloudManager.PersonalClouds.Count < 1) return Result.InvokeFailure();
             Globals.CloudManager.NetworkRefeshNodes();
             Task.Delay(TimeSpan.FromSeconds(5)).Wait();

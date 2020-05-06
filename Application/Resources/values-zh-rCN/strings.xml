@@ -121,6 +121,18 @@
     <string name="connection_bad_account">认证失败</string>
     <string name="connection_bad_aliyun_account">您提供的帐户信息无法用来访问阿里云对象存储服务。请检查后重试。</string>
 
+    <string name="azure_blob">Azure Blob 存储</string>
+    <string name="azure_endpoint">Endpoint URI/Suffix</string>
+    <string name="azure_account">帐户名称</string>
+    <string name="azure_secret">帐户密钥或共享访问签名</string>
+    <string name="azure_container">Blob Container</string>
+    <string name="connection_bad_azure_endpoint">您必须填写 Endpoint URI 或 Endpoint Suffix 才能连接到 Azure Blob 存储。</string>
+    <string name="connection_mismatch_azure_endpoint">您同时填写了 Endpoint URI 和“帐户名称”，但两者不匹配。请检查您的输入或重新导入连接字符串。</string>
+    <string name="connection_bad_azure_id">您使用了 Endpoint Suffix 访问 Azure Blob 存储，还需要提供帐户名称（也称 Account Name）。如果您不知道或无法提供帐户名称，请使用 Endpoint URI 或导入连接字符串。</string>
+    <string name="connection_bad_azure_secret">您必须填写“帐户密钥”（也称 Account Key）或“共享访问签名”（也称 Shared Access Signature）才能连接到 Azure Blob 存储。</string>
+    <string name="connection_bad_azure_container">您必须填写 Blob Container 才能连接到 Azure Blob 存储。</string>
+    <string name="connection_bad_azure_account">您提供的帐户信息无法连接到 Azure Blob 存储。请检查后重试。</string>
+
     <!-- Functions -->
     <string name="no_functions">在个人云 Windows 版上配置扩展</string>
 

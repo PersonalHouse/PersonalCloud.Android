@@ -119,7 +119,19 @@ If this item is a folder or package, all of its contents are also deleted."</str
     <string name="aliyun_bad_user_id">Fill in User ID (Access Key ID) as shown on your Alibaba Cloud account page.</string>
     <string name="aliyun_bad_secret">Fill in User Secret (Access Key Secret) as shown on your Alibaba Cloud account page.</string>
     <string name="connection_bad_account">Unauthorized</string>
-    <string name="connection_bad_aliyun_account">Your credentials cannot authenticate any valid Alibaba Cloud storage container.</string>
+    <string name="connection_bad_aliyun_account">Your credentials cannot access any valid Alibaba Cloud storage container.</string>
+
+    <string name="azure_blob">Azure Blob Storage</string>
+    <string name="azure_endpoint">Endpoint URI/Suffix</string>
+    <string name="azure_account">Account Name</string>
+    <string name="azure_secret">Account Key or SAS</string>
+    <string name="azure_container">Blob Container</string>
+    <string name="connection_bad_azure_endpoint">Endpoint URI or Endpoint Suffix is required.</string>
+    <string name="connection_mismatch_azure_endpoint">Endpoint is fully qualified URI but does not contain Account Name. Please enter your account information exactly as displayed on Azure Portal.</string>
+    <string name="connection_bad_azure_id">When using Endpoint Suffix instead of fully qualified Endpoint URI, Account Name is required.</string>
+    <string name="connection_bad_azure_secret">Access Key or Shared Access Signature is required.</string>
+    <string name="connection_bad_azure_container">Blob Container is required.</string>
+    <string name="connection_bad_azure_account">Your credentials cannot access any Azure Blob Storage container.</string>
 
     <!-- Functions -->
     <string name="no_functions">Configure Functions on a computer.</string>

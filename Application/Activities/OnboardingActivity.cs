@@ -71,8 +71,21 @@ namespace Unishare.Apps.DevolMobile.Activities
                 }
 
                 Globals.FileSystem = new VirtualFileSystem(sharingRoot);
-                Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem);
-                Task.Run(() => Globals.CloudManager.StartService());
+
+                var appsPath = Path.Combine(FilesDir.AbsolutePath, "Static");
+                Directory.CreateDirectory(appsPath);
+                Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem, appsPath);
+
+                Task.Run(async () => {
+                    var appVersion = this.GetPackageVersion();
+                    if (!Globals.Database.CheckSetting(UserSettings.LastInstalledVersion, appVersion))
+                    {
+                        await Globals.CloudManager.InstallApps().ConfigureAwait(false);
+                        Globals.Database.SaveSetting(UserSettings.LastInstalledVersion, appVersion);
+                    }
+
+                    Globals.CloudManager.StartService();
+                });
 
                 if (Globals.Database.Table<CloudModel>().Count() != 0)
                 {
