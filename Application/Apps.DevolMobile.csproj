@@ -95,7 +95,7 @@
     <Compile Include="Items\FileFolder.cs" />
     <Compile Include="Items\FileEntryViewHolder.cs" />
     <Compile Include="Items\FolderGoBack.cs" />
-    <Compile Include="Items\SimpleTitle.cs" />
+    <Compile Include="Items\WebApp.cs" />
     <Compile Include="Items\SimpleViewHolder.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -447,9 +447,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\device_computer.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\third_party_services.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidBoundLayout Include="Resources\layout\add_a_connection.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -474,9 +471,6 @@
     <AndroidResource Include="Resources\drawable\cloud.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\function.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\home.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -489,7 +483,13 @@
     <AndroidResource Include="Resources\values-zh-rCN\strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values-zh-rCN\third_party_services.xml" />
+    <AndroidResource Include="Resources\values\arrays.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values-zh-rCN\arrays.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\extension.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

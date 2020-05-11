@@ -4,4 +4,8 @@
         <item>阿里云</item>
         <item>Azure Blob 存储</item>
     </string-array>
+    <string-array name="save_to">
+        <item>个人云</item>
+        <item>仅本机</item>
+    </string-array>
 </resources>

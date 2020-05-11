@@ -51,6 +51,12 @@ namespace Unishare.Apps.DevolMobile.Fragments
             return view;
         }
 
+        public override void OnStart()
+        {
+            base.OnStart();
+            RefreshFunctions(this, EventArgs.Empty);
+        }
+
         public bool OnItemClick(View view, int position)
         {
             var app = items[position];
@@ -70,7 +76,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
             if (!R.list_reloader.Refreshing) R.list_reloader.Refreshing = true;
 
             items = Globals.CloudManager.PersonalClouds[0].Apps;
-            var models = items.Select(x => new SimpleTitle(x.Name)).ToList();
+            var models = items.Select(x => new WebApp(x)).ToList();
             adapter.UpdateDataSet(models, true);
             if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
         }

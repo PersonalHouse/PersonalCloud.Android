@@ -4,4 +4,8 @@
         <item>Alibaba Cloud</item>
         <item>Azure Blob Storage</item>
     </string-array>
+    <string-array name="save_to">
+        <item>to Personal Cloud</item>
+        <item>on This Device Only</item>
+    </string-array>
 </resources>

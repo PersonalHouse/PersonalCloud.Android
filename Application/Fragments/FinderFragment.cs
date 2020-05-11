@@ -532,7 +532,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
             var activity = (MainActivity) Activity;
             if (workingPath.Length == 1)
             {
-                activity.SetTitle(Resource.String.personal_cloud);
+                activity.SetActionBarTitle(Resource.String.personal_cloud);
                 try { Globals.CloudManager.StartNetwork(false); }
                 catch { } // Ignored.
             }
@@ -575,7 +575,7 @@ namespace Unishare.Apps.DevolMobile.Fragments
 
                 Activity.RunOnUiThread(() => {
                     adapter.UpdateDataSet(models, true);
-                    if (!string.IsNullOrEmpty(title)) activity.SetTitle(title);
+                    if (!string.IsNullOrEmpty(title)) activity.SetActionBarTitle(title);
                     if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
                     Activity.InvalidateOptionsMenu();
                 });

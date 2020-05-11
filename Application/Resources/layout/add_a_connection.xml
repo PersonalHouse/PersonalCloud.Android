@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:hint="@string/aliyun_secret"
-            app:layout_constraintBottom_toTopOf="@+id/connection_save"
+            app:layout_constraintBottom_toTopOf="@+id/connection_share_spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/connection_account"
@@ -138,6 +138,28 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/connection_share_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/share_credentials"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@+id/connection_share_spinner"
+            app:layout_constraintEnd_toStartOf="@+id/connection_share_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/connection_share_spinner" />
+
+        <Spinner
+            android:id="@+id/connection_share_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:entries="@array/save_to"
+            app:layout_constraintBottom_toTopOf="@+id/connection_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/connection_share_label"
+            app:layout_constraintTop_toBottomOf="@id/connection_secret" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/connection_save"
             android:layout_width="match_parent"
@@ -147,7 +169,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/connection_secret"
+            app:layout_constraintTop_toBottomOf="@id/connection_share_spinner"
             xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

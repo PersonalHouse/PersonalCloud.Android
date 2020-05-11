@@ -202,6 +202,13 @@ namespace Unishare.Apps.DevolMobile.Activities
                 return;
             }
 
+            var shareScope = R.connection_share_spinner.SelectedItemPosition switch
+            {
+                0 => StorageProviderVisibility.Public,
+                1 => StorageProviderVisibility.Private,
+                _ => throw new IndexOutOfRangeException()
+            };
+
 #pragma warning disable 0618
             var progress = new ProgressDialog(this);
             progress.SetCancelable(false);
@@ -216,7 +223,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                     {
                         if (alibaba.Verify())
                         {
-                            Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, name, alibaba, StorageProviderVisibility.Private);
+                            Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, Guid.NewGuid(), name, alibaba, shareScope);
                             RunOnUiThread(() => {
                                 progress.Dismiss();
                                 Finish();
@@ -236,7 +243,7 @@ namespace Unishare.Apps.DevolMobile.Activities
                     {
                         if (azure.Verify())
                         {
-                            Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, name, azure, StorageProviderVisibility.Private);
+                            Globals.CloudManager.AddStorageProvider(Globals.CloudManager.PersonalClouds[0].Id, Guid.NewGuid(), name, azure, shareScope);
                             RunOnUiThread(() => {
                                 progress.Dismiss();
                                 Finish();

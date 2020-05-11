@@ -4,10 +4,10 @@
     <item
         android:id="@id/finderFragment"
         android:icon="@drawable/cloud"
-        android:title="@string/personal_cloud" />
+        android:title="@string/finder" />
     <item
         android:id="@id/functionsFragment"
-        android:icon="@drawable/function"
+        android:icon="@drawable/extension"
         android:title="@string/apps" />
     <item
         android:id="@+id/settingsFragment"

@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/default_material"
             android:layout_marginEnd="@dimen/default_material"
             android:gravity="center_horizontal"
-            android:text="@string/empty_list_placeholder"
+            android:text="@string/no_functions"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     </RelativeLayout>

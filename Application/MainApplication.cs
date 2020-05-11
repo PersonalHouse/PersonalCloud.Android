@@ -53,7 +53,6 @@ namespace Unishare.Apps.DevolMobile
             Globals.Database.CreateTable<CloudModel>();
             Globals.Database.CreateTable<AlibabaOSS>();
             Globals.Database.CreateTable<AzureBlob>();
-            Globals.Database.CreateTable<Launcher>();
             Globals.Database.CreateTable<WebApp>();
             Globals.Database.CreateTable<BackupRecord>();
 

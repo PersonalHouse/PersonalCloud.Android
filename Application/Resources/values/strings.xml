@@ -33,7 +33,7 @@ You must allow Personal Cloud to read and write your device Storage before using
 
     <!-- Fragments -->
     <string name="finder">Cloud</string>
-    <string name="apps">Functions</string>
+    <string name="apps">Apps</string>
     <string name="settings">Settings</string>
 
     <!-- Settings -->
@@ -102,6 +102,8 @@ If this item is a folder or package, all of its contents are also deleted."</str
     <string name="connections">Connections</string>
     <string name="choose_service">Connect to…</string>
     <string name="connection_name">Name</string>
+    <string name="share_credentials">Save credentials…</string>
+
     <string name="alibaba_cloud">Alibaba Cloud</string>
     <string name="aliyun_endpoint">Endpoint</string>
     <string name="aliyun_bucket">Bucket</string>
@@ -134,7 +136,8 @@ If this item is a folder or package, all of its contents are also deleted."</str
     <string name="connection_bad_azure_account">Your credentials cannot access any Azure Blob Storage container.</string>
 
     <!-- Functions -->
-    <string name="no_functions">Configure Functions on a computer.</string>
+    <string name="no_functions">Configure Apps on a computer.</string>
+    <string name="web_app">Web App</string>
 
     <!-- Cloud Management -->
     <string name="personal_cloud">Personal Cloud</string>

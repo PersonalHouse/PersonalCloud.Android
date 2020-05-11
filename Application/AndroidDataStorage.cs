@@ -37,6 +37,7 @@ namespace Unishare.Apps.DevolMobile
                     config.AccessKeyId = cipher.DecryptContinuousText(y.AccessID);
                     config.AccessKeySecret = cipher.DecryptContinuousText(y.AccessSecret);
                     return new StorageProviderInfo {
+                        Id = y.Id,
                         Type = StorageProviderInstance.TypeAliYun,
                         Name = y.Name,
                         Visibility = (StorageProviderVisibility) y.Visibility,
@@ -50,6 +51,7 @@ namespace Unishare.Apps.DevolMobile
                     using var cipher = new PasswordCipher(y.Id.ToString("N", CultureInfo.InvariantCulture), x.Key);
                     config.ConnectionString = cipher.DecryptTextOnce(y.Parameters);
                     return new StorageProviderInfo {
+                        Id = y.Id,
                         Type = StorageProviderInstance.TypeAzure,
                         Name = y.Name,
                         Visibility = (StorageProviderVisibility) y.Visibility,
@@ -59,23 +61,13 @@ namespace Unishare.Apps.DevolMobile
                 var providers = new List<StorageProviderInfo>();
                 providers.AddRange(alibaba);
                 providers.AddRange(azure);
-                var launchers = Globals.Database.Table<Launcher>().Where(y => y.Cloud == x.Id).Select(y => {
-                    return new AppLauncher {
-                        Name = y.Name,
-                        AppType = (AppType) y.Type,
-                        NodeId = y.Node.ToString("N"),
-                        AppId = y.AppName,
-                        WebAddress = y.Address,
-                        AccessKey = y.Key
-                    };
-                }).ToList();
                 return new PersonalCloudInfo(providers) {
                     Id = x.Id.ToString("N", CultureInfo.InvariantCulture),
                     DisplayName = x.Name,
                     NodeDisplayName = deviceName,
                     MasterKey = Convert.FromBase64String(x.Key),
                     TimeStamp = x.Version,
-                    Apps = launchers,
+                    Apps = new List<AppLauncher>(),
                 };
             });
         }
@@ -85,12 +77,11 @@ namespace Unishare.Apps.DevolMobile
             Globals.Database.DeleteAll<CloudModel>();
             Globals.Database.DeleteAll<AlibabaOSS>();
             Globals.Database.DeleteAll<AzureBlob>();
-            Globals.Database.DeleteAll<Launcher>();
             foreach (var item in cloud)
             {
-                var id = new Guid(item.Id);
+                var cloudId = new Guid(item.Id);
                 Globals.Database.Insert(new CloudModel {
-                    Id = id,
+                    Id = cloudId,
                     Name = item.DisplayName,
                     Key = Convert.ToBase64String(item.MasterKey),
                     Version = item.TimeStamp,
@@ -104,8 +95,8 @@ namespace Unishare.Apps.DevolMobile
                         {
                             var config = JsonConvert.DeserializeObject<OssConfig>(provider.Settings);
                             var model = new AlibabaOSS {
-                                // Todo: GUID
-                                Cloud = id,
+                                Id = provider.Id,
+                                Cloud = cloudId,
                                 Name = provider.Name,
                                 Visibility = (int) provider.Visibility,
                                 Endpoint = config.OssEndpoint,
@@ -123,8 +114,8 @@ namespace Unishare.Apps.DevolMobile
                         {
                             var config = JsonConvert.DeserializeObject<AzureBlobConfig>(provider.Settings);
                             var model = new AzureBlob {
-                                // Todo: GUID
-                                Cloud = id,
+                                Id = provider.Id,
+                                Cloud = cloudId,
                                 Name = provider.Name,
                                 Visibility = (int) provider.Visibility,
                                 Container = config.BlobName
@@ -136,19 +127,6 @@ namespace Unishare.Apps.DevolMobile
                             continue;
                         }
                     }
-                }
-
-                foreach (var app in item.Apps)
-                {
-                    Globals.Database.Insert(new Launcher {
-                        Name = app.Name,
-                        Type = (int) app.AppType,
-                        Cloud = id,
-                        Node = string.IsNullOrEmpty(app.NodeId) ? Guid.Empty : new Guid(app.NodeId),
-                        AppName = app.AppId,
-                        Address = app.WebAddress,
-                        Key = app.AccessKey
-                    });
                 }
             }
 

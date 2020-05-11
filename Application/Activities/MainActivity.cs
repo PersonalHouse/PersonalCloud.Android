@@ -42,7 +42,13 @@ namespace Unishare.Apps.DevolMobile
             if (e.P1.Id != Resource.Id.finderFragment) SupportActionBar.Title = GetString(Resource.String.app_name);
         }
 
-        public void SetTitle(string title)
+        public void SetActionBarTitle(int resourceId)
+        {
+            if (SupportActionBar is null) return;
+            SupportActionBar.SetTitle(resourceId);
+        }
+
+        public void SetActionBarTitle(string title)
         {
             if (SupportActionBar is null) return;
             SupportActionBar.Title = title;
