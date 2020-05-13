@@ -103,7 +103,11 @@ namespace Unishare.Apps.DevolMobile.Activities
             Task.Run(() => {
                 try
                 {
-                    items = directory.EnumerateFileSystemInfos().ToList();
+                    items = directory.EnumerateFileSystemInfos()
+                                     .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden) && !x.Attributes.HasFlag(FileAttributes.System))
+                                     .OrderByDescending(x => x.Attributes.HasFlag(FileAttributes.Directory))
+                                     .ThenBy(x => x.Name)
+                                     .ToList();
                 }
                 catch (IOException)
                 {

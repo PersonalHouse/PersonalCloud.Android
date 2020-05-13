@@ -220,11 +220,13 @@ namespace Unishare.Apps.DevolMobile.Fragments
                             });
                         }
 
+                        /*
                         if (shouldDelete)
                         {
                             try { await fileSystem.DeleteAsync(remotePath).ConfigureAwait(false); }
                             catch { } // Ignored.
                         }
+                        */
                     });
                     return;
                 }
