@@ -9,7 +9,7 @@ using Binding;
 using DavideSteduto.FlexibleAdapter;
 using DavideSteduto.FlexibleAdapter.ViewHolders;
 
-namespace Unishare.Apps.DevolMobile.Items
+namespace NSPersonalCloud.DevolMobile.Items
 {
     internal class FileEntryViewHolder : FlexibleViewHolder
     {

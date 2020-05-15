@@ -4,7 +4,7 @@ using Android.Views;
 
 using AndroidX.AppCompat.App;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     [Register("com.daoyehuo.UnishareLollipop.NavigableActivity")]
     public abstract class NavigableActivity : AppCompatActivity

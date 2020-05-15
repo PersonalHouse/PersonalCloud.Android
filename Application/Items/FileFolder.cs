@@ -11,7 +11,7 @@ using Humanizer;
 
 using NSPersonalCloud.Interfaces.FileSystem;
 
-namespace Unishare.Apps.DevolMobile.Items
+namespace NSPersonalCloud.DevolMobile.Items
 {
     internal class FileFolder : AbstractFlexibleItem
     {

@@ -7,7 +7,7 @@ using DavideSteduto.FlexibleAdapter.Items;
 
 using NSPersonalCloud.Interfaces.Apps;
 
-namespace Unishare.Apps.DevolMobile.Items
+namespace NSPersonalCloud.DevolMobile.Items
 {
     internal class WebApp : AbstractFlexibleItem
     {

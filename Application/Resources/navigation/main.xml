@@ -11,17 +11,17 @@
         android:name="com.daoyehuo.UnishareLollipop.FinderFragment"
         android:label="fragment_finder"
         tools:layout="@layout/fragment_finder"
-        xamarin:managedType="Unishare.Apps.DevolMobile.Fragments.FinderFragment" />
+        xamarin:managedType="NSPersonalCloud.DevolMobile.Fragments.FinderFragment" />
     <fragment
         android:id="@+id/functionsFragment"
         android:name="com.daoyehuo.UnishareLollipop.FunctionsFragment"
         android:label="fragment_functions"
         tools:layout="@layout/fragment_functions"
-        xamarin:managedType="Unishare.Apps.DevolMobile.Fragments.FunctionsFragment" />
+        xamarin:managedType="NSPersonalCloud.DevolMobile.Fragments.FunctionsFragment" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.daoyehuo.UnishareLollipop.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings"
-        xamarin:managedType="Unishare.Apps.DevolMobile.Fragments.SettingsFragment" />
+        xamarin:managedType="NSPersonalCloud.DevolMobile.Fragments.SettingsFragment" />
 </navigation>

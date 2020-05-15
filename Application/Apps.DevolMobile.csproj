@@ -10,8 +10,8 @@
     <TemplateGuid>{84dd83c5-0fe3-4294-9419-09e7c8ba324f}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unishare.Apps.DevolMobile</RootNamespace>
-    <AssemblyName>Unishare.Apps.DevolMobile</AssemblyName>
+    <RootNamespace>NSPersonalCloud.DevolMobile</RootNamespace>
+    <AssemblyName>PersonalCloud.DevolMobile</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>

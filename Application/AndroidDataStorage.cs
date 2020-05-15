@@ -11,12 +11,12 @@ using NSPersonalCloud.Config;
 using NSPersonalCloud.FileSharing.Aliyun;
 using NSPersonalCloud.Interfaces.Apps;
 
-using Unishare.Apps.Common;
-using Unishare.Apps.Common.Models;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.Common.Models;
 
 using VaslD.Utility.Cryptography;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     public class AndroidDataStorage : IConfigStorage
     {

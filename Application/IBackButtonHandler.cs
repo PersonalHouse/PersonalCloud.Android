@@ -1,4 +1,4 @@
-﻿namespace Unishare.Apps.DevolMobile
+﻿namespace NSPersonalCloud.DevolMobile
 {
     public interface IBackButtonHandler
     {

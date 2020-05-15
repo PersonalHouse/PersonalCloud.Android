@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Unishare.Apps.DevolMobile.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("NSPersonalCloud.DevolMobile.Resource", IsApplication=true)]
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
 	
 	

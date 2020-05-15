@@ -26,12 +26,12 @@ using DavideSteduto.FlexibleAdapter.Items;
 using NSPersonalCloud.Interfaces.FileSystem;
 using NSPersonalCloud.RootFS;
 
-using Unishare.Apps.DevolMobile.Activities;
-using Unishare.Apps.DevolMobile.Items;
+using NSPersonalCloud.DevolMobile.Activities;
+using NSPersonalCloud.DevolMobile.Items;
 
 using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 
-namespace Unishare.Apps.DevolMobile.Fragments
+namespace NSPersonalCloud.DevolMobile.Fragments
 {
     [Register("com.daoyehuo.UnishareLollipop.FinderFragment")]
     public class FinderFragment : Fragment, IOnItemClickListener, IOnItemLongClickListener, IBackButtonHandler

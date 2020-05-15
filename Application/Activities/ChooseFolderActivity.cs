@@ -19,9 +19,9 @@ using DavideSteduto.FlexibleAdapter.Common;
 using DavideSteduto.FlexibleAdapter.Helpers;
 using DavideSteduto.FlexibleAdapter.Items;
 
-using Unishare.Apps.DevolMobile.Items;
+using NSPersonalCloud.DevolMobile.Items;
 
-namespace Unishare.Apps.DevolMobile.Activities
+namespace NSPersonalCloud.DevolMobile.Activities
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.ChooseFolderActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ChooseFolderActivity : NavigableActivity, FlexibleAdapter.IOnItemClickListener

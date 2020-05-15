@@ -10,9 +10,9 @@ using Binding;
 using NSPersonalCloud;
 using NSPersonalCloud.Interfaces.Errors;
 
-using Unishare.Apps.Common;
+using NSPersonalCloud.Common;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.JoinCloudActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class JoinCloudActivity : NavigableActivity

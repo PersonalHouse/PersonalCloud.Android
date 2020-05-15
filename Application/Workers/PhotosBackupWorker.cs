@@ -21,15 +21,15 @@ using Sentry.Protocol;
 
 using SQLite;
 
-using Unishare.Apps.Common;
-using Unishare.Apps.Common.Models;
-using Unishare.Apps.DevolMobile.Data;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.Common.Models;
+using NSPersonalCloud.DevolMobile.Data;
 
-namespace Unishare.Apps.DevolMobile.Workers
+namespace NSPersonalCloud.DevolMobile.Workers
 {
     public class PhotosBackupWorker : Worker
     {
-        private const string NotificationChannelId = "Unishare.Apps.DevolMobile.ForegroundWorkers";
+        private const string NotificationChannelId = "NSPersonalCloud.DevolMobile.ForegroundWorkers";
 
         private Context Context { get; }
         private WorkerParameters Parameters { get; }

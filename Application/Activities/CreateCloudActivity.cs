@@ -9,9 +9,9 @@ using Binding;
 
 using NSPersonalCloud;
 
-using Unishare.Apps.Common;
+using NSPersonalCloud.Common;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.CreateCloudActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class CreateCloudActivity : NavigableActivity
