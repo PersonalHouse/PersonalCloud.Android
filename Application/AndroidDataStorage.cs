@@ -6,13 +6,11 @@ using System.Net;
 
 using Newtonsoft.Json;
 
-using NSPersonalCloud;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.Common.Models;
 using NSPersonalCloud.Config;
 using NSPersonalCloud.FileSharing.Aliyun;
 using NSPersonalCloud.Interfaces.Apps;
-
-using NSPersonalCloud.Common;
-using NSPersonalCloud.Common.Models;
 
 using VaslD.Utility.Cryptography;
 
@@ -170,8 +168,7 @@ namespace NSPersonalCloud.DevolMobile
         public void SaveApp(string appId, string cloudId, string config)
         {
             var guid = new Guid(cloudId);
-            var old = Globals.Database.Find<WebApp>(x => x.Cloud == guid && x.Name == appId);
-            if (old != null) Globals.Database.Delete(old);
+            var old = Globals.Database.Table<WebApp>().Delete(x => x.Cloud == guid && x.Name == appId);
             Globals.Database.Insert(new WebApp {
                 Cloud = new Guid(cloudId),
                 Name = appId,
