@@ -13,12 +13,12 @@ using Binding;
 
 using NSPersonalCloud;
 
-using Unishare.Apps.Common;
-using Unishare.Apps.Common.Models;
-using Unishare.Apps.DevolMobile.Activities;
-using Unishare.Apps.DevolMobile.Workers;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.Common.Models;
+using NSPersonalCloud.DevolMobile.Activities;
+using NSPersonalCloud.DevolMobile.Workers;
 
-namespace Unishare.Apps.DevolMobile.Fragments
+namespace NSPersonalCloud.DevolMobile.Fragments
 {
     [Register("com.daoyehuo.UnishareLollipop.SettingsFragment")]
     public class SettingsFragment : Fragment

@@ -3,7 +3,7 @@
 using Android.Content;
 using Android.Net.Wifi;
 
-namespace Unishare.Apps.DevolMobile.BroadcastReceivers
+namespace NSPersonalCloud.DevolMobile.BroadcastReceivers
 {
     public class WiFiStateReceiver : BroadcastReceiver
     {

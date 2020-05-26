@@ -10,11 +10,11 @@ using Binding;
 using NSPersonalCloud;
 using NSPersonalCloud.FileSharing.Aliyun;
 
-using Unishare.Apps.Common;
+using NSPersonalCloud.Common;
 
 using static Android.Widget.AdapterView;
 
-namespace Unishare.Apps.DevolMobile.Activities
+namespace NSPersonalCloud.DevolMobile.Activities
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.ManageConnectionsActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ManageConnectionsActivity : NavigableActivity

@@ -5,7 +5,7 @@ using Android.Content;
 
 using AndroidX.Fragment.App;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     internal static class UIExtensions
     {

@@ -21,10 +21,10 @@ using DavideSteduto.FlexibleAdapter.Items;
 using NSPersonalCloud.Interfaces.FileSystem;
 using NSPersonalCloud.RootFS;
 
-using Unishare.Apps.Common;
-using Unishare.Apps.DevolMobile.Items;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.DevolMobile.Items;
 
-namespace Unishare.Apps.DevolMobile.Activities
+namespace NSPersonalCloud.DevolMobile.Activities
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.ChooseBackupDeviceActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ChooseBackupDeviceActivity : NavigableActivity, FlexibleAdapter.IOnItemClickListener

@@ -23,11 +23,11 @@ using DavideSteduto.FlexibleAdapter.Items;
 using NSPersonalCloud.Interfaces.FileSystem;
 using NSPersonalCloud.RootFS;
 
-using Unishare.Apps.DevolMobile.Items;
+using NSPersonalCloud.DevolMobile.Items;
 
 using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 
-namespace Unishare.Apps.DevolMobile.Activities
+namespace NSPersonalCloud.DevolMobile.Activities
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.ChooseDestinationActivity", Label = "@string/app_name", Theme = "@style/AppTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ChooseDestinationActivity : NavigableActivity, IOnItemClickListener

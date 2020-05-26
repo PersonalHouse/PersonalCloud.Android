@@ -4,7 +4,7 @@ using NSPersonalCloud;
 
 using SQLite;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     public static class Globals
     {

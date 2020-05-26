@@ -2,7 +2,7 @@
 
 using SQLite;
 
-namespace Unishare.Apps.DevolMobile.Data
+namespace NSPersonalCloud.DevolMobile.Data
 {
     [Table("Backup")]
     public class BackupRecord

@@ -10,8 +10,8 @@
     <TemplateGuid>{84dd83c5-0fe3-4294-9419-09e7c8ba324f}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unishare.Apps.DevolMobile</RootNamespace>
-    <AssemblyName>Unishare.Apps.DevolMobile</AssemblyName>
+    <RootNamespace>NSPersonalCloud.DevolMobile</RootNamespace>
+    <AssemblyName>PersonalCloud.DevolMobile</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
@@ -147,7 +147,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3">
-      <Version>1.1.14</Version>
+      <Version>2.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.AppCompat">
       <Version>1.1.0</Version>

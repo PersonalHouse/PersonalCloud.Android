@@ -14,12 +14,12 @@ using Microsoft.Extensions.Logging;
 
 using SQLite;
 
-using Unishare.Apps.Common;
-using Unishare.Apps.Common.Models;
-using Unishare.Apps.DevolMobile.BroadcastReceivers;
-using Unishare.Apps.DevolMobile.Data;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.Common.Models;
+using NSPersonalCloud.DevolMobile.BroadcastReceivers;
+using NSPersonalCloud.DevolMobile.Data;
 
-namespace Unishare.Apps.DevolMobile
+namespace NSPersonalCloud.DevolMobile
 {
     [Application(Name = "com.daoyehuo.UnishareLollipop.MainApplication", Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round", Label = "@string/app_name",
         SupportsRtl = false, Theme = "@style/AppTheme", AllowBackup = true)]

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Unishare Lollipop")]
-[assembly: AssemblyDescription("DYH Unishare Android App")]
+[assembly: AssemblyDescription("Personal Cloud Android App")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Beijing DYH Tech Co., Ltd.")]
 [assembly: AssemblyProduct("Unishare")]

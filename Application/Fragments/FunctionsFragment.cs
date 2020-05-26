@@ -17,11 +17,11 @@ using DavideSteduto.FlexibleAdapter.Helpers;
 
 using NSPersonalCloud.Interfaces.Apps;
 
-using Unishare.Apps.DevolMobile.Items;
+using NSPersonalCloud.DevolMobile.Items;
 
 using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
 
-namespace Unishare.Apps.DevolMobile.Fragments
+namespace NSPersonalCloud.DevolMobile.Fragments
 {
     [Register("com.daoyehuo.UnishareLollipop.FunctionsFragment")]
     public class FunctionsFragment : Fragment, IOnItemClickListener

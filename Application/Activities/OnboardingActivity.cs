@@ -15,10 +15,10 @@ using Binding;
 
 using NSPersonalCloud;
 
-using Unishare.Apps.Common;
-using Unishare.Apps.Common.Models;
+using NSPersonalCloud.Common;
+using NSPersonalCloud.Common.Models;
 
-namespace Unishare.Apps.DevolMobile.Activities
+namespace NSPersonalCloud.DevolMobile.Activities
 {
     [Activity(Name = "com.daoyehuo.UnishareLollipop.OnboardingActivity", Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class OnboardingActivity : AppCompatActivity

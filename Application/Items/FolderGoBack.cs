@@ -6,7 +6,7 @@ using Android.Views;
 using DavideSteduto.FlexibleAdapter;
 using DavideSteduto.FlexibleAdapter.Items;
 
-namespace Unishare.Apps.DevolMobile.Items
+namespace NSPersonalCloud.DevolMobile.Items
 {
     internal class FolderGoBack : AbstractFlexibleItem
     {
