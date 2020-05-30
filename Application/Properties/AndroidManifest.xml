@@ -9,7 +9,11 @@
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <application android:requestLegacyExternalStorage="true">
+
+  <!-- Warning: These 2 flags may be removed in future versions of Android. 
+                Google Play Store may also refuse apps with these flags set. -->
+  <application android:requestLegacyExternalStorage="true"
+               android:usesCleartextTraffic="true">
     <provider
         android:name="androidx.core.content.FileProvider"
         android:authorities="com.daoyehuo.Unishare.FileProvider"
