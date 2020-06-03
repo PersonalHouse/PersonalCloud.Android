@@ -1,27 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="85" android:versionName="2.2.3"
-          package="com.daoyehuo.UnisharePanda"
-          android:installLocation="internalOnly">
-  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-  <!-- Warning: These 2 flags may be removed in future versions of Android. 
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="85" android:versionName="2.2.5" package="com.daoyehuo.UnisharePanda" android:installLocation="internalOnly">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<!-- Warning: These 2 flags may be removed in future versions of Android. 
                 Google Play Store may also refuse apps with these flags set. -->
-  <application android:requestLegacyExternalStorage="true"
-               android:usesCleartextTraffic="true">
-    <provider
-        android:name="androidx.core.content.FileProvider"
-        android:authorities="com.daoyehuo.Unishare.FileProvider"
-        android:exported="false"
-        android:grantUriPermissions="true">
-      <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/file_paths" />
-    </provider>
-  </application>
+	<application android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true">
+		<provider android:name="androidx.core.content.FileProvider" android:authorities="com.daoyehuo.Unishare.FileProvider" android:exported="false" android:grantUriPermissions="true">
+			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
+		</provider>
+	</application>
 </manifest>
