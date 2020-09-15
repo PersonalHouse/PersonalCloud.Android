@@ -125,7 +125,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                     if ((Android.App.Result) resultCode != Android.App.Result.Ok) return;
                     var path = data.GetStringExtra(ChooseFolderActivity.ResultPath);
                     if (string.IsNullOrEmpty(path)) throw new InvalidOperationException();
-                    Globals.FileSystem.RootPath = path;
+                    Globals.SetupFS(path);
                     Globals.Database.SaveSetting(UserSettings.SharingRoot, path);
                     Activity.ShowAlert(GetString(Resource.String.shared_folder_set), path);
                     return;
@@ -143,7 +143,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
         {
             Activity.ShowEditorAlert(GetString(Resource.String.new_device_name), DeviceCell.detail_label.Text, null, GetString(Resource.String.action_save), deviceName => {
                 var invalidCharHit = false;
-                foreach (var character in VirtualFileSystem.InvalidCharacters)
+                foreach (var character in Consts.InvalidCharacters)
                 {
                     if (deviceName?.Contains(character) == true) invalidCharHit = true;
                 }
@@ -209,13 +209,13 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                 }
 
                 Globals.Database.SaveSetting(UserSettings.EnableSharing, "1");
-                Globals.FileSystem.RootPath = sharingRoot;
+                Globals.SetupFS(sharingRoot);
                 R.file_sharing_root.Enabled = true;
             }
             else
             {
                 Globals.Database.SaveSetting(UserSettings.EnableSharing, "0");
-                Globals.FileSystem.RootPath = null;
+                Globals.SetupFS(null);
                 R.file_sharing_root.Enabled = false;
             }
         }

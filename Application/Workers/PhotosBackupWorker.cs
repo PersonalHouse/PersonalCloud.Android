@@ -75,7 +75,7 @@ namespace NSPersonalCloud.DevolMobile.Workers
             }
 
             if (Globals.Storage == null) Globals.Storage = new AndroidDataStorage();
-            if (Globals.FileSystem == null) Globals.FileSystem = new VirtualFileSystem(null);
+            if (Globals.FileSystem == null) Globals.SetupFS(null);
 
             var appsPath = Path.Combine(Context.FilesDir.AbsolutePath, "Static");
                 Directory.CreateDirectory(appsPath);
