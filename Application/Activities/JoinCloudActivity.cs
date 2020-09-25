@@ -41,7 +41,7 @@ namespace NSPersonalCloud.DevolMobile
             var inviteCode = R.join_cloud_invite.EditText.Text;
 
             var invalidCharHit = false;
-            foreach (var character in VirtualFileSystem.InvalidCharacters)
+            foreach (var character in Consts.InvalidCharacters)
             {
                 if (deviceName?.Contains(character) == true) invalidCharHit = true;
             }

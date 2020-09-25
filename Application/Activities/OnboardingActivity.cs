@@ -70,7 +70,7 @@ namespace NSPersonalCloud.DevolMobile.Activities
                     sharingRoot = null;
                 }
 
-                Globals.FileSystem = new VirtualFileSystem(sharingRoot);
+                Globals.SetupFS(sharingRoot);
 
                 var appsPath = Path.Combine(FilesDir.AbsolutePath, "Static");
                 Directory.CreateDirectory(appsPath);

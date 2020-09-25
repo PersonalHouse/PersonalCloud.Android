@@ -65,7 +65,7 @@ namespace NSPersonalCloud.DevolMobile.Activities
         {
             var name = R.connection_name.EditText.Text;
             var invalidCharHit = false;
-            foreach (var character in VirtualFileSystem.InvalidCharacters)
+            foreach (var character in Consts.InvalidCharacters)
             {
                 if (name?.Contains(character) == true) invalidCharHit = true;
             }

@@ -40,7 +40,7 @@ namespace NSPersonalCloud.DevolMobile
             var cloudName = R.new_cloud_name.EditText.Text;
 
             var invalidCharHit = false;
-            foreach (var character in VirtualFileSystem.InvalidCharacters)
+            foreach (var character in Consts.InvalidCharacters)
             {
                 if (deviceName?.Contains(character) == true) invalidCharHit = true;
             }
