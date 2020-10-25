@@ -135,3 +135,6 @@ _pkginfo.txt
 # Cake
 tools/**
 !tools/packages.config
+
+# JetBrains Rider
+.idea/
