@@ -57,6 +57,9 @@ namespace NSPersonalCloud.DevolMobile.Activities
                 var storageRoot = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
 #pragma warning restore CS0618 // Type or member is obsolete
 
+                // Global storage access is no longer a thing on Android 11. Sandboxing is enforced.
+                // The next line will throw Unauthorized Exception (Security Exception);
+                // and there is no compatibility flag to turn it off this time.
                 Directory.CreateDirectory(Path.Combine(storageRoot, "Personal Cloud"));
 
                 var sharingRoot = Globals.Database.LoadSetting(UserSettings.SharingRoot);
