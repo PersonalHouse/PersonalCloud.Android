@@ -30,6 +30,7 @@ using NSPersonalCloud.DevolMobile.Activities;
 using NSPersonalCloud.DevolMobile.Items;
 
 using static DavideSteduto.FlexibleAdapter.FlexibleAdapter;
+using System.Threading;
 
 namespace NSPersonalCloud.DevolMobile.Fragments
 {
@@ -185,19 +186,37 @@ namespace NSPersonalCloud.DevolMobile.Fragments
 
 #pragma warning disable 0618
                     var progress = new Android.App.ProgressDialog(Context);
+                    progress.SetProgressStyle(Android.App.ProgressDialogStyle.Horizontal);
                     progress.SetCancelable(false);
                     progress.SetMessage(GetString(Resource.String.uploading_file));
                     progress.Show();
 #pragma warning restore 0618
+
+                    long totalSize;
+                    Timer progressTimer = null;
                     Task.Run(async () => {
-                        var shouldDelete = false;
                         var fileName = Path.GetFileName(path);
                         var remotePath = Path.Combine(workingPath, fileName);
                         try
                         {
-                            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                            totalSize = stream.Length;
+                            progressTimer = new Timer(obj => {
+                                var position = (double) stream.Position;
+                                var completed = position / totalSize * 100;
+
+#pragma warning disable 0618
+                                Activity.RunOnUiThread(() => {
+                                    progress.Indeterminate = false;
+                                    progress.Progress = (int) completed;
+                                });
+#pragma warning restore 0618
+                            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(0.3));
+
                             await fileSystem.WriteFileAsync(remotePath, stream).ConfigureAwait(false);
 
+                            progressTimer.Dispose();
+                            progressTimer = null;
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
                                 RefreshDirectory(this, EventArgs.Empty);
@@ -205,7 +224,9 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                         }
                         catch (HttpRequestException exception)
                         {
-                            shouldDelete = true;
+                            progressTimer?.Dispose();
+                            progressTimer = null;
+
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
                                 Activity.ShowAlert(GetString(Resource.String.error_remote), exception.Message);
@@ -213,20 +234,14 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                         }
                         catch (Exception exception)
                         {
-                            shouldDelete = true;
+                            progressTimer?.Dispose();
+                            progressTimer = null;
+
                             Activity.RunOnUiThread(() => {
                                 progress.Dismiss();
                                 Activity.ShowAlert(GetString(Resource.String.error_upload_file), exception.GetType().Name);
                             });
                         }
-
-                        /*
-                        if (shouldDelete)
-                        {
-                            try { await fileSystem.DeleteAsync(remotePath).ConfigureAwait(false); }
-                            catch { } // Ignored.
-                        }
-                        */
                     });
                     return;
                 }
@@ -628,18 +643,40 @@ namespace NSPersonalCloud.DevolMobile.Fragments
 
 #pragma warning disable 0618
             var progress = new Android.App.ProgressDialog(Context);
+            progress.SetProgressStyle(Android.App.ProgressDialogStyle.Horizontal);
             progress.SetCancelable(false);
             progress.SetMessage(GetString(Resource.String.downloading));
             progress.Show();
 #pragma warning restore 0618
+
+            long totalSize;
+            Timer progressTimer = null;
             Task.Run(async () => {
                 try
                 {
                     var source = Path.Combine(workingPath, item.Name);
                     var target = new FileStream(cachePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None);
+                    if (item.Size is { } size)
+                    {
+                        totalSize = size;
+                        progressTimer = new Timer(obj => {
+                            var position = (double) target.Position;
+                            var completed = position / totalSize * 100;
+
+#pragma warning disable 0618
+                            Activity.RunOnUiThread(() => {
+                                progress.Indeterminate = false;
+                                progress.Progress = (int) completed;
+                            });
+#pragma warning restore 0618
+                        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(0.3));
+                    }
+                    
                     await (await fileSystem.ReadFileAsync(source).ConfigureAwait(false)).CopyToAsync(target).ConfigureAwait(false);
                     await target.DisposeAsync().ConfigureAwait(false);
 
+                    progressTimer?.Dispose();
+                    progressTimer = null;
                     Activity.RunOnUiThread(() => {
                         progress.Dismiss();
                         onCompletion?.Invoke();
@@ -647,6 +684,9 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                 }
                 catch (Exception exception)
                 {
+                    progressTimer?.Dispose();
+                    progressTimer = null;
+
                     try { File.Delete(cachePath); }
                     catch { }
 
