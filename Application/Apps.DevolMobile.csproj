@@ -84,6 +84,7 @@
     <Compile Include="Activities\NavigableActivity.cs" />
     <Compile Include="AndroidDataStorage.cs" />
     <Compile Include="AndroidUserSettings.cs" />
+    <Compile Include="BroadcastReceivers\BootReceiver.cs" />
     <Compile Include="BroadcastReceivers\WiFiStateReceiver.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Data\BackupRecord.cs" />
