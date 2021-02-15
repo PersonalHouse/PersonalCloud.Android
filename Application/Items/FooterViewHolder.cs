@@ -1,11 +1,13 @@
 ﻿using System;
 
 using Android.Content;
-using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
 using Android.Webkit;
+using Android.Widget;
+
 using AndroidX.AppCompat.App;
+
 using Binding;
 
 using DavideSteduto.FlexibleAdapter;
@@ -32,21 +34,31 @@ namespace NSPersonalCloud.DevolMobile.Items
             // create a WebView
             WebView webView = new WebView(Context);
 
-            webView.SetBackgroundColor(Color.Red);
-
             // populate the WebView with an HTML string
             webView.LoadUrl("file:///android_asset/NewDevicePromt.html");
 
             webView.SetWebViewClient(new MyWebViewClient(Context));
 
+            FrameLayout container = new FrameLayout(Context);
+            var @params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+            webView.LayoutParameters = @params;
+            container.AddView(webView);
+
             // create an AlertDialog.Builder
             AlertDialog.Builder builder = new AlertDialog.Builder(Context);
 
             // set the WebView as the AlertDialog.Builder’s view
-            //builder.SetTitle("Add More Device");
-            builder.SetView(webView);
+            builder.SetView(container);
 
-            builder.Show();
+            var dialog = builder.Show();
+
+            WindowManagerLayoutParams layoutParams = new WindowManagerLayoutParams();
+            layoutParams.CopyFrom(dialog.Window.Attributes);
+            layoutParams.Width = WindowManagerLayoutParams.MatchParent;
+            layoutParams.Height = WindowManagerLayoutParams.MatchParent;
+            dialog.Window.Attributes = layoutParams;
+
+            dialog.Show();
         }
 
         public class MyWebViewClient : WebViewClient
