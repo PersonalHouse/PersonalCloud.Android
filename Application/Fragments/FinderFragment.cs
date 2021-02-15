@@ -51,6 +51,8 @@ namespace NSPersonalCloud.DevolMobile.Fragments
 
         private FileSystemEntry opSource;
 
+        private FooterItem footerItem = new FooterItem();
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.fragment_finder, container, false);
@@ -65,6 +67,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             R.list_reloader.SetColorSchemeResources(Resource.Color.colorAccent);
             R.list_reloader.Refresh += RefreshDirectory;
             EmptyViewHelper.Create(adapter, R.list_empty);
+            adapter.AddScrollableFooterWithDelay(footerItem, 100L, false);
 
             workingPath = "/";
             fileSystem = Globals.CloudManager.PersonalClouds[0].RootFS;
@@ -576,9 +579,15 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                 }
 
                 Activity.RunOnUiThread(() => {
+                    adapter.RemoveScrollableFooter(footerItem);
                     adapter.UpdateDataSet(models, true);
+                    //adapter.SmoothScrollToPosition(0);
+                    adapter.AddScrollableFooterWithDelay(footerItem, 100L, false);
                     if (!string.IsNullOrEmpty(title)) activity.SetActionBarTitle(title);
-                    if (R.list_reloader.Refreshing) R.list_reloader.Refreshing = false;
+                    if (R.list_reloader.Refreshing)
+                    {
+                        R.list_reloader.Refreshing = false;
+                    }
                     Activity.InvalidateOptionsMenu();
                 });
             });

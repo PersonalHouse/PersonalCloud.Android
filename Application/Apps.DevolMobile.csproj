@@ -98,6 +98,8 @@
     <Compile Include="Items\FileFolder.cs" />
     <Compile Include="Items\FileEntryViewHolder.cs" />
     <Compile Include="Items\FolderGoBack.cs" />
+    <Compile Include="Items\FooterItem.cs" />
+    <Compile Include="Items\FooterViewHolder.cs" />
     <Compile Include="Items\WebApp.cs" />
     <Compile Include="Items\SimpleViewHolder.cs" />
     <Compile Include="MainApplication.cs" />
@@ -128,9 +130,22 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <AndroidAsset Include="Assets\bootstrap\css\bootstrap.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\bootstrap\js\bootstrap.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\css\styles.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\js\jquery.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Loader">
+      <Version>4.3.0</Version>
+	  <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
     <PackageReference Include="Humanizer.Core">
       <Version>2.8.11</Version>
     </PackageReference>
@@ -493,6 +508,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\extension.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\footer.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\NewDevicePromt.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
