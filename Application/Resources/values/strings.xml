@@ -33,6 +33,7 @@ You must allow Personal Cloud to read and write your device Storage before using
 
     <!-- Fragments -->
     <string name="finder">Cloud</string>
+    <string name="photo">Photo</string>
     <string name="apps">Apps</string>
     <string name="settings">Settings</string>
 
@@ -55,6 +56,7 @@ You must allow Personal Cloud to read and write your device Storage before using
     <!-- File Explorer -->
     <string name="folder">folder</string>
     <string name="file">file</string>
+    <string name="add_more_device">Add more device</string>
 
     <string name="empty_list_placeholder">Nothing to see here.</string>
     <string name="browser_back">Back</string>

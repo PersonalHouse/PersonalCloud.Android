@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xamarin="http://schemas.xamarin.com/android/xamarin/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/default_material">
+
+        <TextView
+            android:id="@+id/backup_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:text="@string/photos_backup" />
+
+        <include
+            android:id="@+id/backup_location_cell"
+            layout="@layout/key_value_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
+
+        <include
+            android:id="@+id/backup_cell"
+            layout="@layout/switch_cell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/medium_margin" />
+
+        <TextView
+            android:id="@+id/backup_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_material"
+            android:text="@string/photos_backup_hint"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+    </LinearLayout>
+
+</ScrollView>

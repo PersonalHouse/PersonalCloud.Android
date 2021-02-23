@@ -6,6 +6,10 @@
         android:icon="@drawable/cloud"
         android:title="@string/finder" />
     <item
+        android:id="@id/photoFragment"
+        android:icon="@drawable/photo"
+        android:title="@string/photo" />
+    <item
         android:id="@id/functionsFragment"
         android:icon="@drawable/extension"
         android:title="@string/apps" />

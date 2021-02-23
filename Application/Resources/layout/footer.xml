@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:xamarin="http://schemas.xamarin.com/android/xamarin/tools"
+    android:id="@+id/cell_root"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="?attr/selectableItemBackground"
+    android:padding="@dimen/large_margin"
+    xamarin:managedType="AndroidX.ConstraintLayout.Widget.ConstraintLayout">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_more_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/add_more_device"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        xamarin:managedType="Google.Android.Material.Button.MaterialButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
