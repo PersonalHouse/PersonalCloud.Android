@@ -30,8 +30,6 @@ namespace NSPersonalCloud.DevolMobile.Fragments
         internal key_value_cell DeviceCell { get; private set; }
         internal key_value_cell CloudCell { get; private set; }
         internal switch_cell FileSharingCell { get; private set; }
-        internal key_value_cell BackupLocationCell { get; private set; }
-        internal switch_cell AutoBackupCell { get; private set; }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Android.OS.Bundle savedInstanceState)
         {
@@ -83,19 +81,11 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             FileSharingCell.title_label.Text = GetString(Resource.String.enable_file_sharing);
             FileSharingCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.EnableSharing, "1");
             R.file_sharing_root.Enabled = FileSharingCell.switch_button.Checked;
-            BackupLocationCell = new key_value_cell(R.backup_location_cell);
-            BackupLocationCell.title_label.Text = GetString(Resource.String.photos_backup_location);
-            BackupLocationCell.detail_label.Text = string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)) ? null : GetString(Resource.String.photos_backup_location_set);
-            AutoBackupCell = new switch_cell(R.backup_cell);
-            AutoBackupCell.title_label.Text = GetString(Resource.String.enable_photos_backup);
-            AutoBackupCell.switch_button.Checked = Globals.Database.CheckSetting(UserSettings.AutoBackupPhotos, "1");
 
             R.device_cell.Click += ChangeDeviceName;
             R.toggle_invite.Click += InviteDevices;
             FileSharingCell.switch_button.CheckedChange += ToggleFileSharing;
             R.file_sharing_root.Click += ChangeSharingRoot;
-            R.backup_location_cell.Click += ChangeBackupDevice;
-            AutoBackupCell.switch_button.CheckedChange += ToggleAutoBackup;
             R.leave_cloud.Click += LeaveCloud;
 
             return view;
@@ -106,14 +96,6 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             base.OnResume();
             DeviceCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].NodeDisplayName;
             CloudCell.detail_label.Text = Globals.CloudManager.PersonalClouds[0].DisplayName;
-            if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
-            {
-                BackupLocationCell.detail_label.Text = null;
-            }
-            else
-            {
-                BackupLocationCell.detail_label.Text = GetString(Resource.String.photos_backup_location_set);
-            }
         }
 
         public override void OnActivityResult(int requestCode, int resultCode, Intent data)
@@ -223,49 +205,6 @@ namespace NSPersonalCloud.DevolMobile.Fragments
         private void ChangeSharingRoot(object sender, EventArgs e)
         {
             this.StartActivityForResult(typeof(ChooseFolderActivity), CallbackSharingRoot);
-        }
-
-        private void ChangeBackupDevice(object sender, EventArgs e)
-        {
-            this.StartActivity(typeof(ChooseBackupDeviceActivity));
-        }
-
-        private void ToggleAutoBackup(object sender, Android.Widget.CompoundButton.CheckedChangeEventArgs e)
-        {
-            if (e.IsChecked)
-            {
-                if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
-                {
-                    AutoBackupCell.switch_button.Checked = false;
-                    Activity.ShowAlert(GetString(Resource.String.cannot_set_up_backup), GetString(Resource.String.cannot_set_up_backup_location));
-                    return;
-                }
-
-                if (!int.TryParse(Globals.Database.LoadSetting(UserSettings.PhotoBackupInterval), out var workInterval))
-                {
-                    AutoBackupCell.switch_button.Checked = false;
-                    Activity.ShowAlert(GetString(Resource.String.cannot_set_up_backup), GetString(Resource.String.cannot_set_up_backup_interval));
-                    return;
-                }
-
-                var workConstraints = new Constraints.Builder()
-                    .SetRequiredNetworkType(NetworkType.NotRequired).SetRequiresBatteryNotLow(true)
-                    .SetRequiresCharging(false).Build();
-                var workRequest = new PeriodicWorkRequest.Builder(typeof(PhotosBackupWorker), TimeSpan.FromHours(workInterval))
-                    .SetConstraints(workConstraints).Build();
-                WorkManager.GetInstance(Context).Enqueue(workRequest);
-                Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "1");
-                Globals.Database.SaveSetting(AndroidUserSettings.BackupScheduleId, workRequest.Id.ToString());
-            }
-            else
-            {
-                Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "0");
-                var workRequest = Globals.Database.LoadSetting(AndroidUserSettings.BackupScheduleId);
-                if (!string.IsNullOrEmpty(workRequest))
-                {
-                    WorkManager.GetInstance(Context).CancelWorkById(Java.Util.UUID.FromString(workRequest));
-                }
-            }
         }
 
         private void LeaveCloud(object sender, EventArgs e)

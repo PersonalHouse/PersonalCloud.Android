@@ -13,6 +13,12 @@
         tools:layout="@layout/fragment_finder"
         xamarin:managedType="NSPersonalCloud.DevolMobile.Fragments.FinderFragment" />
     <fragment
+        android:id="@+id/photoFragment"
+        android:name="com.daoyehuo.UnishareLollipop.PhotoFragment"
+        android:label="fragment_photo"
+        tools:layout="@layout/fragment_photo"
+        xamarin:managedType="NSPersonalCloud.DevolMobile.Fragments.PhotoFragment" />
+    <fragment
         android:id="@+id/functionsFragment"
         android:name="com.daoyehuo.UnishareLollipop.FunctionsFragment"
         android:label="fragment_functions"

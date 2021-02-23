@@ -88,6 +88,7 @@
     <Compile Include="BroadcastReceivers\WiFiStateReceiver.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Data\BackupRecord.cs" />
+    <Compile Include="Fragments\PhotoFragment.cs" />
     <Compile Include="Fragments\SettingsFragment.cs" />
     <Compile Include="Fragments\FunctionsFragment.cs" />
     <Compile Include="Fragments\FinderFragment.cs" />
@@ -144,7 +145,7 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.Loader">
       <Version>4.3.0</Version>
-	  <ExcludeAssets>all</ExcludeAssets>
+      <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Humanizer.Core">
       <Version>2.8.11</Version>
@@ -514,6 +515,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\NewDevicePromt.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBoundLayout Include="Resources\layout\fragment_photo.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\photo.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

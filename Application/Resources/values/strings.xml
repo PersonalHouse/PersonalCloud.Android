@@ -33,6 +33,7 @@ You must allow Personal Cloud to read and write your device Storage before using
 
     <!-- Fragments -->
     <string name="finder">Cloud</string>
+    <string name="photo">Photo</string>
     <string name="apps">Apps</string>
     <string name="settings">Settings</string>
 
