@@ -15,7 +15,7 @@ namespace NSPersonalCloud.DevolMobile.BroadcastReceivers
 
             try
             {
-                Globals.CloudManager?.StartNetwork(false);
+                Globals.CloudManager?.NetworkMayChanged(false);
                 lastUpdate = DateTime.Now;
             }
             catch

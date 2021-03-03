@@ -81,8 +81,8 @@ namespace NSPersonalCloud.DevolMobile.Workers
                 Directory.CreateDirectory(appsPath);
             if (Globals.CloudManager == null) Globals.CloudManager = new PCLocalService(Globals.Storage, Globals.Loggers, Globals.FileSystem, appsPath);
             if (Globals.CloudManager.PersonalClouds.Count < 1) return Result.InvokeFailure();
-            Globals.CloudManager.NetworkRefeshNodes();
-            Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+            //Globals.CloudManager.NetworkRefeshNodes();
+            //Task.Delay(TimeSpan.FromSeconds(5)).Wait();
 
             var fileSystem = Globals.CloudManager.PersonalClouds[0].RootFS;
             var dcimPath = Path.Combine(path, Globals.Database.LoadSetting(UserSettings.DeviceName), "DCIM/");

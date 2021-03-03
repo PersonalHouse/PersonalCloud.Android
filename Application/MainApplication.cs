@@ -85,7 +85,7 @@ namespace NSPersonalCloud.DevolMobile
                 }
                 if (!fromBackground) return;
                 fromBackground = false;
-                Globals.CloudManager?.StartNetwork(false);
+                Globals.CloudManager?.NetworkMayChanged(false);
                 return;
             }
 
