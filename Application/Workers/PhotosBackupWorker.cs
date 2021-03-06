@@ -24,6 +24,8 @@ using SQLite;
 using NSPersonalCloud.Common;
 using NSPersonalCloud.Common.Models;
 using NSPersonalCloud.DevolMobile.Data;
+using System.Threading;
+using System.Linq;
 
 namespace NSPersonalCloud.DevolMobile.Workers
 {
@@ -83,8 +85,28 @@ namespace NSPersonalCloud.DevolMobile.Workers
             if (Globals.CloudManager.PersonalClouds.Count < 1) return Result.InvokeFailure();
             //Globals.CloudManager.NetworkRefeshNodes();
             //Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+            Globals.CloudManager.StartService();
 
             var fileSystem = Globals.CloudManager.PersonalClouds[0].RootFS;
+
+            try
+            {
+                var cloud = Globals.CloudManager.PersonalClouds?[0];
+                if (cloud != null)
+                {
+                    WaitForPath(cloud, path);
+                }
+                else
+                {
+                    return Result.InvokeFailure();
+                }
+            }
+            catch (Exception exception)
+            {
+                //logger.LogError(exception, "Exception occurred while wait for node appearing when backup photos.");
+                return Result.InvokeFailure();
+            }
+
             var dcimPath = Path.Combine(path, Globals.Database.LoadSetting(UserSettings.DeviceName), "DCIM/");
             try
             {
@@ -225,6 +247,25 @@ namespace NSPersonalCloud.DevolMobile.Workers
             var notificationId = (int) DateTime.Now.TimeOfDay.TotalSeconds;
             Globals.Database.SaveSetting(UserSettings.PhotoBackupNotification, notificationId.ToString(CultureInfo.InvariantCulture));
             return new ForegroundInfo(notificationId, notification);
+        }
+
+        private void WaitForPath(PersonalCloud cloud, string path)
+        {
+            var pathsegs = path.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+            if (pathsegs?.Length > 0)
+            {
+                var rootnodetofind = pathsegs[0];
+                for (int i = 0; i < 3 * 60; i++)
+                {
+                    var nodes = cloud.RootFS.EnumerateChildrenAsync("/").AsTask().Result;
+                    if (nodes.Any(x => string.Compare(x.Name, rootnodetofind, true, CultureInfo.InvariantCulture) == 0))
+                    {
+                        return;
+                    }
+                    Thread.Sleep(1000);
+                }
+            }
+            throw new InvalidDataException("Couldn't backup images to personal cloud root, which is readonly");
         }
     }
 }
