@@ -137,7 +137,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
 
                 var cloud = Globals.CloudManager.PersonalClouds[0];
                 cloud.NodeDisplayName = deviceName;
-                try { Globals.CloudManager.StartNetwork(false); } catch { }
+                try { Globals.CloudManager.NetworkMayChanged(false); } catch { }
                 Globals.Database.SaveSetting(UserSettings.DeviceName, deviceName);
                 DeviceCell.detail_label.Text = deviceName;
             }, GetString(Resource.String.action_cancel), null);
@@ -155,7 +155,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             Task.Run(async () => {
                 try
                 {
-                    var inviteCode = await Globals.CloudManager.SharePersonalCloud(Globals.CloudManager.PersonalClouds[0]).ConfigureAwait(false);
+                    var inviteCode = Globals.CloudManager.SharePersonalCloud(Globals.CloudManager.PersonalClouds[0]);
                     Activity?.RunOnUiThread(() => {
                         progress.Dismiss();
                         var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(Context, Resource.Style.AlertDialogTheme)
@@ -163,7 +163,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                         .SetTitle(Resource.String.invited_title)
                         .SetMessage(GetString(Resource.String.invited_message, inviteCode))
                         .SetPositiveButton(Resource.String.void_invites, (o, e) => {
-                            try { _ = Globals.CloudManager.StopSharePersonalCloud(Globals.CloudManager.PersonalClouds[0]); }
+                            try { Globals.CloudManager.StopSharePersonalCloud(Globals.CloudManager.PersonalClouds[0]); }
                             catch { }
                         }).Show();
                     });

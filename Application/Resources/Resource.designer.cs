@@ -7376,412 +7376,418 @@ namespace NSPersonalCloud.DevolMobile
 			public const int empty_list_placeholder = 2131820661;
 			
 			// aapt resource value: 0x7F110076
-			public const int enable_file_sharing = 2131820662;
+			public const int enable_autostart = 2131820662;
 			
 			// aapt resource value: 0x7F110077
-			public const int enable_photos_backup = 2131820663;
+			public const int enable_autostart_desc = 2131820663;
 			
 			// aapt resource value: 0x7F110078
-			public const int error_create_cloud = 2131820664;
+			public const int enable_file_sharing = 2131820664;
 			
 			// aapt resource value: 0x7F110079
-			public const int error_delete_file = 2131820665;
+			public const int enable_photos_backup = 2131820665;
 			
 			// aapt resource value: 0x7F11007A
-			public const int error_download_file = 2131820666;
+			public const int error_create_cloud = 2131820666;
 			
 			// aapt resource value: 0x7F11007B
-			public const int error_email = 2131820667;
+			public const int error_delete_file = 2131820667;
 			
 			// aapt resource value: 0x7F11007C
-			public const int error_folder_message = 2131820668;
+			public const int error_download_file = 2131820668;
 			
 			// aapt resource value: 0x7F11007D
-			public const int error_folder_title = 2131820669;
+			public const int error_email = 2131820669;
 			
 			// aapt resource value: 0x7F11007E
-			public const int error_icon_content_description = 2131820670;
+			public const int error_folder_message = 2131820670;
 			
 			// aapt resource value: 0x7F11007F
-			public const int error_incorrect_invitation_message = 2131820671;
+			public const int error_folder_title = 2131820671;
 			
 			// aapt resource value: 0x7F110080
-			public const int error_internal_message = 2131820672;
+			public const int error_icon_content_description = 2131820672;
 			
 			// aapt resource value: 0x7F110081
-			public const int error_invite = 2131820673;
+			public const int error_incorrect_invitation_message = 2131820673;
 			
 			// aapt resource value: 0x7F110082
-			public const int error_join_cloud = 2131820674;
+			public const int error_internal_message = 2131820674;
 			
 			// aapt resource value: 0x7F110083
-			public const int error_move_file = 2131820675;
+			public const int error_invite = 2131820675;
 			
 			// aapt resource value: 0x7F110084
-			public const int error_new_folder = 2131820676;
+			public const int error_join_cloud = 2131820676;
 			
 			// aapt resource value: 0x7F110085
-			public const int error_no_cloud_message = 2131820677;
+			public const int error_move_file = 2131820677;
 			
 			// aapt resource value: 0x7F110086
-			public const int error_remote = 2131820678;
+			public const int error_new_folder = 2131820678;
 			
 			// aapt resource value: 0x7F110087
-			public const int error_rename_file = 2131820679;
+			public const int error_no_cloud_message = 2131820679;
 			
 			// aapt resource value: 0x7F110088
-			public const int error_storage_permission_message = 2131820680;
+			public const int error_remote = 2131820680;
 			
 			// aapt resource value: 0x7F110089
-			public const int error_storage_permission_title = 2131820681;
+			public const int error_rename_file = 2131820681;
 			
 			// aapt resource value: 0x7F11008A
-			public const int error_upload_file = 2131820682;
+			public const int error_storage_permission_message = 2131820682;
 			
 			// aapt resource value: 0x7F11008B
-			public const int error_web_browser = 2131820683;
+			public const int error_storage_permission_title = 2131820683;
 			
 			// aapt resource value: 0x7F11008C
-			public const int exposed_dropdown_menu_content_description = 2131820684;
+			public const int error_upload_file = 2131820684;
 			
 			// aapt resource value: 0x7F11008D
-			public const int fab_transformation_scrim_behavior = 2131820685;
+			public const int error_web_browser = 2131820685;
 			
 			// aapt resource value: 0x7F11008E
-			public const int fab_transformation_sheet_behavior = 2131820686;
+			public const int exposed_dropdown_menu_content_description = 2131820686;
 			
 			// aapt resource value: 0x7F11008F
-			public const int file = 2131820687;
+			public const int fab_transformation_scrim_behavior = 2131820687;
 			
 			// aapt resource value: 0x7F110090
-			public const int file_exists = 2131820688;
+			public const int fab_transformation_sheet_behavior = 2131820688;
 			
 			// aapt resource value: 0x7F110091
-			public const int file_sharing = 2131820689;
+			public const int file = 2131820689;
 			
 			// aapt resource value: 0x7F110092
-			public const int finder = 2131820690;
+			public const int file_exists = 2131820690;
 			
 			// aapt resource value: 0x7F110093
-			public const int folder = 2131820691;
+			public const int file_sharing = 2131820691;
 			
 			// aapt resource value: 0x7F110094
-			public const int hide_bottom_view_on_scroll_behavior = 2131820692;
+			public const int finder = 2131820692;
 			
 			// aapt resource value: 0x7F110095
-			public const int icon_content_description = 2131820693;
+			public const int folder = 2131820693;
 			
 			// aapt resource value: 0x7F110096
-			public const int invalid_cloud_name = 2131820694;
+			public const int hide_bottom_view_on_scroll_behavior = 2131820694;
 			
 			// aapt resource value: 0x7F110097
-			public const int invalid_device_name = 2131820695;
+			public const int icon_content_description = 2131820695;
 			
 			// aapt resource value: 0x7F110098
-			public const int invalid_device_name_message = 2131820696;
+			public const int invalid_cloud_name = 2131820696;
 			
 			// aapt resource value: 0x7F110099
-			public const int invalid_invite_code = 2131820697;
-			
-			// aapt resource value: 0x7F11009D
-			public const int invited_message = 2131820701;
-			
-			// aapt resource value: 0x7F11009E
-			public const int invited_title = 2131820702;
+			public const int invalid_device_name = 2131820697;
 			
 			// aapt resource value: 0x7F11009A
-			public const int invite_code = 2131820698;
+			public const int invalid_device_name_message = 2131820698;
 			
 			// aapt resource value: 0x7F11009B
-			public const int invite_hint = 2131820699;
-			
-			// aapt resource value: 0x7F11009C
-			public const int invite_others = 2131820700;
+			public const int invalid_invite_code = 2131820699;
 			
 			// aapt resource value: 0x7F11009F
-			public const int joining_cloud = 2131820703;
+			public const int invited_message = 2131820703;
 			
 			// aapt resource value: 0x7F1100A0
-			public const int leave_cloud = 2131820704;
+			public const int invited_title = 2131820704;
+			
+			// aapt resource value: 0x7F11009C
+			public const int invite_code = 2131820700;
+			
+			// aapt resource value: 0x7F11009D
+			public const int invite_hint = 2131820701;
+			
+			// aapt resource value: 0x7F11009E
+			public const int invite_others = 2131820702;
 			
 			// aapt resource value: 0x7F1100A1
-			public const int leave_cloud_now = 2131820705;
+			public const int joining_cloud = 2131820705;
 			
 			// aapt resource value: 0x7F1100A2
-			public const int manage_shared_files = 2131820706;
+			public const int leave_cloud = 2131820706;
 			
 			// aapt resource value: 0x7F1100A3
-			public const int move_file = 2131820707;
+			public const int leave_cloud_now = 2131820707;
 			
 			// aapt resource value: 0x7F1100A4
-			public const int move_to = 2131820708;
+			public const int manage_shared_files = 2131820708;
 			
 			// aapt resource value: 0x7F1100A5
-			public const int moving_file = 2131820709;
+			public const int move_file = 2131820709;
 			
 			// aapt resource value: 0x7F1100A6
-			public const int mtrl_badge_numberless_content_description = 2131820710;
+			public const int move_to = 2131820710;
 			
 			// aapt resource value: 0x7F1100A7
-			public const int mtrl_chip_close_icon_content_description = 2131820711;
+			public const int moving_file = 2131820711;
 			
 			// aapt resource value: 0x7F1100A8
-			public const int mtrl_exceed_max_badge_number_suffix = 2131820712;
+			public const int mtrl_badge_numberless_content_description = 2131820712;
 			
 			// aapt resource value: 0x7F1100A9
-			public const int mtrl_picker_a11y_next_month = 2131820713;
+			public const int mtrl_chip_close_icon_content_description = 2131820713;
 			
 			// aapt resource value: 0x7F1100AA
-			public const int mtrl_picker_a11y_prev_month = 2131820714;
+			public const int mtrl_exceed_max_badge_number_suffix = 2131820714;
 			
 			// aapt resource value: 0x7F1100AB
-			public const int mtrl_picker_announce_current_selection = 2131820715;
+			public const int mtrl_picker_a11y_next_month = 2131820715;
 			
 			// aapt resource value: 0x7F1100AC
-			public const int mtrl_picker_cancel = 2131820716;
+			public const int mtrl_picker_a11y_prev_month = 2131820716;
 			
 			// aapt resource value: 0x7F1100AD
-			public const int mtrl_picker_confirm = 2131820717;
+			public const int mtrl_picker_announce_current_selection = 2131820717;
 			
 			// aapt resource value: 0x7F1100AE
-			public const int mtrl_picker_date_header_selected = 2131820718;
+			public const int mtrl_picker_cancel = 2131820718;
 			
 			// aapt resource value: 0x7F1100AF
-			public const int mtrl_picker_date_header_title = 2131820719;
+			public const int mtrl_picker_confirm = 2131820719;
 			
 			// aapt resource value: 0x7F1100B0
-			public const int mtrl_picker_date_header_unselected = 2131820720;
+			public const int mtrl_picker_date_header_selected = 2131820720;
 			
 			// aapt resource value: 0x7F1100B1
-			public const int mtrl_picker_day_of_week_column_header = 2131820721;
+			public const int mtrl_picker_date_header_title = 2131820721;
 			
 			// aapt resource value: 0x7F1100B2
-			public const int mtrl_picker_invalid_format = 2131820722;
+			public const int mtrl_picker_date_header_unselected = 2131820722;
 			
 			// aapt resource value: 0x7F1100B3
-			public const int mtrl_picker_invalid_format_example = 2131820723;
+			public const int mtrl_picker_day_of_week_column_header = 2131820723;
 			
 			// aapt resource value: 0x7F1100B4
-			public const int mtrl_picker_invalid_format_use = 2131820724;
+			public const int mtrl_picker_invalid_format = 2131820724;
 			
 			// aapt resource value: 0x7F1100B5
-			public const int mtrl_picker_invalid_range = 2131820725;
+			public const int mtrl_picker_invalid_format_example = 2131820725;
 			
 			// aapt resource value: 0x7F1100B6
-			public const int mtrl_picker_navigate_to_year_description = 2131820726;
+			public const int mtrl_picker_invalid_format_use = 2131820726;
 			
 			// aapt resource value: 0x7F1100B7
-			public const int mtrl_picker_out_of_range = 2131820727;
+			public const int mtrl_picker_invalid_range = 2131820727;
 			
 			// aapt resource value: 0x7F1100B8
-			public const int mtrl_picker_range_header_only_end_selected = 2131820728;
+			public const int mtrl_picker_navigate_to_year_description = 2131820728;
 			
 			// aapt resource value: 0x7F1100B9
-			public const int mtrl_picker_range_header_only_start_selected = 2131820729;
+			public const int mtrl_picker_out_of_range = 2131820729;
 			
 			// aapt resource value: 0x7F1100BA
-			public const int mtrl_picker_range_header_selected = 2131820730;
+			public const int mtrl_picker_range_header_only_end_selected = 2131820730;
 			
 			// aapt resource value: 0x7F1100BB
-			public const int mtrl_picker_range_header_title = 2131820731;
+			public const int mtrl_picker_range_header_only_start_selected = 2131820731;
 			
 			// aapt resource value: 0x7F1100BC
-			public const int mtrl_picker_range_header_unselected = 2131820732;
+			public const int mtrl_picker_range_header_selected = 2131820732;
 			
 			// aapt resource value: 0x7F1100BD
-			public const int mtrl_picker_save = 2131820733;
+			public const int mtrl_picker_range_header_title = 2131820733;
 			
 			// aapt resource value: 0x7F1100BE
-			public const int mtrl_picker_text_input_date_hint = 2131820734;
+			public const int mtrl_picker_range_header_unselected = 2131820734;
 			
 			// aapt resource value: 0x7F1100BF
-			public const int mtrl_picker_text_input_date_range_end_hint = 2131820735;
+			public const int mtrl_picker_save = 2131820735;
 			
 			// aapt resource value: 0x7F1100C0
-			public const int mtrl_picker_text_input_date_range_start_hint = 2131820736;
+			public const int mtrl_picker_text_input_date_hint = 2131820736;
 			
 			// aapt resource value: 0x7F1100C1
-			public const int mtrl_picker_text_input_day_abbr = 2131820737;
+			public const int mtrl_picker_text_input_date_range_end_hint = 2131820737;
 			
 			// aapt resource value: 0x7F1100C2
-			public const int mtrl_picker_text_input_month_abbr = 2131820738;
+			public const int mtrl_picker_text_input_date_range_start_hint = 2131820738;
 			
 			// aapt resource value: 0x7F1100C3
-			public const int mtrl_picker_text_input_year_abbr = 2131820739;
+			public const int mtrl_picker_text_input_day_abbr = 2131820739;
 			
 			// aapt resource value: 0x7F1100C4
-			public const int mtrl_picker_toggle_to_calendar_input_mode = 2131820740;
+			public const int mtrl_picker_text_input_month_abbr = 2131820740;
 			
 			// aapt resource value: 0x7F1100C5
-			public const int mtrl_picker_toggle_to_day_selection = 2131820741;
+			public const int mtrl_picker_text_input_year_abbr = 2131820741;
 			
 			// aapt resource value: 0x7F1100C6
-			public const int mtrl_picker_toggle_to_text_input_mode = 2131820742;
+			public const int mtrl_picker_toggle_to_calendar_input_mode = 2131820742;
 			
 			// aapt resource value: 0x7F1100C7
-			public const int mtrl_picker_toggle_to_year_selection = 2131820743;
+			public const int mtrl_picker_toggle_to_day_selection = 2131820743;
 			
 			// aapt resource value: 0x7F1100C8
-			public const int nav_app_bar_navigate_up_description = 2131820744;
+			public const int mtrl_picker_toggle_to_text_input_mode = 2131820744;
 			
 			// aapt resource value: 0x7F1100C9
-			public const int nav_app_bar_open_drawer_description = 2131820745;
+			public const int mtrl_picker_toggle_to_year_selection = 2131820745;
 			
 			// aapt resource value: 0x7F1100CA
-			public const int new_cloud = 2131820746;
+			public const int nav_app_bar_navigate_up_description = 2131820746;
 			
 			// aapt resource value: 0x7F1100CB
-			public const int new_cloud_create = 2131820747;
+			public const int nav_app_bar_open_drawer_description = 2131820747;
 			
 			// aapt resource value: 0x7F1100CC
-			public const int new_cloud_join = 2131820748;
+			public const int new_cloud = 2131820748;
 			
 			// aapt resource value: 0x7F1100CD
-			public const int new_device_name = 2131820749;
+			public const int new_cloud_create = 2131820749;
 			
 			// aapt resource value: 0x7F1100CE
-			public const int new_file_name = 2131820750;
+			public const int new_cloud_join = 2131820750;
 			
 			// aapt resource value: 0x7F1100CF
-			public const int new_folder = 2131820751;
+			public const int new_device_name = 2131820751;
 			
 			// aapt resource value: 0x7F1100D0
-			public const int new_folder_create = 2131820752;
+			public const int new_file_name = 2131820752;
 			
 			// aapt resource value: 0x7F1100D1
-			public const int new_folder_name = 2131820753;
+			public const int new_folder = 2131820753;
 			
 			// aapt resource value: 0x7F1100D2
-			public const int new_folder_placeholder = 2131820754;
-			
-			// aapt resource value: 0x7F1100D6
-			public const int notification_channel_backup = 2131820758;
-			
-			// aapt resource value: 0x7F1100D7
-			public const int notification_channel_backup_description = 2131820759;
-			
-			// aapt resource value: 0x7F1100D8
-			public const int notification_message = 2131820760;
-			
-			// aapt resource value: 0x7F1100D9
-			public const int notification_ticker = 2131820761;
-			
-			// aapt resource value: 0x7F1100DA
-			public const int notification_title = 2131820762;
+			public const int new_folder_create = 2131820754;
 			
 			// aapt resource value: 0x7F1100D3
-			public const int no_active_device = 2131820755;
+			public const int new_folder_name = 2131820755;
 			
 			// aapt resource value: 0x7F1100D4
-			public const int no_functions = 2131820756;
+			public const int new_folder_placeholder = 2131820756;
 			
-			// aapt resource value: 0x7F1100D5
-			public const int no_personal_cloud = 2131820757;
+			// aapt resource value: 0x7F1100D8
+			public const int notification_channel_backup = 2131820760;
+			
+			// aapt resource value: 0x7F1100D9
+			public const int notification_channel_backup_description = 2131820761;
+			
+			// aapt resource value: 0x7F1100DA
+			public const int notification_message = 2131820762;
 			
 			// aapt resource value: 0x7F1100DB
-			public const int open_with = 2131820763;
+			public const int notification_ticker = 2131820763;
 			
 			// aapt resource value: 0x7F1100DC
-			public const int password_toggle_content_description = 2131820764;
+			public const int notification_title = 2131820764;
+			
+			// aapt resource value: 0x7F1100D5
+			public const int no_active_device = 2131820757;
+			
+			// aapt resource value: 0x7F1100D6
+			public const int no_functions = 2131820758;
+			
+			// aapt resource value: 0x7F1100D7
+			public const int no_personal_cloud = 2131820759;
 			
 			// aapt resource value: 0x7F1100DD
-			public const int path_password_eye = 2131820765;
+			public const int open_with = 2131820765;
 			
 			// aapt resource value: 0x7F1100DE
-			public const int path_password_eye_mask_strike_through = 2131820766;
+			public const int password_toggle_content_description = 2131820766;
 			
 			// aapt resource value: 0x7F1100DF
-			public const int path_password_eye_mask_visible = 2131820767;
+			public const int path_password_eye = 2131820767;
 			
 			// aapt resource value: 0x7F1100E0
-			public const int path_password_strike_through = 2131820768;
+			public const int path_password_eye_mask_strike_through = 2131820768;
 			
 			// aapt resource value: 0x7F1100E1
-			public const int personal_cloud = 2131820769;
+			public const int path_password_eye_mask_visible = 2131820769;
 			
 			// aapt resource value: 0x7F1100E2
-			public const int photo = 2131820770;
+			public const int path_password_strike_through = 2131820770;
 			
 			// aapt resource value: 0x7F1100E3
-			public const int photos_backup = 2131820771;
+			public const int personal_cloud = 2131820771;
 			
 			// aapt resource value: 0x7F1100E4
-			public const int photos_backup_hint = 2131820772;
+			public const int photo = 2131820772;
 			
 			// aapt resource value: 0x7F1100E5
-			public const int photos_backup_location = 2131820773;
+			public const int photos_backup = 2131820773;
 			
 			// aapt resource value: 0x7F1100E6
-			public const int photos_backup_location_set = 2131820774;
+			public const int photos_backup_hint = 2131820774;
 			
 			// aapt resource value: 0x7F1100E7
-			public const int remove_deletes_local_config = 2131820775;
+			public const int photos_backup_location = 2131820775;
 			
 			// aapt resource value: 0x7F1100E8
-			public const int remove_from_cloud = 2131820776;
+			public const int photos_backup_location_set = 2131820776;
 			
 			// aapt resource value: 0x7F1100E9
-			public const int rename_file = 2131820777;
+			public const int remove_deletes_local_config = 2131820777;
 			
 			// aapt resource value: 0x7F1100EA
-			public const int renaming = 2131820778;
+			public const int remove_from_cloud = 2131820778;
 			
 			// aapt resource value: 0x7F1100EB
-			public const int replace_file = 2131820779;
+			public const int rename_file = 2131820779;
 			
 			// aapt resource value: 0x7F1100EC
-			public const int replace_local = 2131820780;
+			public const int renaming = 2131820780;
 			
 			// aapt resource value: 0x7F1100ED
-			public const int replace_local_resolve_manually = 2131820781;
+			public const int replace_file = 2131820781;
 			
 			// aapt resource value: 0x7F1100EE
-			public const int search_menu_title = 2131820782;
+			public const int replace_local = 2131820782;
 			
 			// aapt resource value: 0x7F1100EF
-			public const int select_file_to_upload = 2131820783;
+			public const int replace_local_resolve_manually = 2131820783;
 			
 			// aapt resource value: 0x7F1100F0
-			public const int sending_invites = 2131820784;
+			public const int search_menu_title = 2131820784;
 			
 			// aapt resource value: 0x7F1100F1
-			public const int settings = 2131820785;
-			
-			// aapt resource value: 0x7F1100F3
-			public const int shared_folder_set = 2131820787;
+			public const int select_file_to_upload = 2131820785;
 			
 			// aapt resource value: 0x7F1100F2
-			public const int share_credentials = 2131820786;
+			public const int sending_invites = 2131820786;
 			
-			// aapt resource value: 0x7F1100F4
-			public const int size_over_100MB = 2131820788;
+			// aapt resource value: 0x7F1100F3
+			public const int settings = 2131820787;
 			
 			// aapt resource value: 0x7F1100F5
-			public const int start_downloading = 2131820789;
+			public const int shared_folder_set = 2131820789;
+			
+			// aapt resource value: 0x7F1100F4
+			public const int share_credentials = 2131820788;
 			
 			// aapt resource value: 0x7F1100F6
-			public const int status_bar_notification_info_overflow = 2131820790;
-			
-			// aapt resource value: 0x7F1100F8
-			public const int uploading_file = 2131820792;
+			public const int size_over_100MB = 2131820790;
 			
 			// aapt resource value: 0x7F1100F7
-			public const int upload_file = 2131820791;
+			public const int start_downloading = 2131820791;
 			
-			// aapt resource value: 0x7F1100F9
-			public const int void_invites = 2131820793;
+			// aapt resource value: 0x7F1100F8
+			public const int status_bar_notification_info_overflow = 2131820792;
 			
 			// aapt resource value: 0x7F1100FA
-			public const int web_app = 2131820794;
+			public const int uploading_file = 2131820794;
+			
+			// aapt resource value: 0x7F1100F9
+			public const int upload_file = 2131820793;
 			
 			// aapt resource value: 0x7F1100FB
-			public const int welcome = 2131820795;
+			public const int void_invites = 2131820795;
 			
 			// aapt resource value: 0x7F1100FC
-			public const int welcome_create = 2131820796;
+			public const int web_app = 2131820796;
 			
 			// aapt resource value: 0x7F1100FD
-			public const int welcome_join = 2131820797;
+			public const int welcome = 2131820797;
+			
+			// aapt resource value: 0x7F1100FE
+			public const int welcome_create = 2131820798;
+			
+			// aapt resource value: 0x7F1100FF
+			public const int welcome_join = 2131820799;
 			
 			static String()
 			{

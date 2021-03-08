@@ -28,8 +28,7 @@ namespace NSPersonalCloud.DevolMobile
             }
             Globals.FileSystem = fsfav;
             try { Globals.CloudManager.FileSystem = fsfav; } catch { }
-            try { Globals.CloudManager?.StopNetwork(); } catch { }
-            try { Globals.CloudManager?.StartNetwork(true); } catch { }
+            try { Globals.CloudManager?.BroadcastingIveChanged(); } catch { }
         }
     }
 }

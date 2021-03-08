@@ -538,7 +538,7 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             if (workingPath.Length == 1)
             {
                 activity.SetActionBarTitle(Resource.String.personal_cloud);
-                try { Globals.CloudManager.StartNetwork(false); }
+                try { Globals.CloudManager.NetworkMayChanged(false); }
                 catch { } // Ignored.
             }
 
