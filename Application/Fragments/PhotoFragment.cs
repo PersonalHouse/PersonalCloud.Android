@@ -6,10 +6,13 @@ using Android.Content;
 using Android.Runtime;
 using Android.Views;
 
+using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using AndroidX.Work;
 
 using Binding;
+
+using Com.Judemanutd.Autostarter;
 
 using NSPersonalCloud;
 
@@ -87,14 +90,27 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                     return;
                 }
 
-                var workConstraints = new Constraints.Builder()
-                    .SetRequiredNetworkType(NetworkType.NotRequired).SetRequiresBatteryNotLow(true)
-                    .SetRequiresCharging(false).Build();
-                var workRequest = new PeriodicWorkRequest.Builder(typeof(PhotosBackupWorker), TimeSpan.FromHours(workInterval))
-                    .SetConstraints(workConstraints).Build();
-                WorkManager.GetInstance(Context).Enqueue(workRequest);
-                Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "1");
-                Globals.Database.SaveSetting(AndroidUserSettings.BackupScheduleId, workRequest.Id.ToString());
+                new AlertDialog.Builder(Context)
+                    .SetTitle(GetString(Resource.String.enable_autostart))
+                    .SetMessage(GetString(Resource.String.enable_autostart_desc))
+                    .SetNegativeButton("Deny", (s, e) => {
+                        AutoBackupCell.switch_button.Checked = false;
+                    })
+                    .SetPositiveButton("ALLOW", (s, e) => {
+                        var autoStartAvailable = AutoStartPermissionHelper.Instance.IsAutoStartPermissionAvailable(Context);
+                        var success = AutoStartPermissionHelper.Instance.GetAutoStartPermission(Context);
+
+                        var workConstraints = new Constraints.Builder()
+                            .SetRequiredNetworkType(NetworkType.NotRequired).SetRequiresBatteryNotLow(true)
+                            .SetRequiresCharging(false).Build();
+                        var workRequest = new PeriodicWorkRequest.Builder(typeof(PhotosBackupWorker), TimeSpan.FromHours(workInterval))
+                            .SetConstraints(workConstraints).Build();
+                        WorkManager.GetInstance(Context).Enqueue(workRequest);
+                        Globals.Database.SaveSetting(UserSettings.AutoBackupPhotos, "1");
+                        Globals.Database.SaveSetting(AndroidUserSettings.BackupScheduleId, workRequest.Id.ToString());
+                    })
+                    .Create()
+                    .Show();
             }
             else
             {
