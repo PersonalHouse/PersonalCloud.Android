@@ -49,10 +49,12 @@ You must allow Personal Cloud to read and write your device Storage before using
     <string name="photos_backup_location">Backup Save Location</string>
     <string name="choose_photos_backup_location">Choose Backup Save Location</string>
     <string name="photos_backup_location_set">Already Set</string>
+    <string name="cannot_backup">Unable to Start Backup</string>
     <string name="cannot_set_up_backup">Unable to Schedule Backup</string>
     <string name="cannot_set_up_backup_location">Save location is not set.</string>
     <string name="cannot_set_up_backup_interval">Repeat interval is not set.</string>
 
+    <string name="backup_now">Backup Now</string>
     <string name="enable_autostart">Enable AutoStart</string>
     <string name="enable_autostart_desc">Please allow this app to always run in the background, else the photo auto backup can\'t be launched.</string>
 
