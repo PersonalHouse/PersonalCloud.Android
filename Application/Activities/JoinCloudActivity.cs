@@ -32,6 +32,10 @@ namespace NSPersonalCloud.DevolMobile
             R.join_cloud_invite.EditText.TextChanged += (o, e) => {
                 R.join_cloud_invite.Error = null;
             };
+            R.join_cloud_invite.EditText.EditorAction += (o, e) => {
+                R.join_cloud_invite.Error = null;
+                JoinCloud(o, e);
+            };
             R.join_cloud_button.Click += JoinCloud;
         }
 
