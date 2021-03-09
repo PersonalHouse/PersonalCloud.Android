@@ -35,7 +35,7 @@ namespace NSPersonalCloud.DevolMobile.Items
             WebView webView = new WebView(Context);
 
             // populate the WebView with an HTML string
-            webView.LoadUrl("file:///android_asset/NewDevicePromt.html");
+            webView.LoadUrl("file:///android_asset/" + Context.GetString(Resource.String.add_more_device_html));
 
             webView.SetWebViewClient(new MyWebViewClient(Context));
 

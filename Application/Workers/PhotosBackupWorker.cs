@@ -62,7 +62,8 @@ namespace NSPersonalCloud.DevolMobile.Workers
                 Globals.Database.CreateTable<BackupRecord>();
             }
 
-            if (!Globals.Database.CheckSetting(UserSettings.AutoBackupPhotos, "1")) return Result.InvokeSuccess();
+            bool backupNow = this.Parameters.InputData.GetBoolean("BackupNow", false);
+            if (!backupNow && !Globals.Database.CheckSetting(UserSettings.AutoBackupPhotos, "1")) return Result.InvokeSuccess();
 
             var workId = new Guid(Id.ToString());
             Globals.Database.SaveSetting(UserSettings.PhotoBackupTask, workId.ToString("N"));

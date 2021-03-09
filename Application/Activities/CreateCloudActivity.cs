@@ -31,6 +31,10 @@ namespace NSPersonalCloud.DevolMobile
             R.new_cloud_name.EditText.TextChanged += (o, e) => {
                 R.new_cloud_name.Error = null;
             };
+            R.new_cloud_name.EditText.EditorAction += (o, e) => {
+                R.new_cloud_name.Error = null;
+                CreateNewCloud(o, e);
+            };
             R.new_cloud_button.Click += CreateNewCloud;
         }
 

@@ -51,6 +51,8 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             R.backup_location_cell.Click += ChangeBackupDevice;
             AutoBackupCell.switch_button.CheckedChange += ToggleAutoBackup;
 
+            R.backup_now.Click += BackupNow;
+
             return view;
         }
 
@@ -121,6 +123,23 @@ namespace NSPersonalCloud.DevolMobile.Fragments
                     WorkManager.GetInstance(Context).CancelWorkById(Java.Util.UUID.FromString(workRequest));
                 }
             }
+        }
+
+        private void BackupNow(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(Globals.Database.LoadSetting(UserSettings.PhotoBackupPrefix)))
+            {
+                AutoBackupCell.switch_button.Checked = false;
+                Activity.ShowAlert(GetString(Resource.String.cannot_backup), GetString(Resource.String.cannot_set_up_backup_location));
+                return;
+            }
+            var workConstraints = new Constraints.Builder()
+                .SetRequiredNetworkType(NetworkType.NotRequired).Build();
+            AndroidX.Work.Data myData = new AndroidX.Work.Data.Builder().PutBoolean("BackupNow", true).Build();
+            var workRequest = new OneTimeWorkRequest.Builder(typeof(PhotosBackupWorker))
+                .SetInputData(myData)
+                .SetConstraints(workConstraints).Build();
+            WorkManager.GetInstance(Context).Enqueue(workRequest);
         }
     }
 }

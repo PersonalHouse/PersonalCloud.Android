@@ -48,10 +48,12 @@
     <string name="photos_backup_location">备份存储位置</string>
     <string name="choose_photos_backup_location">选择备份存储位置</string>
     <string name="photos_backup_location_set">已设置</string>
+    <string name="cannot_backup">无法启动备份</string>
     <string name="cannot_set_up_backup">无法设置定时备份</string>
     <string name="cannot_set_up_backup_location">尚未选择备份存储位置，请点击“备份存储位置”。</string>
     <string name="cannot_set_up_backup_interval">尚未选择备份间隔时间，请点击“备份间隔时间”。</string>
 
+    <string name="backup_now">立即备份</string>
     <string name="enable_autostart">允许开机自启动</string>
     <string name="enable_autostart_desc">请打开个人云的自启动权限 (Auto start), 否则照片自动备份功能将无法正常工作。</string>
 
@@ -59,6 +61,7 @@
     <string name="folder">文件夹</string>
     <string name="file">文件</string>
     <string name="add_more_device">添加更多设备</string>
+    <string name="add_more_device_html">NewDevicePromt_cn.html</string>
 
     <string name="empty_list_placeholder">列表目前为空</string>
     <string name="browser_back">返回上层</string>
