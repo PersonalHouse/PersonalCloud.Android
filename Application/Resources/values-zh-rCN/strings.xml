@@ -59,6 +59,7 @@
     <string name="folder">文件夹</string>
     <string name="file">文件</string>
     <string name="add_more_device">添加更多设备</string>
+    <string name="add_more_device_html">NewDevicePromt_cn.html</string>
 
     <string name="empty_list_placeholder">列表目前为空</string>
     <string name="browser_back">返回上层</string>
