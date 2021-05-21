@@ -31,6 +31,7 @@ namespace NSPersonalCloud.DevolMobile.Activities
         protected override void OnCreate(Android.OS.Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.welcome);
             R = new welcome(this);
 
@@ -46,6 +47,9 @@ namespace NSPersonalCloud.DevolMobile.Activities
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
             if (requestCode != RequestAccess)
             {
                 base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
