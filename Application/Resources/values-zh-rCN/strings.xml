@@ -222,7 +222,11 @@
     <string name="about_contact">反馈意见和问题</string>
     <string name="cannot_send_email">"您的设备未安装电子邮件 App 或未配置发信邮箱，因此无法编写和发送反馈邮件。
 
-请确认邮箱配置正确后重试，或发送您的反馈至以下邮箱：
+请确认邮箱配置正确后重试，或发送您宝贵的意见或建议至以下邮箱：
 
 %s"</string>
+
+	<string name="contact_mail_title">客户服务</string>
+	<string name="contact_mail_prompt">请您描述一下遇到的问题:</string>
+	
 </resources>

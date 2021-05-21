@@ -226,4 +226,7 @@ Please go to the following website to view our Privacy Policies:
 Please send feedback emails to the following address with title \"Personal Cloud\":
 
 %s"</string>
+
+	<string name="contact_mail_title">Customer Support</string>
+	<string name="contact_mail_prompt">Please let me know what issues you are having here:</string>
 </resources>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 using Android.Content;
@@ -17,6 +19,8 @@ using NSPersonalCloud.Common;
 using NSPersonalCloud.Common.Models;
 using NSPersonalCloud.DevolMobile.Activities;
 using NSPersonalCloud.DevolMobile.Workers;
+
+using Xamarin.Essentials;
 
 namespace NSPersonalCloud.DevolMobile.Fragments
 {
@@ -49,25 +53,35 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             };
             var contactCell = new basic_cell(R.about_contact_cell);
             contactCell.title_label.Text = GetString(Resource.String.about_contact);
-            R.about_contact_cell.Click += (o, e) => {
-                var intent = new Intent(Intent.ActionSendto)
-                             .SetData(Android.Net.Uri.Parse("mailto:appstore@daoyehuo.com"))
-                             .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
-                             .PutExtra(Intent.ExtraSubject, "Personal Cloud Feedback: " + Context.GetPackageVersion());
-                if (intent.ResolveActivity(Context.PackageManager) != null)
+            R.about_contact_cell.Click += async (o, e) => {
+                try
                 {
-                    StartActivity(intent);
-                    return;
-                }
+                    var builder = new StringBuilder();
+                    builder.AppendLine($"App Version: {AppInfo.VersionString} | Build: {AppInfo.BuildString}");
+                    builder.AppendLine($"OS: {DeviceInfo.Platform}");
+                    builder.AppendLine($"OS Version: {DeviceInfo.VersionString}");
+                    builder.AppendLine($"Manufacturer: {DeviceInfo.Manufacturer}");
+                    builder.AppendLine($"Device Model: {DeviceInfo.Model}");
+                    builder.AppendLine(string.Empty);
+                    builder.AppendLine(GetString(Resource.String.contact_mail_prompt));
 
-                intent = new Intent(Intent.ActionSend).SetType("text/plain")
-                             .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
-                             .PutExtra(Intent.ExtraSubject, "Personal Cloud Feedback: " + Context.GetPackageVersion());
-                if (intent.ResolveActivity(Context.PackageManager) != null) StartActivity(intent);
-                else
+                    var message = new EmailMessage {
+                        Subject = GetString(Resource.String.contact_mail_title),
+                        To = new List<string>(new[] { "appstore@daoyehuo.com" }),
+                        Body = builder.ToString(),
+                    };
+
+                    await Email.ComposeAsync(message);
+                }
+                catch (Xamarin.Essentials.FeatureNotSupportedException ex)
                 {
                     Activity.ShowAlert(GetString(Resource.String.error_email),
                         GetString(Resource.String.cannot_send_email, "appstore@daoyehuo.com"));
+
+                }
+                catch (Exception ex)
+                {
+                    LegacySendMail();
                 }
             };
 
@@ -89,6 +103,32 @@ namespace NSPersonalCloud.DevolMobile.Fragments
             R.leave_cloud.Click += LeaveCloud;
 
             return view;
+        }
+
+        private void LegacySendMail()
+        {
+            var intent = new Intent(Intent.ActionSendto)
+                         .SetData(Android.Net.Uri.Parse("mailto:appstore@daoyehuo.com"))
+                         .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
+                         .PutExtra(Intent.ExtraSubject, "Personal Cloud Feedback: " + Context.GetPackageVersion());
+            if (intent.ResolveActivity(Context.PackageManager) != null)
+            {
+                StartActivity(intent);
+                return;
+            }
+
+            intent = new Intent(Intent.ActionSend).SetType("text/plain")
+                         .PutExtra(Intent.ExtraEmail, new[] { "appstore@daoyehuo.com" })
+                         .PutExtra(Intent.ExtraSubject, "Personal Cloud Feedback: " + Context.GetPackageVersion());
+            if (intent.ResolveActivity(Context.PackageManager) != null)
+            {
+                StartActivity(intent);
+            }
+            else
+            {
+                Activity.ShowAlert(GetString(Resource.String.error_email),
+                    GetString(Resource.String.cannot_send_email, "appstore@daoyehuo.com"));
+            }
         }
 
         public override void OnResume()
